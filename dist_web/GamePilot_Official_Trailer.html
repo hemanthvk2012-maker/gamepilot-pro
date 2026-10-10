@@ -821,7 +821,7 @@ function renderAct3(t) {
     ctx.fillRect(0, 0, W, H);
 
     // Heartbeat Pulse Ring
-    const pulseSize = ((relT * 3.5) % 1.0) * 320;
+    const pulseSize = Math.max(0, ((Math.abs(relT) * 3.5) % 1.0) * 320);
     const pulseAlpha = Math.max(0, 1.0 - pulseSize / 320);
     ctx.strokeStyle = `rgba(0, 229, 255, ${pulseAlpha})`;
     ctx.lineWidth = 3;
@@ -875,7 +875,7 @@ function renderAct4(t) {
 
   // Expanding circular sonar shockwaves
   for (let r = 100; r < 750; r += 140) {
-    const waveR = (r + relT * 280) % 750;
+    const waveR = Math.max(0, (r + Math.abs(relT) * 280) % 750);
     const waveAlpha = Math.max(0, 1.0 - waveR / 750);
     ctx.strokeStyle = `rgba(0, 229, 255, ${waveAlpha * 0.7})`;
     ctx.lineWidth = 2.5;
@@ -1056,76 +1056,86 @@ function renderAct5(t) {
 function renderLoop(timestamp) {
   if (!isPlaying) return;
 
-  currentTime = (timestamp - startTime) / 1000.0;
-  if (currentTime > DURATION) {
-    currentTime = DURATION;
-    isPlaying = false;
-    stopSubDrone();
+  try {
+    currentTime = (timestamp - startTime) / 1000.0;
+    if (currentTime > DURATION) {
+      currentTime = DURATION;
+      isPlaying = false;
+      stopSubDrone();
+    }
+
+    // Process sound events
+    processAudioTimeline(currentTime);
+
+    // Update Scrubber
+    document.getElementById('timeline-fill').style.width = `${(currentTime / DURATION) * 100}%`;
+    const mins = Math.floor(currentTime / 60);
+    const secs = Math.floor(currentTime % 60);
+    document.getElementById('time-curr').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+
+    // Update particles and dynamics
+    updateParticles();
+    camShake = Math.max(0, camShake * 0.92);
+    shockwave = Math.max(0, shockwave * 0.94);
+
+    // Apply Camera Shake
+    ctx.save();
+    if (camShake > 0.5) {
+      const sx = (Math.random() - 0.5) * camShake;
+      const sy = (Math.random() - 0.5) * camShake;
+      ctx.translate(sx, sy);
+    }
+
+    // Clear
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, W, H);
+
+    // Scene Dispatcher
+    if (currentTime < 18.0) {
+      renderAct1(currentTime);
+    } else if (currentTime < 42.0) {
+      renderAct2(currentTime);
+    } else if (currentTime < 54.0) {
+      renderAct3(currentTime);
+    } else if (currentTime < 70.0) {
+      renderAct4(currentTime);
+    } else {
+      renderAct5(currentTime);
+    }
+
+    // Shockwave ring distortion - safely clamped
+    if (shockwave > 0.05) {
+      const swProgress = Math.max(0, Math.min(1.0, 1.0 - Math.min(1.0, shockwave)));
+      const swRadius = Math.max(0, swProgress * 1100);
+      if (swRadius > 0) {
+        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1.0, shockwave * 0.4)})`;
+        ctx.lineWidth = Math.max(1, shockwave * 8);
+        ctx.beginPath();
+        ctx.arc(W/2, H/2, swRadius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+
+    // Film Grain Post-Processing
+    ctx.save();
+    ctx.globalAlpha = 0.04;
+    for (let i = 0; i < 900; i++) {
+      const gx = Math.random() * W;
+      const gy = Math.random() * H;
+      const val = Math.random() * 255;
+      ctx.fillStyle = `rgb(${val},${val},${val})`;
+      ctx.fillRect(gx, gy, 2, 2);
+    }
+    ctx.restore();
+
+    ctx.restore(); // Camera shake restore
+  } catch (err) {
+    console.error("Render loop error:", err);
   }
 
-  // Process sound events
-  processAudioTimeline(currentTime);
-
-  // Update Scrubber
-  document.getElementById('timeline-fill').style.width = `${(currentTime / DURATION) * 100}%`;
-  const mins = Math.floor(currentTime / 60);
-  const secs = Math.floor(currentTime % 60);
-  document.getElementById('time-curr').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-
-  // Update particles and dynamics
-  updateParticles();
-  camShake = Math.max(0, camShake * 0.92);
-  shockwave = Math.max(0, shockwave * 0.94);
-
-  // Apply Camera Shake & Shockwave Distortion
-  ctx.save();
-  if (camShake > 0.5) {
-    const sx = (Math.random() - 0.5) * camShake;
-    const sy = (Math.random() - 0.5) * camShake;
-    ctx.translate(sx, sy);
+  if (isPlaying) {
+    animId = requestAnimationFrame(renderLoop);
   }
-
-  // Clear
-  ctx.fillStyle = '#000000';
-  ctx.fillRect(0, 0, W, H);
-
-  // Scene Dispatcher
-  if (currentTime < 18.0) {
-    renderAct1(currentTime);
-  } else if (currentTime < 42.0) {
-    renderAct2(currentTime);
-  } else if (currentTime < 54.0) {
-    renderAct3(currentTime);
-  } else if (currentTime < 70.0) {
-    renderAct4(currentTime);
-  } else {
-    renderAct5(currentTime);
-  }
-
-  // Shockwave ring distortion
-  if (shockwave > 0.05) {
-    ctx.strokeStyle = `rgba(255, 255, 255, ${shockwave * 0.4})`;
-    ctx.lineWidth = shockwave * 8;
-    ctx.beginPath();
-    ctx.arc(W/2, H/2, (1.0 - shockwave) * 900, 0, Math.PI * 2);
-    ctx.stroke();
-  }
-
-  // Film Grain Post-Processing
-  ctx.save();
-  ctx.globalAlpha = 0.04;
-  for (let i = 0; i < 900; i++) {
-    const gx = Math.random() * W;
-    const gy = Math.random() * H;
-    const val = Math.random() * 255;
-    ctx.fillStyle = `rgb(${val},${val},${val})`;
-    ctx.fillRect(gx, gy, 2, 2);
-  }
-  ctx.restore();
-
-  ctx.restore(); // Camera shake restore
-
-  animId = requestAnimationFrame(renderLoop);
 }
 
 // -------------------------------------------------------------------------
@@ -1166,6 +1176,7 @@ function seekTrailer(event) {
   startTime = performance.now() - targetTime * 1000.0;
   scheduledEvents = [];
   planAudioScore();
+  scheduledEvents = scheduledEvents.filter(ev => ev.time >= targetTime);
 }
 
 // Draw initial atmospheric preview on canvas before play
