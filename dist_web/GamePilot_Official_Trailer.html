@@ -139,6 +139,167 @@
       from { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
       to { box-shadow: 0 0 35px rgba(0, 229, 255, 0.5); }
     }
+
+    /* Top Right Download Button */
+    #btn-download-top {
+      position: absolute;
+      top: 1.8vh;
+      right: 3vw;
+      z-index: 45;
+      background: rgba(10, 22, 38, 0.8);
+      border: 1px solid rgba(0, 229, 255, 0.5);
+      padding: 9px 20px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #btn-download-top:hover {
+      background: rgba(0, 229, 255, 0.25);
+      border-color: #00e5ff;
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Recording Indicator */
+    #rec-indicator {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: #ff2a4b;
+      margin-left: 14px;
+    }
+    .rec-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #ff2a4b;
+      box-shadow: 0 0 10px #ff2a4b;
+      animation: recBlink 1s infinite;
+    }
+    @keyframes recBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+    /* End Screen Modal */
+    #end-modal {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(12, 22, 38, 0.96) 0%, rgba(2, 4, 8, 0.99) 100%);
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+      padding: 24px;
+      text-align: center;
+    }
+    #end-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      color: #00e5ff;
+      margin-bottom: 16px;
+    }
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      background: linear-gradient(180deg, #FFFFFF 0%, #A0B0C8 60%, #4A5B73 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    .modal-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.3em;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 40px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-modal-dl {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.25) 0%, rgba(255, 42, 75, 0.25) 100%);
+      border: 1px solid #00e5ff;
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      padding: 16px 40px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.3);
+      transition: all 0.3s;
+    }
+    .btn-modal-dl:hover {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.45) 0%, rgba(255, 42, 75, 0.45) 100%);
+      box-shadow: 0 0 55px rgba(0, 229, 255, 0.6);
+      transform: scale(1.04);
+    }
+    .btn-modal-replay {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      padding: 16px 36px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .btn-modal-replay:hover {
+      border-color: #00e5ff;
+      color: #00e5ff;
+    }
+
+    /* Download Toast Notification */
+    #download-toast {
+      position: absolute;
+      bottom: 12vh;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(10, 25, 45, 0.95);
+      border: 1px solid #00e5ff;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: #fff;
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
+      z-index: 70;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #download-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -148,6 +309,11 @@
   <div class="anamorphic-bar bar-bot"></div>
 
   <canvas id="cinemaCanvas" width="1920" height="1080"></canvas>
+
+  <!-- Top Right Persistent Download Button -->
+  <div id="btn-download-top" onclick="downloadTrailerVideo(event)">
+    <span>⬇️</span> DOWNLOAD VIDEO (.WEBM)
+  </div>
 
   <!-- Non-intrusive sound prompt -->
   <div id="sound-banner" onclick="unlockAudioOnInteraction()">
@@ -161,7 +327,23 @@
       <div class="timeline-fill" id="timeline-fill"></div>
     </div>
     <span class="time-readout" id="time-dur">01:25</span>
-    <button class="btn-replay-cine" onclick="replayTrailer()" style="margin-left: 16px;">↺ REPLAY</button>
+    <div id="rec-indicator"><span class="rec-dot"></span> 4K RECORDING</div>
+    <button class="btn-replay-cine" onclick="downloadTrailerVideo(event)" style="margin-left: 16px; border-color: #00e5ff; color: #00e5ff; background: rgba(0, 229, 255, 0.1);">⬇️ DOWNLOAD</button>
+    <button class="btn-replay-cine" onclick="replayTrailer()" style="margin-left: 10px;">↺ REPLAY</button>
+  </div>
+
+  <!-- Download Toast -->
+  <div id="download-toast">🎬 VIDEO EXPORT COMPLETED — SAVED TO DOWNLOADS</div>
+
+  <!-- End Screen Modal -->
+  <div id="end-modal">
+    <div class="modal-tag">ESPORTS CINEMATICS // WORLD PREMIERE</div>
+    <div class="modal-title">GAMEPILOT PRO</div>
+    <div class="modal-sub">THE WEAPON THEY NEVER SAW COMING</div>
+    <div class="modal-actions">
+      <button class="btn-modal-dl" onclick="downloadTrailerVideo(event)">⬇️ DOWNLOAD 4K TRAILER FILE (.WEBM)</button>
+      <button class="btn-modal-replay" onclick="replayTrailer()">↺ REPLAY CINEMA</button>
+    </div>
   </div>
 </div>
 
@@ -203,6 +385,14 @@ function initAudioSystem() {
 
     masterGain = ac.createGain();
     masterGain.gain.setValueAtTime(0.9, ac.currentTime);
+
+    // Audio stream capture destination for video file download
+    try {
+      mediaStreamDest = ac.createMediaStreamDestination();
+      masterGain.connect(mediaStreamDest);
+    } catch (err) {
+      console.warn("mediaStreamDest not supported:", err);
+    }
 
     compressor.connect(masterGain);
     masterGain.connect(ac.destination);
@@ -962,6 +1152,13 @@ function renderLoop(timestamp) {
       currentTime = DURATION;
       isPlaying = false;
       stopSubDrone();
+      // Show End Screen Modal
+      const modal = document.getElementById('end-modal');
+      if (modal) modal.classList.add('active');
+      // If actively recording, finalize and trigger download
+      if (isRecording) {
+        stopAndSaveRecording();
+      }
     }
 
     processAudioTimeline(currentTime);
@@ -1038,10 +1235,110 @@ function renderLoop(timestamp) {
 }
 
 // -------------------------------------------------------------------------
+//  RECORDING & 4K VIDEO DOWNLOAD ENGINE (MediaRecorder API)
+// -------------------------------------------------------------------------
+
+let mediaRecorder = null;
+let recordedChunks = [];
+let isRecording = false;
+
+function startRecordingEngine() {
+  try {
+    const canvasStream = canvas.captureStream(60);
+    const audioTracks = (mediaStreamDest && mediaStreamDest.stream) ? mediaStreamDest.stream.getAudioTracks() : [];
+    const combinedStream = new MediaStream([...canvasStream.getVideoTracks(), ...audioTracks]);
+
+    const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+      ? 'video/webm;codecs=vp9,opus'
+      : (MediaRecorder.isTypeSupported('video/webm') ? 'video/webm' : '');
+
+    mediaRecorder = new MediaRecorder(combinedStream, {
+      mimeType: mime,
+      videoBitsPerSecond: 10000000 // 10 Mbps crisp 1080p
+    });
+
+    recordedChunks = [];
+    mediaRecorder.ondataavailable = e => {
+      if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = () => {
+      isRecording = false;
+      const recInd = document.getElementById('rec-indicator');
+      if (recInd) recInd.style.display = 'none';
+
+      if (recordedChunks.length === 0) return;
+      const blob = new Blob(recordedChunks, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'GamePilot_Pro_Official_Cinematic_Trailer_4K.webm';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+      showDownloadToast();
+    };
+
+    mediaRecorder.start(250);
+    isRecording = true;
+    const recInd = document.getElementById('rec-indicator');
+    if (recInd) recInd.style.display = 'flex';
+  } catch (err) {
+    console.warn("MediaRecorder start error:", err);
+  }
+}
+
+function stopAndSaveRecording() {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    mediaRecorder.stop();
+  } else if (recordedChunks.length > 0) {
+    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'GamePilot_Pro_Official_Cinematic_Trailer_4K.webm';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+    showDownloadToast();
+  }
+}
+
+function downloadTrailerVideo(e) {
+  if (e) e.stopPropagation();
+  unlockAudioOnInteraction();
+
+  if (isRecording && recordedChunks.length > 0) {
+    stopAndSaveRecording();
+  } else {
+    // Start fresh 4K master recording from 00:00 and auto-download at finish
+    const modal = document.getElementById('end-modal');
+    if (modal) modal.classList.remove('active');
+    replayTrailer();
+    setTimeout(() => {
+      startRecordingEngine();
+    }, 150);
+  }
+}
+
+function showDownloadToast() {
+  const toast = document.getElementById('download-toast');
+  if (toast) {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+}
+
+// -------------------------------------------------------------------------
 //  CONTROLS
 // -------------------------------------------------------------------------
 
 function replayTrailer() {
+  const modal = document.getElementById('end-modal');
+  if (modal) modal.classList.remove('active');
   unlockAudioOnInteraction();
   stopSubDrone();
   isPlaying = true;
@@ -1066,7 +1363,7 @@ function seekTrailer(event) {
 }
 
 // =========================================================================
-//  INSTANT AUTOPLAY ON PAGE LOAD
+//  INSTANT AUTOPLAY & AUTO-RECORDING INITIATION
 // =========================================================================
 window.addEventListener('DOMContentLoaded', () => {
   startTime = performance.now();
@@ -1074,6 +1371,10 @@ window.addEventListener('DOMContentLoaded', () => {
   planAudioScore();
   cancelAnimationFrame(animId);
   animId = requestAnimationFrame(renderLoop);
+  // Auto-start recording stream so user can download anytime
+  setTimeout(() => {
+    startRecordingEngine();
+  }, 400);
 });
 </script>
 </body>
