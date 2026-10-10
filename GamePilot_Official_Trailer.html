@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamePilot Pro — Official World Premiere Cinematic Trailer</title>
+  <title>GamePilot Pro — Official World Reveal Cinematic Trailer (Ultra 4K Experience)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;900&family=Montserrat:wght@300;600;900&family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@300;600;900&family=JetBrains+Mono:wght@500;800&family=Syne:wght@800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      background: #020305;
+      background: #000;
       color: #fff;
       font-family: 'Montserrat', sans-serif;
       width: 100vw;
@@ -41,123 +41,51 @@
       background: #000;
     }
 
-    /* 2.39:1 Cinematic Anamorphic Letterbox Bars */
+    /* 2.39:1 Anamorphic Cinema Letterbox */
     .anamorphic-bar {
       position: absolute;
       left: 0; right: 0;
       background: #000;
       z-index: 20;
-      transition: height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 0 50px rgba(0,0,0,0.9);
+      box-shadow: 0 0 60px rgba(0,0,0,1);
     }
-    .bar-top { top: 0; height: 10vh; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .bar-bot { bottom: 0; height: 10vh; border-top: 1px solid rgba(255,255,255,0.04); }
+    .bar-top { top: 0; height: 9.5vh; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .bar-bot { bottom: 0; height: 9.5vh; border-top: 1px solid rgba(255,255,255,0.05); }
 
-    /* Theatrical Start Screen */
-    #theater-curtain {
+    /* Sound Unlock Banner (Non-blocking, fades out on first click) */
+    #sound-banner {
       position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(12, 18, 30, 0.95) 0%, rgba(2, 3, 6, 0.99) 100%);
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s;
-    }
-    #theater-curtain.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .premiere-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      letter-spacing: 0.45em;
-      color: #00e5ff;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      padding: 6px 16px;
-      border: 1px solid rgba(0, 229, 255, 0.3);
-      border-radius: 2px;
-      background: rgba(0, 229, 255, 0.05);
-      animation: badgeGlow 3s infinite alternate;
-    }
-
-    .theater-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.5rem, 6vw, 5.5rem);
-      font-weight: 900;
-      letter-spacing: 0.25em;
-      text-align: center;
-      background: linear-gradient(180deg, #FFFFFF 0%, #A0B0C8 60%, #4A5B73 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 10px 40px rgba(0, 229, 255, 0.2);
-      margin-bottom: 12px;
-    }
-
-    .theater-subtitle {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 300;
-      font-size: clamp(0.9rem, 1.8vw, 1.25rem);
-      letter-spacing: 0.4em;
-      color: rgba(255, 255, 255, 0.65);
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .btn-premiere {
-      position: relative;
-      background: transparent;
-      border: 1px solid rgba(0, 229, 255, 0.6);
-      color: #fff;
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.35em;
-      padding: 18px 54px;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.15), inset 0 0 15px rgba(0, 229, 255, 0.1);
-    }
-    .btn-premiere::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%; width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
-      transition: left 0.6s;
-    }
-    .btn-premiere:hover {
-      background: rgba(0, 229, 255, 0.15);
-      border-color: #00e5ff;
-      box-shadow: 0 0 50px rgba(0, 229, 255, 0.4), inset 0 0 25px rgba(0, 229, 255, 0.2);
-      transform: scale(1.04);
-    }
-    .btn-premiere:hover::before {
-      left: 100%;
-    }
-
-    .audio-notice {
-      margin-top: 32px;
+      top: 11vh;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      background: rgba(10, 20, 35, 0.85);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      padding: 8px 24px;
+      border-radius: 30px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.35);
+      letter-spacing: 0.25em;
+      color: #00e5ff;
       text-transform: uppercase;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      animation: bannerPulse 2s infinite alternate;
+    }
+    #sound-banner.dismissed {
+      opacity: 0;
+      transform: translate(-50%, -20px);
+      pointer-events: none;
     }
 
-    /* Subtle Cinema Scrubber & Controls (Hidden until hovered) */
+    /* Stealth Cinema Scrubber (Revealed on hover) */
     #cinema-hud {
       position: absolute;
-      bottom: 2vh;
+      bottom: 2.2vh;
       left: 4vw;
       right: 4vw;
       z-index: 30;
@@ -165,38 +93,36 @@
       align-items: center;
       justify-content: space-between;
       opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
     #stage:hover #cinema-hud {
       opacity: 1;
-      pointer-events: auto;
     }
     .timeline-bar {
       flex: 1;
-      height: 2px;
+      height: 3px;
       background: rgba(255, 255, 255, 0.15);
-      margin: 0 24px;
+      margin: 0 20px;
       position: relative;
       cursor: pointer;
     }
     .timeline-fill {
       position: absolute;
       left: 0; top: 0; bottom: 0;
-      background: linear-gradient(90deg, #00e5ff, #ff2a4b);
+      background: linear-gradient(90deg, #00e5ff, #ff2a4b, #ffd700);
       width: 0%;
-      box-shadow: 0 0 10px #00e5ff;
+      box-shadow: 0 0 12px #00e5ff;
     }
     .time-readout {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.6);
       letter-spacing: 0.15em;
     }
     .btn-replay-cine {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       padding: 6px 14px;
@@ -209,46 +135,40 @@
       color: #00e5ff;
     }
 
-    @keyframes badgeGlow {
-      from { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 10px rgba(0, 229, 255, 0.1); }
-      to { border-color: rgba(0, 229, 255, 0.8); box-shadow: 0 0 25px rgba(0, 229, 255, 0.4); }
+    @keyframes bannerPulse {
+      from { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+      to { box-shadow: 0 0 35px rgba(0, 229, 255, 0.5); }
     }
   </style>
 </head>
 <body>
 
-<div id="stage">
+<div id="stage" onclick="unlockAudioOnInteraction()">
   <div class="anamorphic-bar bar-top"></div>
   <div class="anamorphic-bar bar-bot"></div>
 
   <canvas id="cinemaCanvas" width="1920" height="1080"></canvas>
 
-  <!-- Cinema HUD overlay -->
+  <!-- Non-intrusive sound prompt -->
+  <div id="sound-banner" onclick="unlockAudioOnInteraction()">
+    <span>🔊</span> CLICK ANYWHERE TO UNLOCK CINEMA SURROUND SOUND
+  </div>
+
+  <!-- Stealth Scrubber HUD -->
   <div id="cinema-hud">
     <span class="time-readout" id="time-curr">00:00</span>
     <div class="timeline-bar" onclick="seekTrailer(event)">
       <div class="timeline-fill" id="timeline-fill"></div>
     </div>
     <span class="time-readout" id="time-dur">01:25</span>
-    <button class="btn-replay-cine" onclick="replayTrailer()" style="margin-left: 20px;">↺ REPLAY</button>
-  </div>
-
-  <!-- Theater Entrance Curtain -->
-  <div id="theater-curtain">
-    <div class="premiere-badge">ESPORTS CINEMATICS • WORLD REVEAL</div>
-    <h1 class="theater-title">GAMEPILOT PRO</h1>
-    <p class="theater-subtitle">THE WEAPON THEY NEVER SAW COMING</p>
-    <button class="btn-premiere" onclick="igniteTrailer()">ENTER CINEMA</button>
-    <div class="audio-notice">
-      <span>🔊</span> HEADPHONES OR CINEMA AUDIO STRONGLY RECOMMENDED
-    </div>
+    <button class="btn-replay-cine" onclick="replayTrailer()" style="margin-left: 16px;">↺ REPLAY</button>
   </div>
 </div>
 
 <script>
 // =========================================================================
-//  HOLLYWOOD-GRADE CINEMATIC ENGINE & REAL-TIME ORCHESTRAL SYNTHESIZER
-//  Zero pre-rendered movie files. Pure 60 FPS generative visual direction.
+//  GAMEPILOT PRO — MAXIMUM CRAZE HOLLYWOOD GAMEPLAY TRAILER
+//  Instant Autoplay • Bulletproof Audio Synthesis • Zero Crashes
 // =========================================================================
 
 const canvas = document.getElementById('cinemaCanvas');
@@ -256,336 +176,347 @@ const ctx = canvas.getContext('2d');
 const W = 1920, H = 1080;
 canvas.width = W; canvas.height = H;
 
-let isPlaying = false;
-let startTime = 0;
+let isPlaying = true;
+let startTime = performance.now();
 let currentTime = 0;
-const DURATION = 85.0; // 1 Minute 25 Seconds epic trailer arc
+const DURATION = 85.0; // 85-Second adrenaline blockbuster arc
 let animId = null;
 
 // Audio System
 let ac = null;
 let masterGain = null;
 let compressor = null;
-let reverbNode = null;
+let audioUnlocked = false;
 
-function setupAudio() {
+function initAudioSystem() {
   if (ac) return;
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  ac = new AudioCtx();
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    ac = new AudioCtx();
 
-  compressor = ac.createDynamicsCompressor();
-  compressor.threshold.setValueAtTime(-18, ac.currentTime);
-  compressor.knee.setValueAtTime(30, ac.currentTime);
-  compressor.ratio.setValueAtTime(14, ac.currentTime);
-  compressor.attack.setValueAtTime(0.003, ac.currentTime);
-  compressor.release.setValueAtTime(0.25, ac.currentTime);
+    compressor = ac.createDynamicsCompressor();
+    compressor.threshold.setValueAtTime(-16, ac.currentTime);
+    compressor.knee.setValueAtTime(30, ac.currentTime);
+    compressor.ratio.setValueAtTime(14, ac.currentTime);
+    compressor.attack.setValueAtTime(0.003, ac.currentTime);
+    compressor.release.setValueAtTime(0.25, ac.currentTime);
 
-  masterGain = ac.createGain();
-  masterGain.gain.setValueAtTime(0.85, ac.currentTime);
+    masterGain = ac.createGain();
+    masterGain.gain.setValueAtTime(0.9, ac.currentTime);
 
-  // Simple synthetic impulse reverb
-  const revLen = ac.sampleRate * 2.8;
-  const revBuf = ac.createBuffer(2, revLen, ac.sampleRate);
-  for (let c = 0; c < 2; c++) {
-    const d = revBuf.getChannelData(c);
-    for (let i = 0; i < revLen; i++) {
-      d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / revLen, 2.2);
-    }
+    compressor.connect(masterGain);
+    masterGain.connect(ac.destination);
+  } catch (e) {
+    console.warn("Audio Context init error:", e);
   }
-  reverbNode = ac.createConvolver();
-  reverbNode.buffer = revBuf;
-
-  const wetGain = ac.createGain();
-  wetGain.gain.value = 0.35;
-  reverbNode.connect(wetGain);
-  wetGain.connect(compressor);
-
-  compressor.connect(masterGain);
-  masterGain.connect(ac.destination);
 }
+
+function unlockAudioOnInteraction() {
+  initAudioSystem();
+  if (ac && ac.state === 'suspended') {
+    ac.resume().then(() => {
+      audioUnlocked = true;
+      document.getElementById('sound-banner').classList.add('dismissed');
+      planAudioScore();
+      startSubDrone();
+    }).catch(e => console.warn(e));
+  } else {
+    audioUnlocked = true;
+    document.getElementById('sound-banner').classList.add('dismissed');
+  }
+}
+['click', 'keydown', 'touchstart'].forEach(evt => window.addEventListener(evt, unlockAudioOnInteraction, { once: false }));
 
 // -------------------------------------------------------------------------
-//  CINEMATIC SOUND DESIGN SYNTHESIZERS (Hans Zimmer / Dune / Inception)
+//  BULLETPROOF SYNTHESISERS (Pure Linear Ramps — ZERO RangeErrors)
 // -------------------------------------------------------------------------
 
-// 1. Iconic "BRAAM" Inception Horn of Doom
-function triggerBraam(atTime = 0, pitch = 45, intensity = 1.0) {
-  if (!ac) return;
-  const t = atTime || ac.currentTime;
+// 1. Iconic BRAAM Horn (Inception / Dune)
+function triggerBraam(intensity = 1.0, pitch = 45) {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
+    const freqs = [pitch, pitch * 1.008, pitch * 0.992];
 
-  // 3 Detuned heavy Sawtooth oscillators
-  const freqs = [pitch, pitch * 1.008, pitch * 0.992];
-  freqs.forEach(f => {
-    const osc = ac.createOscillator();
-    const g = ac.createGain();
-    const filter = ac.createBiquadFilter();
+    freqs.forEach(f => {
+      const osc = ac.createOscillator();
+      const g = ac.createGain();
+      const filter = ac.createBiquadFilter();
 
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(f * 1.08, t);
-    osc.frequency.exponentialRampToValueAtTime(f, t + 0.35);
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(f * 1.08, t);
+      osc.frequency.linearRampToValueAtTime(f, t + 0.35);
 
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(3200 * intensity, t);
-    filter.frequency.exponentialRampToValueAtTime(450, t + 2.2);
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(3200 * intensity, t);
+      filter.frequency.linearRampToValueAtTime(400, t + 2.2);
 
-    g.gain.setValueAtTime(0.35 * intensity, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 3.2);
+      g.gain.setValueAtTime(0.3 * intensity, t);
+      g.gain.linearRampToValueAtTime(0.0001, t + 2.8);
 
-    osc.connect(filter);
-    filter.connect(g);
-    g.connect(compressor);
-    g.connect(reverbNode);
+      osc.connect(filter);
+      filter.connect(g);
+      g.connect(compressor);
 
-    osc.start(t);
-    osc.stop(t + 3.3);
-  });
+      osc.start(t);
+      osc.stop(t + 2.9);
+    });
 
-  // Massive sub-bass layer
-  const sub = ac.createOscillator();
-  const subG = ac.createGain();
-  sub.type = 'sine';
-  sub.frequency.setValueAtTime(pitch, t);
-  sub.frequency.exponentialRampToValueAtTime(pitch * 0.75, t + 2.0);
-  subG.gain.setValueAtTime(0.65 * intensity, t);
-  subG.gain.exponentialRampToValueAtTime(0.001, t + 2.8);
+    // Sub-bass foundation
+    const sub = ac.createOscillator();
+    const subG = ac.createGain();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(pitch, t);
+    sub.frequency.linearRampToValueAtTime(pitch * 0.75, t + 1.8);
 
-  sub.connect(subG);
-  subG.connect(compressor);
-  sub.start(t);
-  sub.stop(t + 2.9);
+    subG.gain.setValueAtTime(0.7 * intensity, t);
+    subG.gain.linearRampToValueAtTime(0.001, t + 2.5);
+
+    sub.connect(subG);
+    subG.connect(compressor);
+    sub.start(t);
+    sub.stop(t + 2.6);
+  } catch (err) {
+    console.warn("triggerBraam caught:", err);
+  }
 }
 
-// 2. Cinematic War Drum (Taiko Thud)
-function triggerWarDrum(atTime = 0, intensity = 1.0) {
-  if (!ac) return;
-  const t = atTime || ac.currentTime;
-
-  // Punch transient (sine drop)
-  const osc = ac.createOscillator();
-  const g = ac.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(140, t);
-  osc.frequency.exponentialRampToValueAtTime(32, t + 0.18);
-
-  g.gain.setValueAtTime(0.85 * intensity, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
-
-  osc.connect(g);
-  g.connect(compressor);
-  g.connect(reverbNode);
-  osc.start(t);
-  osc.stop(t + 1.3);
-
-  // Noise crack transient
-  const bSize = Math.floor(ac.sampleRate * 0.08);
-  const buf = ac.createBuffer(1, bSize, ac.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < bSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ac.sampleRate * 0.015));
-
-  const noise = ac.createBufferSource();
-  const ng = ac.createGain();
-  noise.buffer = buf;
-  ng.gain.value = 0.25 * intensity;
-  noise.connect(ng);
-  ng.connect(compressor);
-  noise.start(t);
-}
-
-// 3. Heartbeat Thump (lub-DUB)
-function triggerHeartbeat(atTime = 0) {
-  if (!ac) return;
-  const t = atTime || ac.currentTime;
-
-  [0, 0.22].forEach((offset, idx) => {
+// 2. High-Caliber War Drum (Taiko Thump)
+function triggerWarDrum(intensity = 1.0) {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
     const osc = ac.createOscillator();
     const g = ac.createGain();
+
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(65, t + offset);
-    osc.frequency.exponentialRampToValueAtTime(28, t + offset + 0.12);
+    osc.frequency.setValueAtTime(140, t);
+    osc.frequency.linearRampToValueAtTime(32, t + 0.16);
 
-    g.gain.setValueAtTime(idx === 0 ? 0.45 : 0.65, t + offset);
-    g.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.35);
+    g.gain.setValueAtTime(0.85 * intensity, t);
+    g.gain.linearRampToValueAtTime(0.001, t + 1.0);
 
     osc.connect(g);
     g.connect(compressor);
-    osc.start(t + offset);
-    osc.stop(t + offset + 0.4);
-  });
+    osc.start(t);
+    osc.stop(t + 1.1);
+
+    // Punch crack noise
+    const bSize = Math.floor(ac.sampleRate * 0.06);
+    const buf = ac.createBuffer(1, bSize, ac.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ac.sampleRate * 0.012));
+
+    const noise = ac.createBufferSource();
+    const ng = ac.createGain();
+    noise.buffer = buf;
+    ng.gain.setValueAtTime(0.25 * intensity, t);
+    ng.gain.linearRampToValueAtTime(0.001, t + 0.06);
+
+    noise.connect(ng);
+    ng.connect(compressor);
+    noise.start(t);
+  } catch (err) {
+    console.warn("triggerWarDrum caught:", err);
+  }
 }
 
-// 4. Anvil / High-Tension Clock Tick (Dunkirk style)
-function triggerClockTick(atTime = 0, isAccent = false) {
-  if (!ac) return;
-  const t = atTime || ac.currentTime;
+// 3. Heartbeat Thump
+function triggerHeartbeat() {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
+    [0, 0.22].forEach((offset, idx) => {
+      const osc = ac.createOscillator();
+      const g = ac.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(65, t + offset);
+      osc.frequency.linearRampToValueAtTime(28, t + offset + 0.12);
 
-  const osc = ac.createOscillator();
-  const g = ac.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(isAccent ? 3200 : 2100, t);
+      g.gain.setValueAtTime(idx === 0 ? 0.45 : 0.65, t + offset);
+      g.gain.linearRampToValueAtTime(0.001, t + offset + 0.32);
 
-  g.gain.setValueAtTime(isAccent ? 0.18 : 0.08, t);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
-
-  osc.connect(g);
-  g.connect(compressor);
-  osc.start(t);
-  osc.stop(t + 0.06);
+      osc.connect(g);
+      g.connect(compressor);
+      osc.start(t + offset);
+      osc.stop(t + offset + 0.35);
+    });
+  } catch (e) {}
 }
 
-// 5. Tension Riser (Massive accelerating frequency lift)
-function triggerRiser(startT, dur, targetFreq = 1800) {
-  if (!ac) return;
-  const osc = ac.createOscillator();
-  const osc2 = ac.createOscillator();
-  const g = ac.createGain();
+// 4. Tactical Anvil / Clock Tick
+function triggerClockTick(isAccent = false) {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(isAccent ? 3400 : 2200, t);
 
-  osc.type = 'sawtooth';
-  osc2.type = 'square';
+    g.gain.setValueAtTime(isAccent ? 0.2 : 0.08, t);
+    g.gain.linearRampToValueAtTime(0.0001, t + 0.04);
 
-  osc.frequency.setValueAtTime(80, startT);
-  osc.frequency.exponentialRampToValueAtTime(targetFreq, startT + dur);
-
-  osc2.frequency.setValueAtTime(82, startT);
-  osc2.frequency.exponentialRampToValueAtTime(targetFreq * 1.01, startT + dur);
-
-  g.gain.setValueAtTime(0.02, startT);
-  g.gain.exponentialRampToValueAtTime(0.4, startT + dur);
-  g.gain.setValueAtTime(0, startT + dur + 0.02);
-
-  osc.connect(g);
-  osc2.connect(g);
-  g.connect(compressor);
-  g.connect(reverbNode);
-
-  osc.start(startT);
-  osc.stop(startT + dur + 0.05);
-  osc2.start(startT);
-  osc2.stop(startT + dur + 0.05);
+    osc.connect(g);
+    g.connect(compressor);
+    osc.start(t);
+    osc.stop(t + 0.05);
+  } catch (e) {}
 }
 
-// 6. Sub-Bass Drone Layer (Underpinning the trailer)
+// 5. Tension Riser
+function triggerRiser(dur = 9.0) {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(80, t);
+    osc.frequency.linearRampToValueAtTime(2200, t + dur);
+
+    g.gain.setValueAtTime(0.02, t);
+    g.gain.linearRampToValueAtTime(0.4, t + dur);
+    g.gain.linearRampToValueAtTime(0.0001, t + dur + 0.05);
+
+    osc.connect(g);
+    g.connect(compressor);
+    osc.start(t);
+    osc.stop(t + dur + 0.1);
+  } catch (e) {}
+}
+
+// 6. Sub Drone
 let droneOsc = null, droneGain = null;
 function startSubDrone() {
-  if (!ac || droneOsc) return;
-  droneOsc = ac.createOscillator();
-  droneGain = ac.createGain();
-  droneOsc.type = 'sawtooth';
-  droneOsc.frequency.setValueAtTime(43.65, ac.currentTime); // F1 root
+  if (!ac || droneOsc || ac.state !== 'running') return;
+  try {
+    droneOsc = ac.createOscillator();
+    droneGain = ac.createGain();
+    droneOsc.type = 'sawtooth';
+    droneOsc.frequency.setValueAtTime(43.65, ac.currentTime);
 
-  const filter = ac.createBiquadFilter();
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(110, ac.currentTime);
+    const filter = ac.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(110, ac.currentTime);
 
-  droneGain.gain.setValueAtTime(0.001, ac.currentTime);
-  droneGain.gain.linearRampToValueAtTime(0.35, ac.currentTime + 4.0);
+    droneGain.gain.setValueAtTime(0.001, ac.currentTime);
+    droneGain.gain.linearRampToValueAtTime(0.3, ac.currentTime + 3.0);
 
-  droneOsc.connect(filter);
-  filter.connect(droneGain);
-  droneGain.connect(compressor);
-  droneOsc.start();
+    droneOsc.connect(filter);
+    filter.connect(droneGain);
+    droneGain.connect(compressor);
+    droneOsc.start();
+  } catch (e) {}
 }
 function stopSubDrone() {
-  if (droneGain) {
-    droneGain.gain.linearRampToValueAtTime(0.001, ac.currentTime + 0.5);
-    setTimeout(() => { if (droneOsc) { droneOsc.stop(); droneOsc = null; } }, 600);
+  if (droneGain && ac) {
+    try {
+      droneGain.gain.linearRampToValueAtTime(0.001, ac.currentTime + 0.4);
+      setTimeout(() => { if (droneOsc) { droneOsc.stop(); droneOsc = null; } }, 500);
+    } catch (e) {}
   }
 }
 
 // -------------------------------------------------------------------------
-//  TIMELINE ORCHESTRATION & AUDIO SCHEDULING
+//  AUDIO SCHEDULING TIMELINE
 // -------------------------------------------------------------------------
 
 let scheduledEvents = [];
 function planAudioScore() {
   scheduledEvents = [];
-  const baseT = ac.currentTime;
 
-  // ACT I: THE VOID & HEARTBEATS (0:00 - 0:18)
+  // ACT I: HEARTBEATS (0:00 - 0:18)
   for (let sec = 1.0; sec < 17.0; sec += 1.8) {
     scheduledEvents.push({ time: sec, fn: () => triggerHeartbeat() });
   }
-  // Sudden First BRAAM Shockwave at 8.0s
-  scheduledEvents.push({ time: 8.0, fn: () => { triggerBraam(0, 48, 1.2); shockwave = 1.0; } });
-  // Second BRAAM at 16.0s
-  scheduledEvents.push({ time: 16.0, fn: () => { triggerBraam(0, 43, 1.3); shockwave = 1.2; } });
+  scheduledEvents.push({ time: 8.0, fn: () => { triggerBraam(1.2, 48); triggerShockwave(1.0); } });
+  scheduledEvents.push({ time: 16.0, fn: () => { triggerBraam(1.3, 44); triggerShockwave(1.2); } });
 
-  // ACT II: THE RISING CLOCK & WAR DRUMS (0:18 - 0:42)
-  // Relentless 16th-note clock ticking
+  // ACT II: CLOCK TICK & WAR DRUMS (0:18 - 0:42)
   for (let sec = 18.0; sec < 42.0; sec += 0.35) {
     const isBeat = Math.round((sec - 18.0) / 0.35) % 4 === 0;
-    scheduledEvents.push({ time: sec, fn: () => triggerClockTick(0, isBeat) });
+    scheduledEvents.push({ time: sec, fn: () => triggerClockTick(isBeat) });
   }
-  // Taiko War Drums driving the rhythm
   const drumBeats = [18.0, 19.4, 20.8, 22.2, 23.6, 25.0, 26.4, 27.8, 29.2, 30.6, 32.0, 33.4, 34.8, 36.2, 37.6, 39.0, 40.4];
   drumBeats.forEach(t => {
-    scheduledEvents.push({ time: t, fn: () => { triggerWarDrum(0, 1.1); camShake = 14; } });
+    scheduledEvents.push({ time: t, fn: () => { triggerWarDrum(1.1); camShake = 16; } });
   });
-  // Massive BRAAM hit during battle montage at 28.0s
-  scheduledEvents.push({ time: 28.0, fn: () => { triggerBraam(0, 50, 1.4); shockwave = 1.5; } });
+  scheduledEvents.push({ time: 28.0, fn: () => { triggerBraam(1.4, 50); triggerShockwave(1.3); } });
 
-  // ACT III: THE SHEPARD RISER & SUDDEN SILENCE (0:42 - 0:54)
-  scheduledEvents.push({ time: 42.0, fn: () => triggerRiser(ac.currentTime, 9.5, 2400) });
-  // Accelerating heartbeat into silence
+  // ACT III: SHEPARD RISER & SUDDEN SILENCE (0:42 - 0:54)
+  scheduledEvents.push({ time: 42.0, fn: () => triggerRiser(9.5) });
   [43.0, 45.0, 46.8, 48.2, 49.4, 50.4, 51.2].forEach(t => {
     scheduledEvents.push({ time: t, fn: () => triggerHeartbeat() });
   });
 
-  // TOTAL SILENCE DROP at 52.0s to 53.8s (The deep breath before the kill)
-  // CLIMAX DROP: MONUMENTAL DROP AT 54.0s
+  // MONUMENTAL DROP AT 54.0s (The Climax Drop)
   scheduledEvents.push({ time: 54.0, fn: () => {
-    triggerBraam(0, 36, 1.8); // Ultra deep 36Hz earthquake brass
-    triggerWarDrum(0, 1.8);
-    shockwave = 2.4;
-    camShake = 35;
+    triggerBraam(2.0, 36);
+    triggerWarDrum(2.0);
+    triggerShockwave(1.8);
+    camShake = 40;
   }});
 
-  // ACT IV: HIGH-OCTANE VICTORY CLIMAX (0:54 - 0:70)
-  // Fast 130 BPM war drum barrage
+  // ACT IV: HIGH-SPEED 130 BPM DRUM BARRAGE (0:54 - 0:70)
   for (let sec = 54.0; sec < 70.0; sec += 0.46) {
-    scheduledEvents.push({ time: sec, fn: () => { triggerWarDrum(0, 0.95); camShake = Math.max(camShake, 8); } });
+    scheduledEvents.push({ time: sec, fn: () => { triggerWarDrum(1.0); camShake = Math.max(camShake, 10); } });
   }
-  // Syncopated heavy hits
   [57.6, 61.3, 65.0, 68.7].forEach(t => {
-    scheduledEvents.push({ time: t, fn: () => { triggerBraam(0, 48, 1.3); shockwave = 1.2; } });
+    scheduledEvents.push({ time: t, fn: () => { triggerBraam(1.3, 46); triggerShockwave(1.1); } });
   });
 
-  // ACT V: GRAND FINALE TITLE SLAM AT 71.0s
+  // ACT V: GRAND TITLE SLAM AT 71.0s
   scheduledEvents.push({ time: 71.0, fn: () => {
-    triggerBraam(0, 38, 2.0); // Ultimate title slam
-    triggerWarDrum(0, 2.0);
-    shockwave = 3.0;
-    camShake = 45;
+    triggerBraam(2.2, 38);
+    triggerWarDrum(2.2);
+    triggerShockwave(2.0);
+    camShake = 50;
   }});
 }
 
+// Always safely splice BEFORE execution
 function processAudioTimeline(ct) {
   for (let i = scheduledEvents.length - 1; i >= 0; i--) {
     if (ct >= scheduledEvents[i].time) {
-      scheduledEvents[i].fn();
-      scheduledEvents.splice(i, 1);
+      const ev = scheduledEvents.splice(i, 1)[0];
+      try {
+        ev.fn();
+      } catch (err) {
+        console.warn("Audio event error at " + ct, err);
+      }
     }
   }
 }
 
 // -------------------------------------------------------------------------
-//  CINEMATIC GRAPHICS ENGINE (Anamorphic, 3D Perspective, Volumetrics)
+//  CINEMATIC GRAPHICS ENGINE (Anamorphic, 3D HUD, Particles)
 // -------------------------------------------------------------------------
 
 let camShake = 0;
-let shockwave = 0;
+let shockwaves = [];
 const particles = [];
 
-// Initialize 3D Floating Ember / Tactical Spark Field
-for (let i = 0; i < 240; i++) {
+function triggerShockwave(strength = 1.0) {
+  shockwaves.push({
+    radius: 10,
+    maxRadius: 1300,
+    alpha: 0.9 * strength,
+    speed: 38 * strength,
+    lineWidth: 12 * strength
+  });
+}
+
+// Floating Tactical Embers / Sparks
+for (let i = 0; i < 260; i++) {
   particles.push({
     x: Math.random() * W,
     y: Math.random() * H,
-    z: Math.random() * 800 + 100,
-    vx: (Math.random() - 0.5) * 1.5,
-    vy: -Math.random() * 2.5 - 0.5,
+    vx: (Math.random() - 0.5) * 1.6,
+    vy: -Math.random() * 2.8 - 0.5,
     size: Math.random() * 3 + 1,
     alpha: Math.random() * 0.8 + 0.2,
-    color: Math.random() > 0.6 ? '#00e5ff' : '#ff4655'
+    color: Math.random() > 0.5 ? '#00e5ff' : '#ff4655'
   });
 }
 
@@ -607,30 +538,27 @@ function renderParticles(alphaMult = 1.0) {
     ctx.fillStyle = p.color;
     ctx.globalAlpha = p.alpha * alphaMult;
     ctx.shadowColor = p.color;
-    ctx.shadowBlur = 12;
+    ctx.shadowBlur = 14;
     ctx.fill();
   }
   ctx.restore();
 }
 
-// Anamorphic Lens Flare
 function renderAnamorphicFlare(cx, cy, intensity, color = '#00e5ff') {
   if (intensity <= 0.05) return;
   ctx.save();
   ctx.globalCompositeOperation = 'screen';
   ctx.globalAlpha = Math.min(1.0, intensity);
 
-  // Horizontal streak 1
   const grad1 = ctx.createLinearGradient(0, cy, W, cy);
   grad1.addColorStop(0, 'rgba(0, 229, 255, 0)');
-  grad1.addColorStop(Math.max(0, cx/W - 0.25), 'rgba(0, 229, 255, 0.1)');
+  grad1.addColorStop(Math.max(0, cx/W - 0.25), 'rgba(0, 229, 255, 0.12)');
   grad1.addColorStop(cx/W, color);
-  grad1.addColorStop(Math.min(1, cx/W + 0.25), 'rgba(0, 229, 255, 0.1)');
+  grad1.addColorStop(Math.min(1, cx/W + 0.25), 'rgba(0, 229, 255, 0.12)');
   grad1.addColorStop(1, 'rgba(0, 229, 255, 0)');
   ctx.fillStyle = grad1;
   ctx.fillRect(0, cy - 3, W, 6);
 
-  // Core glow
   const gradCore = ctx.createRadialGradient(cx, cy, 0, cx, cy, 140);
   gradCore.addColorStop(0, '#ffffff');
   gradCore.addColorStop(0.3, color);
@@ -639,24 +567,21 @@ function renderAnamorphicFlare(cx, cy, intensity, color = '#00e5ff') {
   ctx.beginPath();
   ctx.arc(cx, cy, 140, 0, Math.PI * 2);
   ctx.fill();
-
   ctx.restore();
 }
 
 // -------------------------------------------------------------------------
-//  CINEMATIC SCENES
+//  CINEMATIC 5-ACT SCENES
 // -------------------------------------------------------------------------
 
 // ACT 1: THE VOID & DARK TRUTH (0:00 - 0:18)
 function renderAct1(t) {
-  // Slow ominous zoom
   const zoom = 1.0 + t * 0.012;
   ctx.save();
   ctx.translate(W/2, H/2);
   ctx.scale(zoom, zoom);
   ctx.translate(-W/2, -H/2);
 
-  // Deep atmospheric haze
   const bg = ctx.createRadialGradient(W/2, H/2, 50, W/2, H/2, H * 0.7);
   bg.addColorStop(0, '#0a101d');
   bg.addColorStop(0.6, '#030509');
@@ -664,34 +589,28 @@ function renderAct1(t) {
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // Wireframe radar grid slowly pulsing in the deep dark
+  // Radar Grid
   ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
   ctx.lineWidth = 1;
-  const gridStep = 80;
-  for (let x = 0; x < W; x += gridStep) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = 0; y < H; y += gridStep) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
+  for (let x = 0; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 80) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 
-  // Cinematic Typography Cuts
   if (t >= 1.5 && t < 7.5) {
     const fadeIn = Math.min(1.0, (t - 1.5) / 1.5);
     const fadeOut = Math.max(0.0, 1.0 - (t - 6.0) / 1.5);
     const alpha = Math.min(fadeIn, fadeOut);
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.font = '900 48px "Cinzel"';
+    ctx.font = '900 52px "Cinzel"';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.35em';
     ctx.shadowColor = 'rgba(0, 229, 255, 0.6)';
     ctx.shadowBlur = 30;
-    ctx.fillText('IN COMPETITIVE ESPORTS', W/2, H/2 - 20);
+    ctx.fillText('IN HIGH-STAKES COMPETITION', W/2, H/2 - 20);
 
-    ctx.font = '300 20px "Montserrat"';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.font = '300 22px "Montserrat"';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
     ctx.letterSpacing = '0.5em';
     ctx.fillText('MILLISECONDS DECIDE DESTINY', W/2, H/2 + 40);
     ctx.restore();
@@ -701,7 +620,7 @@ function renderAct1(t) {
     const alpha = Math.min(fadeIn, fadeOut);
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.font = '900 52px "Cinzel"';
+    ctx.font = '900 56px "Cinzel"';
     ctx.fillStyle = '#ff2a4b';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.3em';
@@ -709,7 +628,7 @@ function renderAct1(t) {
     ctx.shadowBlur = 40;
     ctx.fillText('YET 30 MILLION PLAYERS', W/2, H/2 - 20);
 
-    ctx.font = '300 22px "Montserrat"';
+    ctx.font = '300 24px "Montserrat"';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '0.45em';
     ctx.fillText('FIGHT IN TOTAL AUDIO SILENCE', W/2, H/2 + 45);
@@ -720,56 +639,45 @@ function renderAct1(t) {
   ctx.restore();
 }
 
-// ACT 2: THE TACTICAL CRISIS (0:18 - 0:42)
+// ACT 2: COMBAT RADAR & RECOIL CALIBRATION (0:18 - 0:42)
 function renderAct2(t) {
   const relT = t - 18.0;
-
-  // Cinematic Blueprint Grid & Tactical Wireframe Map (Ascent A-Site)
   ctx.fillStyle = '#03070e';
   ctx.fillRect(0, 0, W, H);
 
   // Moving 3D Grid
   ctx.save();
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.15)';
+  ctx.strokeStyle = 'rgba(0, 229, 255, 0.12)';
   ctx.lineWidth = 1;
   const offset = (relT * 60) % 60;
-  for (let x = -offset; x < W; x += 60) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = -offset; y < H; y += 60) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
+  for (let x = -offset; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = -offset; y < H; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
   ctx.restore();
 
-  // Draw Tactical Map Projection in perspective
+  // Tactical Ascent A-Site Blueprint projection
   ctx.save();
   ctx.translate(W/2, H/2);
-  const rot = Math.sin(relT * 0.4) * 0.08;
-  ctx.rotate(rot);
+  ctx.rotate(Math.sin(relT * 0.4) * 0.08);
 
-  // Simulated Site Geometry (Angles, Chokepoints, Site Boxes)
   ctx.strokeStyle = 'rgba(0, 229, 255, 0.4)';
   ctx.lineWidth = 2;
   ctx.strokeRect(-320, -180, 640, 360);
-
-  // Choke Points
   ctx.strokeRect(-220, -120, 140, 80);
   ctx.strokeRect(80, 40, 180, 100);
 
-  // Danger Sectors (Red Flank Warnings)
+  // Flank Warning Box
   const pulseAlpha = 0.3 + Math.sin(t * 8) * 0.25;
   ctx.fillStyle = `rgba(255, 42, 75, ${pulseAlpha})`;
   ctx.fillRect(180, -140, 120, 70);
 
-  // Tactical Telemetry HUD text
   ctx.font = '800 13px "JetBrains Mono"';
   ctx.fillStyle = '#00e5ff';
   ctx.textAlign = 'left';
   ctx.fillText('TACTICAL TELEMETRY // SECTOR A-SITE HEAVEN', -310, -155);
   ctx.fillStyle = '#ff2a4b';
-  ctx.fillText('⚠ HOSTILE SILENT FLANK DETECTED [NO AUDIO CUE]', 185, -120);
+  ctx.fillText('⚠ SILENT ENEMY FLANK DETECTED [AUDIO CUE ABSENT]', 185, -120);
 
-  // Target Lock Reticle
+  // Crosshair Recoil Metronome Display
   const reticleX = Math.sin(relT * 1.5) * 160;
   const reticleY = Math.cos(relT * 1.2) * 90;
   ctx.strokeStyle = '#00e5ff';
@@ -777,29 +685,39 @@ function renderAct2(t) {
   ctx.beginPath();
   ctx.arc(reticleX, reticleY, 28, 0, Math.PI * 2);
   ctx.stroke();
+
+  // Recoil Reset Cadence Ring
+  const recoilRing = (relT * 3.5 % 1.0) * 45;
+  ctx.strokeStyle = '#ffd700';
   ctx.beginPath();
-  ctx.moveTo(reticleX - 40, reticleY); ctx.lineTo(reticleX + 40, reticleY);
-  ctx.moveTo(reticleX, reticleY - 40); ctx.lineTo(reticleX, reticleY + 40);
+  ctx.arc(reticleX, reticleY, recoilRing, 0, Math.PI * 2);
   ctx.stroke();
 
   ctx.restore();
 
-  // Rapid Cinematic Headline Flash (Trailer Cuts)
+  // Bold Trailer Headline Cuts
   ctx.save();
-  if (t >= 24.0 && t < 28.0) {
-    ctx.font = '900 64px "Montserrat"';
+  if (t >= 22.0 && t < 26.5) {
+    ctx.font = '900 68px "Montserrat"';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 40;
-    ctx.fillText('ONE BULLET DECIDES EVERYTHING', W/2, H * 0.22);
-  } else if (t >= 32.0 && t < 37.0) {
-    ctx.font = '900 68px "Montserrat"';
+    ctx.fillText('SEE WHAT YOU CANNOT HEAR', W/2, H * 0.2);
+  } else if (t >= 30.0 && t < 35.0) {
+    ctx.font = '900 72px "Montserrat"';
+    ctx.fillStyle = '#ffd700';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '0.25em';
+    ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 50;
+    ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.2);
+  } else if (t >= 36.0 && t < 41.0) {
+    ctx.font = '900 70px "Montserrat"';
     ctx.fillStyle = '#ff2a4b';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.25em';
     ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
-    ctx.fillText('THEY CANNOT HEAR THE THREAT', W/2, H * 0.22);
+    ctx.fillText('RECOIL CADENCE METRONOME', W/2, H * 0.2);
   }
   ctx.restore();
 
@@ -807,13 +725,11 @@ function renderAct2(t) {
   renderAnamorphicFlare(W * 0.75, H * 0.35, Math.sin(t * 3) * 0.5 + 0.5, '#00e5ff');
 }
 
-// ACT 3: THE DEEP BREATH & TENSION RISER (0:42 - 0:54)
+// ACT 3: THE 45-SECOND SPIKE NIGHTMARE (0:42 - 0:54)
 function renderAct3(t) {
-  // Pitch black tension build
   const relT = t - 42.0;
 
   if (t < 52.5) {
-    // Accelerating darkness & claustrophobic focus
     const vig = ctx.createRadialGradient(W/2, H/2, 10, W/2, H/2, 500);
     vig.addColorStop(0, '#0c1a2e');
     vig.addColorStop(1, '#000000');
@@ -833,34 +749,38 @@ function renderAct3(t) {
     ctx.fillStyle = '#00e5ff';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.35em';
-    ctx.fillText('INITIALIZING PRO CO-PILOT...', W/2, H/2 + 80);
+    ctx.fillText('MICRO-SPIKE DEFUSE RADAR // 45.0s COUNTDOWN', W/2, H/2 + 80);
 
-    // Spike Ticking Down to 0.00
+    // Dynamic Spike Time Left
     const spikeSeconds = Math.max(0.01, 7.0 - (relT / 10.0) * 6.99).toFixed(2);
-    ctx.font = '900 84px "JetBrains Mono"';
+    ctx.font = '900 96px "JetBrains Mono"';
     ctx.fillStyle = '#ff2a4b';
-    ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
+    ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 60;
     ctx.fillText(`00:0${spikeSeconds}`, W/2, H/2 - 20);
+
+    // Threshold Markers
+    ctx.font = '800 16px "JetBrains Mono"';
+    ctx.fillStyle = '#ffd700';
+    ctx.fillText('◄ 7.0s FULL DEFUSE THRESHOLD LOCKED ►', W/2, H/2 + 130);
   } else {
-    // 52.5s - 54.0s: COMPLETE SILENCE & BLACK SCREEN
+    // 52.5s - 54.0s: TOTAL DEAD SILENCE
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, W, H);
 
     if (t > 53.0) {
-      ctx.font = '300 24px "Montserrat"';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.font = '900 32px "Montserrat"';
+      ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.letterSpacing = '0.6em';
-      ctx.fillText('SEE THE SOUND.', W/2, H/2);
+      ctx.fillText('SEE THE SOUND. OWN THE ROUND.', W/2, H/2);
     }
   }
 }
 
-// ACT 4: THE MONUMENTAL DROP & CLUTCH CLIMAX (0:54 - 0:70)
+// ACT 4: THE MONUMENTAL DROP & RADIANT CLUTCH (0:54 - 0:70)
 function renderAct4(t) {
   const relT = t - 54.0;
 
-  // Radiant Combat Backdrop
   const bg = ctx.createRadialGradient(W/2, H/2, 100, W/2, H/2, W);
   bg.addColorStop(0, '#0a1d33');
   bg.addColorStop(0.5, '#050c18');
@@ -868,12 +788,11 @@ function renderAct4(t) {
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // Massive Sonar Wave Radar Sweep (360° Lasers)
+  // 360° Laser Sonar Radar Sweep
   ctx.save();
   ctx.translate(W/2, H/2);
   const sweepAngle = relT * 4.2;
 
-  // Expanding circular sonar shockwaves
   for (let r = 100; r < 750; r += 140) {
     const waveR = Math.max(0, (r + Math.abs(relT) * 280) % 750);
     const waveAlpha = Math.max(0, 1.0 - waveR / 750);
@@ -884,7 +803,7 @@ function renderAct4(t) {
     ctx.stroke();
   }
 
-  // Laser Radar Beam
+  // Laser Scanner
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(Math.cos(sweepAngle) * 800, Math.sin(sweepAngle) * 800);
@@ -894,24 +813,13 @@ function renderAct4(t) {
   ctx.shadowBlur = 25;
   ctx.stroke();
 
-  // Radar Sector Light Cone
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.arc(0, 0, 800, sweepAngle - 0.45, sweepAngle);
-  ctx.closePath();
-  const coneGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, 800);
-  coneGrad.addColorStop(0, 'rgba(0, 229, 255, 0.4)');
-  coneGrad.addColorStop(1, 'rgba(0, 229, 255, 0.0)');
-  ctx.fillStyle = coneGrad;
-  ctx.fill();
-
-  // Identified Enemy Vectors (Audio pings translated to visual crosshairs)
+  // Target Locks
   const targets = [
-    { x: -320, y: -180, label: 'ENEMY VANDAL // 18m' },
-    { x: 380, y: -120, label: 'ENEMY OPERATOR // 34m' },
-    { x: 220, y: 260, label: 'DEFUSER LOCATED // 4.2s' }
+    { x: -340, y: -190, label: 'ENEMY VANDAL // 18m' },
+    { x: 400, y: -110, label: 'ENEMY OPERATOR // 34m' },
+    { x: 200, y: 240, label: 'DEFUSER CONFIRMED // 0.04s' }
   ];
-  targets.forEach((tgt, idx) => {
+  targets.forEach(tgt => {
     ctx.save();
     ctx.strokeStyle = '#ff2a4b';
     ctx.lineWidth = 2;
@@ -929,33 +837,33 @@ function renderAct4(t) {
 
   ctx.restore();
 
-  // Fast Hard-Hitting Cutlines Synced to 130 BPM War Drums
+  // Adrenaline Cutlines
   ctx.save();
   ctx.textAlign = 'center';
   if (relT < 4.0) {
-    ctx.font = '900 76px "Montserrat"';
+    ctx.font = '900 80px "Montserrat"';
     ctx.fillStyle = '#00e5ff';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 50;
     ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.18);
   } else if (relT < 8.0) {
-    ctx.font = '900 76px "Montserrat"';
-    ctx.fillStyle = '#ffd000';
+    ctx.font = '900 80px "Montserrat"';
+    ctx.fillStyle = '#ffd700';
     ctx.letterSpacing = '0.3em';
-    ctx.shadowColor = '#ffd000'; ctx.shadowBlur = 50;
-    ctx.fillText('45s MICRO-SPIKE RADAR', W/2, H * 0.18);
+    ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 50;
+    ctx.fillText('CLIPFORGE 9:16 VERTICAL REELS', W/2, H * 0.18);
   } else if (relT < 12.0) {
     ctx.font = '900 76px "Montserrat"';
     ctx.fillStyle = '#ff2a4b';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
-    ctx.fillText('ZERO MEMORY INJECTION • 100% VANGUARD SAFE', W/2, H * 0.18);
+    ctx.fillText('100% RIOT VANGUARD & VAC SAFE', W/2, H * 0.18);
   } else {
-    ctx.font = '900 84px "Montserrat"';
+    ctx.font = '900 88px "Montserrat"';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '0.35em';
     ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 60;
-    ctx.fillText('DEFUSE SECURED — ROUND WON', W/2, H * 0.18);
+    ctx.fillText('ACE // ROUND WON // 13 : 7', W/2, H * 0.18);
   }
   ctx.restore();
 
@@ -963,15 +871,12 @@ function renderAct4(t) {
   renderAnamorphicFlare(W/2 + Math.sin(t * 4) * 300, H/2, 1.2, '#00e5ff');
 }
 
-// ACT 5: MONUMENTAL TITLE CARD SLAM & CREDITS (0:70 - 0:85)
+// ACT 5: GRAND MONOLITHIC TITLE SLAM & CREDITS (0:70 - 0:85)
 function renderAct5(t) {
   const relT = t - 70.0;
-
-  // Ultra-deep cinema black
   ctx.fillStyle = '#020306';
   ctx.fillRect(0, 0, W, H);
 
-  // Background light beam
   const light = ctx.createLinearGradient(0, 0, W, H);
   light.addColorStop(0, 'rgba(0, 229, 255, 0.08)');
   light.addColorStop(0.5, 'rgba(0, 0, 0, 0.0)');
@@ -979,7 +884,7 @@ function renderAct5(t) {
   ctx.fillStyle = light;
   ctx.fillRect(0, 0, W, H);
 
-  // The Big Title Slam
+  // Metallic 3D Title Slam
   const titleAlpha = Math.min(1.0, relT / 0.8);
   const titleScale = Math.max(1.0, 1.3 - relT * 0.1);
 
@@ -988,29 +893,24 @@ function renderAct5(t) {
   ctx.scale(titleScale, titleScale);
   ctx.globalAlpha = titleAlpha;
 
-  // Metallic 3D-embossed Title
-  ctx.font = '900 110px "Cinzel"';
+  ctx.font = '900 115px "Cinzel"';
   ctx.textAlign = 'center';
   ctx.letterSpacing = '0.22em';
 
-  // Drop shadow
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
   ctx.fillText('GAMEPILOT PRO', 0, 8);
 
-  // Metallic Gradient Fill
   const metal = ctx.createLinearGradient(0, -70, 0, 40);
   metal.addColorStop(0, '#ffffff');
   metal.addColorStop(0.4, '#d8e5f5');
   metal.addColorStop(0.7, '#6b829e');
   metal.addColorStop(1, '#2c3b4e');
   ctx.fillStyle = metal;
-  ctx.shadowColor = 'rgba(0, 229, 255, 0.8)';
-  ctx.shadowBlur = 45;
+  ctx.shadowColor = 'rgba(0, 229, 255, 0.85)';
+  ctx.shadowBlur = 50;
   ctx.fillText('GAMEPILOT PRO', 0, 0);
-
   ctx.restore();
 
-  // Tagline
   if (relT > 1.2) {
     const tagAlpha = Math.min(1.0, (relT - 1.2) / 1.0);
     ctx.save();
@@ -1023,13 +923,13 @@ function renderAct5(t) {
     ctx.restore();
   }
 
-  // Hollywood Movie Billing Block (Credits)
+  // Movie Billing Credits
   if (relT > 2.5) {
     const credAlpha = Math.min(1.0, (relT - 2.5) / 1.5);
     ctx.save();
     ctx.globalAlpha = credAlpha * 0.75;
     ctx.font = '500 11px "Montserrat"';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.3em';
 
@@ -1041,7 +941,7 @@ function renderAct5(t) {
     ctx.font = '800 14px "JetBrains Mono"';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '0.45em';
-    ctx.fillText('AVAILABLE NOW // TOURNAMENT READY 2026', W/2, credY + 95);
+    ctx.fillText('OFFICIAL HACKATHON WORLD PREMIERE // 2026', W/2, credY + 95);
     ctx.restore();
   }
 
@@ -1050,7 +950,7 @@ function renderAct5(t) {
 }
 
 // -------------------------------------------------------------------------
-//  MAIN CINEMATIC RENDER LOOP WITH POST-PROCESSING
+//  MAIN CINEMATIC RENDER LOOP WITH CAMERA DYNAMICS
 // -------------------------------------------------------------------------
 
 function renderLoop(timestamp) {
@@ -1064,7 +964,6 @@ function renderLoop(timestamp) {
       stopSubDrone();
     }
 
-    // Process sound events
     processAudioTimeline(currentTime);
 
     // Update Scrubber
@@ -1073,12 +972,9 @@ function renderLoop(timestamp) {
     const secs = Math.floor(currentTime % 60);
     document.getElementById('time-curr').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
 
-    // Update particles and dynamics
     updateParticles();
     camShake = Math.max(0, camShake * 0.92);
-    shockwave = Math.max(0, shockwave * 0.94);
 
-    // Apply Camera Shake
     ctx.save();
     if (camShake > 0.5) {
       const sx = (Math.random() - 0.5) * camShake;
@@ -1086,11 +982,9 @@ function renderLoop(timestamp) {
       ctx.translate(sx, sy);
     }
 
-    // Clear
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, W, H);
 
-    // Scene Dispatcher
     if (currentTime < 18.0) {
       renderAct1(currentTime);
     } else if (currentTime < 42.0) {
@@ -1103,17 +997,22 @@ function renderLoop(timestamp) {
       renderAct5(currentTime);
     }
 
-    // Shockwave ring distortion - safely clamped
-    if (shockwave > 0.05) {
-      const swProgress = Math.max(0, Math.min(1.0, 1.0 - Math.min(1.0, shockwave)));
-      const swRadius = Math.max(0, swProgress * 1100);
-      if (swRadius > 0) {
-        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1.0, shockwave * 0.4)})`;
-        ctx.lineWidth = Math.max(1, shockwave * 8);
-        ctx.beginPath();
-        ctx.arc(W/2, H/2, swRadius, 0, Math.PI * 2);
-        ctx.stroke();
+    // Render expanding shockwaves safely
+    for (let i = shockwaves.length - 1; i >= 0; i--) {
+      const sw = shockwaves[i];
+      sw.radius += sw.speed;
+      sw.alpha = Math.max(0, sw.alpha * 0.94);
+      if (sw.radius > sw.maxRadius || sw.alpha <= 0.01) {
+        shockwaves.splice(i, 1);
+        continue;
       }
+      ctx.save();
+      ctx.strokeStyle = `rgba(255, 255, 255, ${sw.alpha})`;
+      ctx.lineWidth = sw.lineWidth;
+      ctx.beginPath();
+      ctx.arc(W/2, H/2, sw.radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
     }
 
     // Film Grain Post-Processing
@@ -1130,7 +1029,7 @@ function renderLoop(timestamp) {
 
     ctx.restore(); // Camera shake restore
   } catch (err) {
-    console.error("Render loop error:", err);
+    console.error("Render loop caught:", err);
   }
 
   if (isPlaying) {
@@ -1142,25 +1041,12 @@ function renderLoop(timestamp) {
 //  CONTROLS
 // -------------------------------------------------------------------------
 
-function igniteTrailer() {
-  setupAudio();
-  document.getElementById('theater-curtain').classList.add('hidden');
-  isPlaying = true;
-  startTime = performance.now();
-  scheduledEvents = [];
-  planAudioScore();
-  startSubDrone();
-  cancelAnimationFrame(animId);
-  animId = requestAnimationFrame(renderLoop);
-}
-
 function replayTrailer() {
-  if (ac) {
-    setupAudio();
-    stopSubDrone();
-  }
+  unlockAudioOnInteraction();
+  stopSubDrone();
   isPlaying = true;
   startTime = performance.now();
+  shockwaves = [];
   scheduledEvents = [];
   planAudioScore();
   startSubDrone();
@@ -1179,17 +1065,16 @@ function seekTrailer(event) {
   scheduledEvents = scheduledEvents.filter(ev => ev.time >= targetTime);
 }
 
-// Draw initial atmospheric preview on canvas before play
-(function drawPoster() {
-  ctx.fillStyle = '#020306';
-  ctx.fillRect(0, 0, W, H);
-  const grad = ctx.createRadialGradient(W/2, H/2, 50, W/2, H/2, H * 0.7);
-  grad.addColorStop(0, '#0a1424');
-  grad.addColorStop(1, '#000000');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
-  renderParticles(0.5);
-})();
+// =========================================================================
+//  INSTANT AUTOPLAY ON PAGE LOAD
+// =========================================================================
+window.addEventListener('DOMContentLoaded', () => {
+  startTime = performance.now();
+  isPlaying = true;
+  planAudioScore();
+  cancelAnimationFrame(animId);
+  animId = requestAnimationFrame(renderLoop);
+});
 </script>
 </body>
 </html>
