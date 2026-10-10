@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamePilot Pro — Official Cinematic Trailer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Syne:wght@800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --val-red: #FF4655;
+      --val-cyan: #00C8FF;
+      --val-gold: #F0B232;
+      --val-bg: #0F1923;
+      --val-panel: #1A2535;
+    }
+    html, body {
+      background: #000;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Cinematic letterbox ── */
+    #cinema-wrap {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #mainCanvas {
+      display: block;
+      max-width: 100vw;
+      max-height: 100vh;
+      image-rendering: crisp-edges;
+      cursor: pointer;
+    }
+
+    /* ── letterbox bars ── */
+    .bar-top, .bar-bot {
+      position: absolute;
+      left: 0; right: 0;
+      background: #000;
+      height: 0;
+      z-index: 10;
+      transition: height 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .bar-top { top: 0; }
+    .bar-bot { bottom: 0; }
+    .letterbox .bar-top, .letterbox .bar-bot { height: 8vh; }
+
+    /* ── Overlay HUD UI (rendered on top of canvas) ── */
+    #gamepilot-hud {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s;
+    }
+    #gamepilot-hud.visible { opacity: 1; }
+
+    /* GamePilot watermark ribbon */
+    .gp-ribbon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      animation: ribbonPulse 2s ease-in-out infinite;
+    }
+    .gp-ribbon .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 30%, var(--val-cyan) 70%, var(--val-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 0 40px rgba(0,200,255,0.6));
+    }
+    .gp-ribbon .sub-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+      color: var(--val-cyan);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+    @keyframes ribbonPulse {
+      0%,100% { filter: drop-shadow(0 0 20px rgba(0,200,255,0.4)); }
+      50% { filter: drop-shadow(0 0 60px rgba(0,200,255,0.9)); }
+    }
+
+    /* CTA bottom bar */
+    .gp-cta {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-gp {
+      padding: 14px 36px;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      text-transform: uppercase;
+      pointer-events: all;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--val-red);
+      color: #fff;
+      box-shadow: 0 0 30px rgba(255,70,85,0.5);
+    }
+    .btn-primary:hover { transform: scale(1.06); box-shadow: 0 0 50px rgba(255,70,85,0.9); }
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+    .btn-secondary:hover { border-color: var(--val-cyan); color: var(--val-cyan); }
+
+    /* scene label */
+    .scene-label {
+      position: absolute;
+      bottom: 12%;
+      right: 3%;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* progress bar */
+    .progress-bar-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      z-index: 20;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--val-cyan), var(--val-red));
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* play overlay */
+    #play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: rgba(0,0,0,0.72);
+      z-index: 30;
+      cursor: pointer;
+      transition: opacity 0.5s;
+    }
+    #play-overlay.hidden { opacity: 0; pointer-events: none; }
+    .play-btn-big {
+      width: 90px; height: 90px;
+      border: 3px solid var(--val-cyan);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      animation: playPulse 2s infinite;
+      transition: transform 0.2s;
+    }
+    .play-btn-big:hover { transform: scale(1.1); }
+    .play-btn-big svg { margin-left: 6px; }
+    @keyframes playPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,200,255,0.4); }
+      70% { box-shadow: 0 0 0 20px rgba(0,200,255,0); }
+    }
+    .play-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.2em;
+    }
+
+    /* flash overlay */
+    #flash { position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:25;transition:opacity 0.05s; }
+
+    /* skip btn */
+    #skip-btn {
+      position:absolute;top:20px;right:20px;
+      font-family:'JetBrains Mono',monospace;
+      font-size:0.8rem;color:rgba(255,255,255,0.4);
+      background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.15);
+      border-radius:4px;padding:6px 14px;cursor:pointer;z-index:20;
+      pointer-events:all;transition:all 0.2s;display:none;
+    }
+    #skip-btn:hover{color:#fff;border-color:rgba(255,255,255,0.5);}
+  </style>
+</head>
+<body>
+<div id="cinema-wrap" class="letterbox">
+  <div class="bar-top"></div>
+  <div class="bar-bot"></div>
+
+  <canvas id="mainCanvas" width="1280" height="720"></canvas>
+
+  <!-- GamePilot HUD overlay (shows at title card) -->
+  <div id="gamepilot-hud">
+    <div class="gp-ribbon">
+      <div class="logo-text">GAMEPILOT PRO</div>
+      <div class="sub-text">The AI Co-Pilot for Competitive Gaming</div>
+    </div>
+    <div class="gp-cta">
+      <button class="btn-gp btn-primary" onclick="window.open('index.html','_blank')">GET IT — ₹299/mo</button>
+      <button class="btn-gp btn-secondary" onclick="document.getElementById('play-overlay').classList.remove('hidden');playing=false;">↺ Replay</button>
+    </div>
+  </div>
+
+  <div class="scene-label" id="scene-label"></div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-bar"></div>
+  </div>
+
+  <div id="flash"></div>
+  <button id="skip-btn" onclick="skipToEnd()">SKIP ›</button>
+
+  <!-- Play overlay -->
+  <div id="play-overlay">
+    <div class="play-btn-big" onclick="startTrailer()">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--val-cyan)"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+    <div class="play-hint">CLICK TO PLAY — GAMEPILOT PRO OFFICIAL TRAILER</div>
+    <div style="color:rgba(255,255,255,0.25);font-size:0.75rem;font-family:'JetBrains Mono',monospace;margin-top:8px;">HD GAMEPLAY SIMULATION · 2:10 RUNTIME</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  GAMEPILOT PRO — CINEMATIC IN-ENGINE TRAILER ENGINE
+//  Renders authentic Valorant-style gameplay simulation
+//  using pure HTML5 Canvas 2D API
+// ═══════════════════════════════════════════════════════════════
+
+const canvas = document.getElementById('mainCanvas');
+const ctx = canvas.getContext('2d');
+const W = 1280, H = 720;
+canvas.width = W; canvas.height = H;
+
+let playing = false;
+let startTime = 0;
+let animFrame = null;
+let t = 0; // global time in seconds
+
+// ── Color palette ──────────────────────────────────────────────
+const C = {
+  bg:       '#0F1923',
+  panel:    '#1A2535',
+  panelDk:  '#111B28',
+  red:      '#FF4655',
+  cyan:     '#00C8FF',
+  gold:     '#F0B232',
+  green:    '#22DD77',
+  white:    '#ECE8E1',
+  grey:     '#8A9BAD',
+  greyDk:   '#3D4E5C',
+  spike:    '#C8A04A',
+  black:    '#070D14',
+};
+
+// ── AudioContext for synthesized sfx ──────────────────────────
+let audioCtx = null;
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+}
+function playTone(freq, type='sine', duration=0.1, vol=0.15, delay=0) {
+  if (!audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = type;
+  o.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+  g.gain.setValueAtTime(vol, audioCtx.currentTime + delay);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+  o.start(audioCtx.currentTime + delay);
+  o.stop(audioCtx.currentTime + delay + duration);
+}
+function playGunshot(vol=0.25) {
+  if (!audioCtx) return;
+  const bufSize = audioCtx.sampleRate * 0.18;
+  const buf = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSize; i++) {
+    const env = Math.exp(-i / (audioCtx.sampleRate * 0.04));
+    data[i] = (Math.random() * 2 - 1) * env;
+  }
+  const src = audioCtx.createBufferSource();
+  const g = audioCtx.createGain();
+  src.buffer = buf;
+  src.connect(g); g.connect(audioCtx.destination);
+  g.gain.setValueAtTime(vol, audioCtx.currentTime);
+  src.start();
+}
+function playBeep(freq=440, duration=0.5) { playTone(freq,'square',duration,0.12); }
+function playSpikeBeep(urgency) {
+  const freqs = [440, 494, 554, 622, 698, 784];
+  const f = freqs[Math.min(Math.floor(urgency * freqs.length), freqs.length-1)];
+  playTone(f, 'square', 0.06, 0.18);
+}
+
+// ── Helpers ────────────────────────────────────────────────────
+function lerp(a, b, t) { return a + (b - a) * t; }
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function easeOut(t) { return 1 - Math.pow(1-t, 3); }
+function easeIn(t) { return t * t * t; }
+function easeInOut(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+function fmt2(n) { return String(n).padStart(2,'0'); }
+function rgba(hex, a) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return 'rgba('+r+','+g+','+b+','+a+')';
+}
+
+// ── Flash effect ───────────────────────────────────────────────
+let flashVal = 0;
+function doFlash(color='#fff', intensity=1) {
+  const el = document.getElementById('flash');
+  el.style.background = color;
+  el.style.opacity = intensity;
+  setTimeout(()=>{ el.style.transition='opacity 0.3s'; el.style.opacity=0; }, 30);
+}
+
+// ── Font helpers ───────────────────────────────────────────────
+function text(str, x, y, size, color, align='left', font='Space Grotesk') {
+  ctx.font = size+'px "'+font+'"';
+  ctx.fillStyle = color;
+  ctx.textAlign = align;
+  ctx.fillText(str, x, y);
+}
+function textBold(str, x, y, size, color, align='left') {
+  text(str, x, y, size, color, align, 'Space Grotesk');
+}
+function textMono(str, x, y, size, color, align='left') {
+  text(str, x, y, size, color, align, 'JetBrains Mono');
+}
+function textSyne(str, x, y, size, color, align='left') {
+  text(str, x, y, size, color, align, 'Syne');
+}
+
+// ── Rect helpers ───────────────────────────────────────────────
+function rect(x, y, w, h, color, radius=0) {
+  ctx.fillStyle = color;
+  if (radius > 0) {
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, radius);
+    ctx.fill();
+  } else {
+    ctx.fillRect(x, y, w, h);
+  }
+}
+function border(x, y, w, h, color, lw=1, radius=0) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = lw;
+  if (radius > 0) {
+    ctx.beginPath(); ctx.roundRect(x, y, w, h, radius); ctx.stroke();
+  } else {
+    ctx.strokeRect(x, y, w, h);
+  }
+}
+function line(x1, y1, x2, y2, color, lw=1) {
+  ctx.strokeStyle = color; ctx.lineWidth = lw;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+}
+
+// ── Cinematic vertical bars ────────────────────────────────────
+function drawBars(pct) {
+  const barH = H * 0.08 * pct;
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, W, barH);
+  ctx.fillRect(0, H - barH, W, barH);
+}
+
+// ── Noise overlay ─────────────────────────────────────────────
+function drawNoise(alpha=0.04) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  for (let i = 0; i < 1200; i++) {
+    const x = Math.random()*W, y = Math.random()*H;
+    const v = Math.floor(Math.random()*255);
+    ctx.fillStyle = 'rgb('+v+','+v+','+v+')';
+    ctx.fillRect(x, y, 1, 1);
+  }
+  ctx.restore();
+}
+
+// ── Vignette ──────────────────────────────────────────────────
+function drawVignette(strength=0.6) {
+  const g = ctx.createRadialGradient(W/2,H/2,H*0.2,W/2,H/2,H*0.8);
+  g.addColorStop(0, 'rgba(0,0,0,0)');
+  g.addColorStop(1, 'rgba(0,0,0,'+strength+')');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+}
+
+// ── Scanlines ─────────────────────────────────────────────────
+function drawScanlines(alpha=0.03) {
+  ctx.save(); ctx.globalAlpha = alpha;
+  for (let y = 0; y < H; y += 3) {
+    ctx.fillStyle = '#000'; ctx.fillRect(0, y, W, 1);
+  }
+  ctx.restore();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  SCENE DEFINITIONS
+// ══════════════════════════════════════════════════════════════
+// Total: ~130s of content across 7 scenes
+
+const SCENES = [
+  { name:'BLACKSCREEN',  start:0,   end:1.5  },
+  { name:'TITLE_CARD',   start:1.5, end:7    },
+  { name:'BUY_PHASE',    start:7,   end:22   },
+  { name:'ROUND_1',      start:22,  end:50   },
+  { name:'SPIKE_PLANT',  start:50,  end:80   },
+  { name:'DEFUSE',       start:80,  end:105  },
+  { name:'VICTORY',      start:105, end:130  },
+];
+const TOTAL_DURATION = 130;
+
+function currentScene(t) {
+  for (let s of SCENES) if (t >= s.start && t < s.end) return s;
+  return SCENES[SCENES.length-1];
+}
+function sceneT(scene, t) { return clamp((t - scene.start)/(scene.end - scene.start), 0, 1); }
+
+// ══════════════════════════════════════════════════════════════
+//  VALORANT HUD ELEMENTS
+// ══════════════════════════════════════════════════════════════
+
+// ── Minimap (Ascent-inspired) ─────────────────────────────────
+const mapRooms = [
+  // x, y, w, h, label
+  [10,20,55,40,'A-SITE'],
+  [65,20,30,40,'A-LOBBY'],
+  [65,60,30,30,'MID'],
+  [65,90,30,30,'B-LOBBY'],
+  [10,90,55,40,'B-SITE'],
+  [10,60,55,30,'CT'],
+];
+const mapAgents = [
+  // x%, y%, color, alive, name
+  { x:0.18, y:0.65, col:'#23AA5C', alive:true,  name:'SAGE'   },
+  { x:0.22, y:0.70, col:'#3AA8F0', alive:true,  name:'SOVA'   },
+  { x:0.30, y:0.68, col:'#FF8C4C', alive:true,  name:'PHOENIX' },
+  { x:0.72, y:0.32, col:'#F0B232', alive:false, name:'JETT'   },
+  { x:0.78, y:0.40, col:'#BB44EE', alive:true,  name:'NEON'   },
+];
+
+function drawMinimap(mx, my, mw, mh, t) {
+  // Panel bg
+  ctx.save();
+  ctx.globalAlpha = 0.92;
+  rect(mx, my, mw, mh, C.panelDk, 4);
+  border(mx, my, mw, mh, rgba(C.cyan, 0.3), 1, 4);
+
+  // Map label
+  ctx.globalAlpha = 0.7;
+  ctx.font = '9px "JetBrains Mono"'; ctx.fillStyle='rgba(0,200,255,0.6)';
+  ctx.textAlign='left'; ctx.fillText('ASCENT', mx+4, my+10);
+
+  // Draw rooms
+  for (let [rx, ry, rw, rh, label] of mapRooms) {
+    const ax = mx + rx*(mw/130), ay = my + ry*(mh/130);
+    const aw = rw*(mw/130), ah = rh*(mh/130);
+    ctx.globalAlpha = 0.5;
+    rect(ax, ay, aw, ah, '#1D3044');
+    ctx.globalAlpha = 0.25;
+    border(ax, ay, aw, ah, C.cyan, 0.5);
+    ctx.globalAlpha = 0.4;
+    ctx.font = '6px "JetBrains Mono"'; ctx.fillStyle='#8AB'; ctx.textAlign='center';
+    ctx.fillText(label.slice(0,1), ax+aw/2, ay+ah/2+2);
+  }
+
+  // Agent dots
+  for (let ag of mapAgents) {
+    const ax = mx + ag.x * mw;
+    const ay = my + ag.y * mh;
+    ctx.globalAlpha = ag.alive ? 0.95 : 0.3;
+    ctx.beginPath();
+    ctx.arc(ax, ay, 4, 0, Math.PI*2);
+    ctx.fillStyle = ag.col;
+    ctx.fill();
+    // Arrow direction
+    if (ag.alive) {
+      const angle = t * 0.5 + ag.x * 10;
+      ctx.beginPath();
+      ctx.moveTo(ax + Math.cos(angle)*5, ay + Math.sin(angle)*5);
+      ctx.lineTo(ax + Math.cos(angle)*9, ay + Math.sin(angle)*9);
+      ctx.strokeStyle = ag.col; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+// ── Kill feed ─────────────────────────────────────────────────
+const killFeedEntries = [
+  { attacker:'JETT',   victim:'SAGE',   weapon:'VANDAL', headshot:true,  t:25 },
+  { attacker:'NEON',   victim:'SOVA',   weapon:'PHANTOM',headshot:false, t:31 },
+  { attacker:'SAGE',   victim:'JETT',   weapon:'SHERIFF',headshot:true,  t:38 },
+  { attacker:'PHOENIX',victim:'NEON',   weapon:'VANDAL', headshot:true,  t:44 },
+  { attacker:'SOVA',   victim:'PHOENIX',weapon:'OP',     headshot:false, t:62 },
+];
+
+function drawKillFeed(t) {
+  const entries = killFeedEntries.filter(e => t >= e.t && t < e.t + 5);
+  let ky = 80;
+  for (let e of entries) {
+    const age = t - e.t;
+    const alpha = age < 4 ? Math.min(1, age*3) : (5-age)*1;
+    ctx.save(); ctx.globalAlpha = clamp(alpha, 0, 1);
+    const kx = W - 260;
+    rect(kx-4, ky-14, 256, 20, rgba(C.black, 0.75), 2);
+    ctx.font = '11px "JetBrains Mono"'; ctx.textAlign='left';
+    ctx.fillStyle='#fff'; ctx.fillText(e.attacker, kx, ky);
+    const aw = ctx.measureText(e.attacker).width;
+    // weapon icon (text)
+    ctx.fillStyle=C.grey; ctx.fillText(' ['+e.weapon+'] ', kx+aw, ky);
+    const ww = ctx.measureText(' ['+e.weapon+'] ').width;
+    ctx.fillStyle = e.headshot ? C.gold : '#aaa';
+    ctx.fillText(e.victim, kx+aw+ww, ky);
+    if (e.headshot) {
+      ctx.fillStyle = C.gold; ctx.font='9px "JetBrains Mono"';
+      ctx.fillText('HS', kx+aw+ww+ctx.measureText(e.victim).width+4, ky);
+    }
+    ctx.restore();
+    ky += 24;
+  }
+}
+
+// ── Health/armor bar ──────────────────────────────────────────
+function drawHealthBar(health, armor, t) {
+  const bx = 60, by = H - 55;
+  // Shield icon
+  ctx.save();
+  ctx.font = '13px "JetBrains Mono"'; ctx.fillStyle = C.white;
+  ctx.textAlign='left'; ctx.fillText('♥', bx-22, by+13);
+  // HP bar bg
+  rect(bx, by, 160, 14, rgba(C.black, 0.7), 2);
+  const hpw = clamp(health/100, 0, 1) * 160;
+  const hpColor = health > 50 ? C.green : health > 25 ? C.gold : C.red;
+  rect(bx, by, hpw, 14, hpColor, 2);
+  ctx.font='11px "Space Grotesk"'; ctx.fillStyle='#fff';
+  ctx.textAlign='center'; ctx.fillText(health, bx+80, by+11);
+
+  // Armor
+  rect(bx, by+18, 100, 8, rgba(C.black, 0.7), 2);
+  const arw = clamp(armor/100, 0, 1) * 100;
+  rect(bx, by+18, arw, 8, C.cyan, 2);
+  ctx.restore();
+}
+
+// ── Ammo counter ──────────────────────────────────────────────
+function drawAmmo(ammo, reserve, t) {
+  const ax = W - 120, ay = H - 55;
+  ctx.save();
+  ctx.font='36px "JetBrains Mono"'; ctx.fillStyle=C.white;
+  ctx.textAlign='right'; ctx.fillText(ammo, ax, ay+30);
+  ctx.font='18px "JetBrains Mono"'; ctx.fillStyle=C.grey;
+  ctx.fillText(' / '+reserve, ax+5, ay+30);
+  ctx.font='10px "JetBrains Mono"'; ctx.fillStyle=C.grey;
+  ctx.textAlign='right'; ctx.fillText('VANDAL', ax+5, ay-5);
+  ctx.restore();
+}
+
+// ── Ability bar ───────────────────────────────────────────────
+const abilities = [
+  { key:'Q', name:'UPDRAFT', color:'#FF8C00', ready:true },
+  { key:'E', name:'TAILWIND',color:C.cyan,    ready:true },
+  { key:'C', name:'CLOUDBURST',color:'#88AAFF',ready:false },
+  { key:'X', name:'BLADE STORM',color:C.gold, ready:true },
+];
+function drawAbilities(t) {
+  const ax = W/2 - (abilities.length * 44)/2, ay = H - 68;
+  for (let i = 0; i < abilities.length; i++) {
+    const ab = abilities[i];
+    const bx = ax + i*44;
+    ctx.save();
+    ctx.globalAlpha = ab.ready ? 1 : 0.35;
+    rect(bx, ay, 38, 38, rgba(C.black, 0.8), 3);
+    border(bx, ay, 38, 38, ab.ready ? ab.color : C.greyDk, 1.5, 3);
+    ctx.font='13px "JetBrains Mono"'; ctx.fillStyle=ab.color;
+    ctx.textAlign='center'; ctx.fillText(ab.key, bx+19, ay+24);
+    ctx.font='7px "Space Grotesk"'; ctx.fillStyle=C.grey;
+    ctx.textAlign='center'; ctx.fillText(ab.name.slice(0,5), bx+19, ay+36);
+    ctx.restore();
+  }
+}
+
+// ── Round timer / HUD top bar ─────────────────────────────────
+function drawTopHUD(roundTime, roundNum, score_a, score_b, spiked) {
+  // Top center bar
+  const bw = 320, bh = 46, bx = W/2 - bw/2, by = 4;
+  rect(bx, by, bw, bh, rgba(C.black, 0.82), 6);
+  border(bx, by, bw, bh, rgba(255,255,255,0.1), 1, 6);
+
+  // Scores
+  ctx.save();
+  ctx.font='22px "Syne"'; ctx.textAlign='center';
+  ctx.fillStyle=C.red;   ctx.fillText(score_a, bx+62, by+30);
+  ctx.fillStyle=C.white; ctx.fillText(':', bx+bw/2, by+30);
+  ctx.fillStyle=C.cyan;  ctx.fillText(score_b, bx+bw-62, by+30);
+
+  // Round time
+  ctx.font='28px "JetBrains Mono"'; ctx.fillStyle = roundTime < 10 ? C.red : C.white;
+  ctx.fillText(fmt2(Math.floor(roundTime/60))+':'+fmt2(Math.floor(roundTime%60)), bx+bw/2, by+30);
+
+  // Round label
+  ctx.font='9px "JetBrains Mono"'; ctx.fillStyle=C.grey;
+  ctx.fillText('ROUND '+roundNum, bx+bw/2, by+12);
+
+  if (spiked) {
+    ctx.font='10px "JetBrains Mono"'; ctx.fillStyle=C.spike;
+    ctx.fillText('⬥ SPIKE PLANTED', bx+bw/2, by+43);
+  }
+  ctx.restore();
+}
+
+// ── Crosshair ─────────────────────────────────────────────────
+function drawCrosshair(spread=2) {
+  const cx = W/2, cy = H/2;
+  const gap = 4 + spread, len = 10, thick = 2;
+  ctx.save();
+  ctx.strokeStyle = C.cyan; ctx.lineWidth = thick;
+  // horizontal
+  ctx.beginPath(); ctx.moveTo(cx-gap-len, cy); ctx.lineTo(cx-gap, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+gap, cy); ctx.lineTo(cx+gap+len, cy); ctx.stroke();
+  // vertical
+  ctx.beginPath(); ctx.moveTo(cx, cy-gap-len); ctx.lineTo(cx, cy-gap); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy+gap); ctx.lineTo(cx, cy+gap+len); ctx.stroke();
+  // center dot
+  ctx.beginPath(); ctx.arc(cx, cy, 1.5, 0, Math.PI*2);
+  ctx.fillStyle = C.cyan; ctx.fill();
+  ctx.restore();
+}
+
+// ── Spike timer UI ─────────────────────────────────────────────
+function drawSpikeTimer(spikeT, urgency) {
+  const sw = 280, sh = 50;
+  const sx = W/2 - sw/2, sy = H - 120;
+  ctx.save();
+  ctx.globalAlpha = 0.95;
+  rect(sx, sy, sw, sh, rgba(C.black, 0.9), 6);
+  // spike icon
+  ctx.fillStyle = C.spike; ctx.font='20px "JetBrains Mono"';
+  ctx.textAlign='left'; ctx.fillText('⬥', sx+12, sy+32);
+  // bar
+  const barX = sx+40, barW = sw-56;
+  rect(barX, sy+16, barW, 12, rgba(C.greyDk, 0.6), 3);
+  const pct = clamp(spikeT/45, 0, 1);
+  const barColor = pct < 0.3 ? C.red : pct < 0.6 ? C.gold : C.green;
+  rect(barX, sy+16, barW*pct, 12, barColor, 3);
+  // beep glow
+  if (urgency > 0.5) {
+    ctx.shadowColor = C.red; ctx.shadowBlur = 20*urgency;
+  }
+  // time text
+  ctx.fillStyle = '#fff'; ctx.font='13px "JetBrains Mono"'; ctx.textAlign='right';
+  ctx.fillText(spikeT.toFixed(1)+'s', sx+sw-8, sy+32);
+  // GAMEPILOT PRO tag
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = C.cyan; ctx.font='8px "JetBrains Mono"'; ctx.textAlign='left';
+  ctx.fillText('GAMEPILOT PRO · SPIKE TIMER', sx+40, sy+46);
+  ctx.restore();
+}
+
+// ── GamePilot overlay indicator ───────────────────────────────
+function drawGPOverlay(active, feature) {
+  if (!active) return;
+  const ox = W - 180, oy = H - 120;
+  ctx.save();
+  ctx.globalAlpha = 0.85 + Math.sin(t*4)*0.1;
+  rect(ox, oy, 172, 40, rgba(C.black, 0.88), 6);
+  border(ox, oy, 172, 40, rgba(0,200,255,0.5), 1, 6);
+  ctx.fillStyle = C.cyan; ctx.font='9px "JetBrains Mono"';
+  ctx.textAlign='left'; ctx.fillText('⬥ GAMEPILOT PRO', ox+8, oy+14);
+  ctx.fillStyle=C.white; ctx.font='10px "Space Grotesk"';
+  ctx.fillText(feature, ox+8, oy+30);
+  ctx.restore();
+}
+
+// ── Sonar radar ───────────────────────────────────────────────
+let sonarWaves = [];
+function addSonarPing(x, y) {
+  sonarWaves.push({ x, y, r: 0, max: 80, t: 0 });
+}
+function drawSonarRadar(cx, cy, radius, t) {
+  ctx.save();
+  ctx.globalAlpha = 0.9;
+  // base circle
+  ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI*2);
+  ctx.fillStyle = rgba(C.panelDk, 0.9); ctx.fill();
+  ctx.strokeStyle = rgba(C.cyan, 0.4); ctx.lineWidth=1.5; ctx.stroke();
+  // rings
+  for (let r = radius/3; r <= radius; r += radius/3) {
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
+    ctx.strokeStyle = rgba(C.cyan, 0.12); ctx.lineWidth=1; ctx.stroke();
+  }
+  // cross
+  line(cx-radius, cy, cx+radius, cy, rgba(C.cyan,0.15), 1);
+  line(cx, cy-radius, cx, cy+radius, rgba(C.cyan,0.15), 1);
+  // sweep line
+  const ang = t * 1.5;
+  ctx.beginPath(); ctx.moveTo(cx, cy);
+  ctx.lineTo(cx+Math.cos(ang)*radius, cy+Math.sin(ang)*radius);
+  ctx.strokeStyle = rgba(C.cyan, 0.8); ctx.lineWidth=1.5; ctx.stroke();
+  // sweep glow sector
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.arc(cx, cy, radius, ang-0.4, ang);
+  ctx.closePath();
+  const sg = ctx.createLinearGradient(cx, cy, cx+Math.cos(ang)*radius, cy+Math.sin(ang)*radius);
+  sg.addColorStop(0, 'rgba(0,200,255,0)');
+  sg.addColorStop(1, 'rgba(0,200,255,0.15)');
+  ctx.fillStyle = sg; ctx.fill();
+  // clip to circle for waves
+  ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI*2); ctx.clip();
+  // waves
+  for (let w of sonarWaves) {
+    w.r += 0.8; w.t++;
+    const wa = clamp(1 - w.r/w.max, 0, 1);
+    ctx.beginPath(); ctx.arc(w.x, w.y, w.r, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(255,70,85,'+wa+')'; ctx.lineWidth=1.5; ctx.stroke();
+    // dot
+    ctx.beginPath(); ctx.arc(w.x, w.y, 3, 0, Math.PI*2);
+    ctx.fillStyle = C.red; ctx.fill();
+  }
+  sonarWaves = sonarWaves.filter(w => w.r < w.max);
+  // label
+  ctx.fillStyle = rgba(C.cyan, 0.5); ctx.font='8px "JetBrains Mono"';
+  ctx.textAlign='center'; ctx.fillText('AUDIO SONAR', cx, cy+radius+12);
+  ctx.restore();
+}
+
+// ── Buy menu scene ─────────────────────────────────────────────
+function drawBuyMenu(pct) {
+  // Dark background with map preview
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#0A1420');
+  bg.addColorStop(1, '#0D1B2A');
+  rect(0, 0, W, H, '#0A1420');
+  // grid lines
+  for (let x = 0; x < W; x += 60) line(x, 0, x, H, 'rgba(0,200,255,0.025)', 1);
+  for (let y = 0; y < H; y += 60) line(0, y, W, y, 'rgba(0,200,255,0.025)', 1);
+
+  // Buy menu panel
+  const pw = 520, ph = 460, px = W/2-pw/2, py = H/2-ph/2;
+  ctx.save(); ctx.globalAlpha = pct;
+  rect(px, py, pw, ph, rgba(C.black, 0.95), 8);
+  border(px, py, pw, ph, rgba(C.cyan,0.3), 1.5, 8);
+  // header
+  rect(px, py, pw, 38, rgba(C.cyan, 0.08), 0);
+  textMono('BUY MENU', px+16, py+25, 13, C.cyan);
+  textMono('CREDS: 4,700', px+pw-100, py+25, 13, C.gold);
+
+  const weapons = [
+    { name:'VANDAL',     cost:2900, cat:'RIFLES',   color:'#FF6B35' },
+    { name:'PHANTOM',    cost:2900, cat:'RIFLES',   color:'#7B68EE' },
+    { name:'OPERATOR',   cost:4700, cat:'SNIPERS',  color:'#20B2AA' },
+    { name:'SPECTRE',    cost:1600, cat:'SMGs',     color:'#DAA520' },
+    { name:'ODIN',       cost:3200, cat:'LMGs',     color:'#DC143C' },
+    { name:'SHORTY',     cost:300,  cat:'SIDEARMS', color:'#696969' },
+  ];
+  let wx = px+16, wy = py+56;
+  for (let i=0;i<weapons.length;i++) {
+    const wep = weapons[i];
+    const row = Math.floor(i/3), col = i%3;
+    const bx = px+16 + col*165, by = py+56 + row*170;
+    rect(bx, by, 155, 155, rgba(C.panel, 0.8), 6);
+    border(bx, by, 155, 155, rgba(wep.color, 0.4), 1, 6);
+    // category tag
+    ctx.save(); ctx.globalAlpha=0.6;
+    rect(bx+4, by+4, 80, 14, rgba(wep.color, 0.2), 3);
+    textMono(wep.cat, bx+8, by+15, 8, wep.color);
+    ctx.restore();
+    // weapon name
+    ctx.font='13px "Syne"'; ctx.fillStyle='#fff'; ctx.textAlign='left';
+    ctx.fillText(wep.name, bx+8, by+90);
+    // cost
+    ctx.font='11px "JetBrains Mono"'; ctx.fillStyle=C.gold;
+    ctx.fillText('₵ '+wep.cost.toLocaleString(), bx+8, by+110);
+    // weapon silhouette (just a stylized rect)
+    const sl = wep.name === 'OPERATOR' ? 110 : wep.name === 'ODIN' ? 90 : 80;
+    const sh2 = wep.name === 'OPERATOR' ? 8 : 6;
+    ctx.fillStyle = rgba(wep.color, 0.5);
+    ctx.fillRect(bx+10, by+50, sl, sh2);
+    ctx.fillRect(bx+10, by+50+sh2, 18, 14);
+    // buy button
+    rect(bx+8, by+125, 139, 22, rgba(wep.color, 0.25), 4);
+    border(bx+8, by+125, 139, 22, rgba(wep.color, 0.5), 1, 4);
+    textMono('EQUIP', bx+78, by+140, 9, wep.color, 'center');
+  }
+  ctx.restore();
+}
+
+// ── FPS Scene environment (Valorant-style map geometry) ─────────
+function drawFPSEnvironment(sceneProgress) {
+  // Sky / environment
+  const skyG = ctx.createLinearGradient(0, 0, 0, H*0.6);
+  skyG.addColorStop(0, '#0A1520');
+  skyG.addColorStop(1, '#1A2C3D');
+  rect(0, 0, W, H*0.6, '#0A1520');
+  ctx.fillStyle = skyG; ctx.fillRect(0, 0, W, H*0.6);
+
+  // Sun/light source
+  const lx = W*0.7, ly = H*0.1;
+  const lg = ctx.createRadialGradient(lx, ly, 0, lx, ly, 120);
+  lg.addColorStop(0, 'rgba(255,220,150,0.2)');
+  lg.addColorStop(1, 'rgba(255,220,150,0)');
+  ctx.fillStyle=lg; ctx.fillRect(0,0,W,H*0.6);
+
+  // Ground
+  const groundG = ctx.createLinearGradient(0, H*0.55, 0, H);
+  groundG.addColorStop(0,'#1C2E1E');
+  groundG.addColorStop(1,'#111A12');
+  ctx.fillStyle=groundG; ctx.fillRect(0,H*0.55,W,H*0.45);
+
+  // Perspective grid on ground
+  ctx.save(); ctx.globalAlpha=0.15;
+  const vp = {x:W/2, y:H*0.55};
+  for (let i=-8;i<=8;i++) {
+    ctx.beginPath(); ctx.moveTo(vp.x,vp.y);
+    ctx.lineTo(vp.x + i*120, H+100);
+    ctx.strokeStyle=C.cyan; ctx.lineWidth=0.8; ctx.stroke();
+  }
+  for (let i=1;i<=6;i++) {
+    const y = vp.y + i*i*8;
+    if (y > H) break;
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y);
+    ctx.strokeStyle=C.cyan; ctx.lineWidth=0.4; ctx.stroke();
+  }
+  ctx.restore();
+
+  // Buildings / walls (Ascent A-site style)
+  // Main wall
+  ctx.save(); ctx.globalAlpha=0.9;
+  const wallColor = '#1A2830';
+  rect(0,    H*0.1, W*0.18,  H*0.45, wallColor);
+  rect(W*0.82, H*0.1, W*0.18, H*0.45, wallColor);
+  rect(W*0.2, H*0.08, W*0.6,  H*0.08, '#152028');
+  // Wall detail lines
+  for (let i=0;i<6;i++) {
+    line(W*0.2+i*W*0.1, H*0.08, W*0.2+i*W*0.1, H*0.16, rgba(C.cyan,0.08), 1);
+  }
+  // Windows
+  const winColor = 'rgba(150,200,255,0.15)';
+  for (let wx2=0.23; wx2<0.75; wx2+=0.1) {
+    rect(W*wx2, H*0.1, W*0.06, H*0.04, winColor, 2);
+    border(W*wx2, H*0.1, W*0.06, H*0.04, rgba(C.cyan,0.3), 0.5, 2);
+  }
+  // Foreground crates
+  const crateC = '#1D2D20';
+  rect(W*0.12, H*0.42, 80, 80, crateC);
+  border(W*0.12, H*0.42, 80, 80, rgba(C.cyan,0.15), 1);
+  rect(W*0.12+10, H*0.42-35, 60, 35, crateC);
+  border(W*0.12+10, H*0.42-35, 60, 35, rgba(C.cyan,0.1), 1);
+  rect(W*0.78, H*0.44, 90, 70, crateC);
+  border(W*0.78, H*0.44, 90, 70, rgba(C.cyan,0.15), 1);
+  // Spike site marker
+  rect(W/2-40, H*0.5, 80, 10, rgba(C.spike,0.5), 2);
+  textMono('A', W/2, H*0.55, 14, rgba(C.spike,0.7), 'center');
+  ctx.restore();
+
+  // Enemy agent silhouette
+  const eAlpha = Math.sin(sceneProgress * Math.PI) * 0.9;
+  if (eAlpha > 0) {
+    ctx.save(); ctx.globalAlpha=eAlpha;
+    const ex = W*0.6, ey = H*0.28;
+    // body
+    ctx.fillStyle = '#FF4655';
+    ctx.beginPath();
+    ctx.ellipse(ex, ey, 12, 20, 0, 0, Math.PI*2);
+    ctx.fill();
+    // head
+    ctx.beginPath(); ctx.arc(ex, ey-28, 10, 0, Math.PI*2);
+    ctx.fillStyle='#FF4655'; ctx.fill();
+    // gun
+    ctx.fillStyle='#888';
+    ctx.fillRect(ex+8, ey-8, 28, 5);
+    ctx.restore();
+  }
+}
+
+// ── Spike plant animation ─────────────────────────────────────
+let plantParticles = [];
+function initPlantParticles() {
+  plantParticles = [];
+  for (let i=0;i<30;i++) {
+    plantParticles.push({
+      x:W/2, y:H*0.52,
+      vx:(Math.random()-0.5)*4,
+      vy:-(Math.random()*3+1),
+      life:1, col: Math.random()>0.5?C.spike:C.gold,
+      r: Math.random()*4+1
+    });
+  }
+}
+function updatePlantParticles() {
+  for (let p of plantParticles) {
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.life-=0.015;
+  }
+  plantParticles=plantParticles.filter(p=>p.life>0);
+}
+function drawPlantParticles() {
+  for (let p of plantParticles) {
+    ctx.save(); ctx.globalAlpha=p.life*0.8;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.col; ctx.fill();
+    ctx.restore();
+  }
+}
+
+function drawSpikePlant(spikePct, spikeTime) {
+  // Plant ring animation
+  const cx = W/2, cy = H*0.52;
+  ctx.save();
+  // outer ring
+  const ringR = 40 + spikePct*20;
+  ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI*2);
+  ctx.strokeStyle=rgba(C.spike, 0.8*spikePct); ctx.lineWidth=3; ctx.stroke();
+  // inner pulsing
+  ctx.beginPath(); ctx.arc(cx, cy, 12*(0.8+Math.sin(spikeTime*8)*0.2), 0, Math.PI*2);
+  ctx.fillStyle=rgba(C.spike, 0.9); ctx.fill();
+  // spike icon (diamond)
+  ctx.save();
+  ctx.translate(cx, cy); ctx.rotate(Math.PI/4);
+  ctx.fillStyle=C.gold;
+  ctx.fillRect(-7,-7,14,14);
+  ctx.restore();
+  // Planted banner
+  if (spikePct >= 1) {
+    const bw=300, bh=36;
+    rect(W/2-bw/2, H*0.14, bw, bh, rgba(C.spike,0.15), 4);
+    border(W/2-bw/2, H*0.14, bw, bh, rgba(C.spike,0.6), 1.5, 4);
+    textMono('⬥  SPIKE PLANTED', W/2, H*0.14+24, 14, C.spike, 'center');
+  }
+  ctx.restore();
+  updatePlantParticles();
+  drawPlantParticles();
+}
+
+// ── Round win screen ──────────────────────────────────────────
+function drawVictoryScreen(pct, attackerWin) {
+  const col = attackerWin ? C.red : C.cyan;
+  const label = attackerWin ? 'ATTACK WINS' : 'DEFENSE WINS';
+  // Dark overlay
+  ctx.save();
+  ctx.globalAlpha = pct * 0.88;
+  rect(0, 0, W, H, C.black);
+  // Colored stripes
+  ctx.globalAlpha = pct * 0.15;
+  rect(0, H*0.3, W, H*0.4, col);
+  ctx.globalAlpha = pct;
+  // Round won banner
+  const bh=120, by=H/2-bh/2;
+  const bg = ctx.createLinearGradient(0, by, W, by);
+  bg.addColorStop(0,'rgba(0,0,0,0)');
+  bg.addColorStop(0.5, rgba(col,0.2));
+  bg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=bg; ctx.fillRect(0,by,W,bh);
+  // Text
+  ctx.font='72px "Syne"'; ctx.fillStyle=col; ctx.textAlign='center';
+  ctx.fillText(label, W/2, H/2+10);
+  // Scoreline
+  ctx.font='24px "JetBrains Mono"'; ctx.fillStyle='rgba(255,255,255,0.5)';
+  ctx.fillText('13 : 7 — MATCH POINT', W/2, H/2+50);
+  // Agent info
+  const agents=[{name:'JETT',kda:'18/4/6',rating:'RADIANT ACE'},{name:'SAGE',kda:'8/2/11',rating:'MVP'},{name:'PHOENIX',kda:'12/6/4',rating:''}];
+  let ax=W/2-240;
+  for (let ag of agents) {
+    ctx.font='14px "Syne"'; ctx.fillStyle='#fff';
+    ctx.fillText(ag.name, ax+40, H/2+100);
+    ctx.font='11px "JetBrains Mono"'; ctx.fillStyle=C.grey;
+    ctx.fillText(ag.kda, ax+40, H/2+118);
+    if (ag.rating) { ctx.fillStyle=C.gold; ctx.fillText(ag.rating, ax+40, H/2+133); }
+    ax+=160;
+  }
+  // MVP glow line
+  ctx.globalAlpha=pct*0.5;
+  const mvgW=400;
+  rect(W/2-mvgW/2, H/2+74, mvgW, 2, col);
+  ctx.restore();
+}
+
+// ── Title card ────────────────────────────────────────────────
+function drawTitleCard(t, pct) {
+  const bg = ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,H);
+  bg.addColorStop(0,'#0D1B2A');
+  bg.addColorStop(1,'#050B12');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  // Subtle hex grid
+  ctx.save(); ctx.globalAlpha=0.04;
+  const step=60;
+  for (let gx=0;gx<W+step;gx+=step*1.5) {
+    for (let gy=0;gy<H+step;gy+=step) {
+      const ox=(Math.floor(gy/step)%2)*step*0.75;
+      hexPath(ctx, gx+ox, gy, step*0.4);
+      ctx.strokeStyle=C.cyan; ctx.lineWidth=0.5; ctx.stroke();
+    }
+  }
+  ctx.restore();
+
+  // Lines shooting in
+  const lineAlpha = easeOut(Math.min(pct*3,1));
+  ctx.save(); ctx.globalAlpha=lineAlpha*0.4;
+  for (let i=0;i<5;i++) {
+    const y2 = H/2-40+i*20;
+    ctx.strokeStyle=C.cyan; ctx.lineWidth=0.5;
+    ctx.beginPath(); ctx.moveTo(0,y2); ctx.lineTo(W,y2); ctx.stroke();
+  }
+  ctx.restore();
+
+  // Main logo text
+  const logoAlpha = easeOut(Math.min(pct*2,1));
+  ctx.save(); ctx.globalAlpha=logoAlpha;
+  ctx.font='bold 90px "Syne"'; ctx.textAlign='center';
+  // gradient fill
+  const lg2 = ctx.createLinearGradient(W/2-300, 0, W/2+300, 0);
+  lg2.addColorStop(0,C.white);
+  lg2.addColorStop(0.5,C.cyan);
+  lg2.addColorStop(1,C.red);
+  ctx.fillStyle=lg2;
+  ctx.fillText('GAMEPILOT', W/2, H/2-20);
+  ctx.font='bold 90px "Syne"'; ctx.fillStyle=C.red;
+  ctx.fillText('PRO', W/2, H/2+75);
+  // tagline
+  ctx.font='15px "JetBrains Mono"'; ctx.fillStyle='rgba(0,200,255,0.7)';
+  ctx.fillText('THE AI CO-PILOT FOR COMPETITIVE GAMING', W/2, H/2+115);
+  ctx.restore();
+  // animated corner marks
+  ctx.save(); ctx.globalAlpha=logoAlpha*0.6;
+  const cs=25, cm=30;
+  ctx.strokeStyle=C.cyan; ctx.lineWidth=2;
+  // TL
+  ctx.beginPath(); ctx.moveTo(cm,cm+cs); ctx.lineTo(cm,cm); ctx.lineTo(cm+cs,cm); ctx.stroke();
+  // TR
+  ctx.beginPath(); ctx.moveTo(W-cm-cs,cm); ctx.lineTo(W-cm,cm); ctx.lineTo(W-cm,cm+cs); ctx.stroke();
+  // BL
+  ctx.beginPath(); ctx.moveTo(cm,H-cm-cs); ctx.lineTo(cm,H-cm); ctx.lineTo(cm+cs,H-cm); ctx.stroke();
+  // BR
+  ctx.beginPath(); ctx.moveTo(W-cm-cs,H-cm); ctx.lineTo(W-cm,H-cm); ctx.lineTo(W-cm,H-cm-cs); ctx.stroke();
+  ctx.restore();
+  // version tag
+  ctx.save(); ctx.globalAlpha=logoAlpha*0.4;
+  textMono('v2.0 · BUILD 2026.10', W/2, H-30, 11, C.grey, 'center');
+  ctx.restore();
+}
+function hexPath(ctx2, x, y, r) {
+  ctx2.beginPath();
+  for (let i=0;i<6;i++) {
+    const a=Math.PI/3*i-Math.PI/6;
+    if(i===0) ctx2.moveTo(x+r*Math.cos(a),y+r*Math.sin(a));
+    else ctx2.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));
+  }
+  ctx2.closePath();
+}
+
+// ── Weapon model (FPS hand+gun render) ───────────────────────
+function drawWeapon(recoil) {
+  const bx=W-260, by=H-180+recoil*12;
+  ctx.save();
+  // Hand
+  ctx.fillStyle='#8B6914';
+  ctx.beginPath(); ctx.roundRect(bx+40, by+80, 60, 90, 6); ctx.fill();
+  // Gun body
+  ctx.fillStyle='#1A1A1A';
+  ctx.beginPath(); ctx.roundRect(bx, by, 220, 50, 4); ctx.fill();
+  ctx.fillStyle='#2A2A2A';
+  ctx.beginPath(); ctx.roundRect(bx+80, by+8, 120, 30, 3); ctx.fill();
+  // Barrel
+  ctx.fillStyle='#111';
+  ctx.fillRect(bx+200, by+12, 60, 18);
+  // Magazine
+  ctx.fillStyle='#1A1A1A';
+  ctx.beginPath(); ctx.roundRect(bx+60, by+48, 28, 45, 3); ctx.fill();
+  // Scope/sight
+  ctx.fillStyle='#333'; ctx.fillRect(bx+120, by-8, 40, 10);
+  ctx.fillStyle=rgba(C.red,0.8); ctx.beginPath(); ctx.arc(bx+140, by-3, 3, 0, Math.PI*2); ctx.fill();
+  // Trigger guard
+  ctx.strokeStyle='#333'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(bx+80, by+48, 20, 0, Math.PI, false); ctx.stroke();
+  // Brand tag
+  ctx.fillStyle=rgba(C.red,0.5); ctx.font='8px "JetBrains Mono"';
+  ctx.textAlign='left'; ctx.fillText('VANDAL', bx+10, by+28);
+  ctx.restore();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  AUDIO SCHEDULE
+// ══════════════════════════════════════════════════════════════
+const audioSchedule = [
+  { t:2,   fn: ()=>playTone(220,'sine',0.6,0.06) },
+  { t:2.3, fn: ()=>playTone(330,'sine',0.4,0.08) },
+  { t:2.6, fn: ()=>playTone(440,'sine',0.8,0.12) },
+  { t:7.5, fn: ()=>playTone(880,'sine',0.1,0.2) },
+  { t:25,  fn: ()=>playGunshot(0.3) },
+  { t:25.5,fn: ()=>playTone(300,'square',0.08,0.05) },
+  { t:31,  fn: ()=>playGunshot(0.25) },
+  { t:31.3,fn: ()=>playGunshot(0.2) },
+  { t:38,  fn: ()=>playGunshot(0.35) },
+  { t:44,  fn: ()=>{ playGunshot(0.3); playTone(200,'sawtooth',0.15,0.1,0.1); }},
+  { t:52,  fn: ()=>{ playTone(440,'square',0.15,0.18); playTone(554,'square',0.15,0.18,0.08); }},
+  { t:54,  fn: ()=>playSpikeBeep(0.1) },
+  { t:56,  fn: ()=>playSpikeBeep(0.2) },
+  { t:58,  fn: ()=>playSpikeBeep(0.3) },
+  { t:60,  fn: ()=>{ addSonarPing(110,90); playSpikeBeep(0.4); }},
+  { t:63,  fn: ()=>playGunshot(0.25) },
+  { t:65,  fn: ()=>playSpikeBeep(0.6) },
+  { t:68,  fn: ()=>playSpikeBeep(0.75) },
+  { t:70,  fn: ()=>{ addSonarPing(95,100); playSpikeBeep(0.9); }},
+  { t:80,  fn: ()=>playTone(220,'sine',0.5,0.15) },
+  { t:82,  fn: ()=>playTone(330,'sine',0.4,0.18) },
+  { t:84,  fn: ()=>{ playTone(660,'sawtooth',0.3,0.2); addSonarPing(115,80); }},
+  { t:88,  fn: ()=>playGunshot(0.3) },
+  { t:105, fn: ()=>{ playTone(880,'sine',0.3,0.25); playTone(1100,'sine',0.5,0.2,0.15); }},
+  { t:107, fn: ()=>playTone(1320,'sine',0.8,0.3) },
+];
+let audioFired = {};
+function processAudio(t) {
+  for (let a of audioSchedule) {
+    if (t >= a.t && !audioFired[a.t]) {
+      audioFired[a.t] = true;
+      a.fn();
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MAIN RENDER LOOP
+// ══════════════════════════════════════════════════════════════
+let recoilAnim = 0;
+let plantInitialized = false;
+let prevScene = '';
+
+function render(now) {
+  if (!playing) return;
+  t = (now - startTime) / 1000;
+  if (t > TOTAL_DURATION) { t = TOTAL_DURATION; endTrailer(); return; }
+
+  // Progress bar
+  document.getElementById('progress-bar').style.width = (t/TOTAL_DURATION*100)+'%';
+
+  // Audio
+  processAudio(t);
+
+  // Scene
+  const scene = currentScene(t);
+  const st = sceneT(scene, t);
+  if (scene.name !== prevScene) {
+    if (scene.name !== 'BLACKSCREEN' && scene.name !== 'TITLE_CARD') doFlash(C.black, 0.9);
+    prevScene = scene.name;
+    document.getElementById('scene-label').textContent = scene.name.replace('_',' ');
+  }
+
+  // Clear
+  ctx.clearRect(0, 0, W, H);
+
+  // ── SCENE: BLACKSCREEN ──
+  if (scene.name === 'BLACKSCREEN') {
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+    const a = st > 0.5 ? easeOut((st-0.5)*2) : 0;
+    ctx.save(); ctx.globalAlpha=a;
+    textMono('VALORANT · ASCENT · ROUND 12', W/2, H/2, 13, rgba(C.cyan,0.6),'center');
+    ctx.restore();
+  }
+  // ── SCENE: TITLE_CARD ──
+  else if (scene.name === 'TITLE_CARD') {
+    const fadeOut = st > 0.85 ? 1-(st-0.85)/0.15 : 1;
+    ctx.save(); ctx.globalAlpha=fadeOut;
+    drawTitleCard(t, st);
+    ctx.restore();
+  }
+  // ── SCENE: BUY_PHASE ──
+  else if (scene.name === 'BUY_PHASE') {
+    drawBuyMenu(easeOut(Math.min(st*3,1)));
+    // Minimap
+    drawMinimap(W-145, 50, 130, 130, t);
+    // Top HUD
+    drawTopHUD(90 - st*90, 12, 6, 5, false);
+    // Buy phase timer ring
+    const trX=W/2, trY=H-80, trR=28;
+    const trPct = 1-st;
+    ctx.beginPath();
+    ctx.arc(trX,trY,trR,-Math.PI/2,-Math.PI/2+trPct*Math.PI*2);
+    ctx.strokeStyle=C.gold; ctx.lineWidth=4; ctx.stroke();
+    ctx.font='11px "JetBrains Mono"'; ctx.textAlign='center'; ctx.fillStyle=C.gold;
+    ctx.fillText(Math.max(0,Math.floor(30-st*30))+'s', trX, trY+4);
+    textMono('BUY PHASE', trX, trY+26, 9, C.grey, 'center');
+    drawNoise(); drawVignette(0.3); drawScanlines();
+    drawBars(1);
+  }
+  // ── SCENE: ROUND_1 (FPS gameplay) ──
+  else if (scene.name === 'ROUND_1') {
+    const roundTime = 95 - st*95;
+    // camera shake on gunshots
+    const shake = recoilAnim > 0 ? (Math.random()-0.5)*4*recoilAnim : 0;
+    ctx.save(); ctx.translate(shake, shake*0.5);
+    drawFPSEnvironment(st);
+    ctx.restore();
+    // kill feed
+    drawKillFeed(t);
+    // weapon
+    recoilAnim = Math.max(0, recoilAnim - 0.05);
+    drawWeapon(recoilAnim);
+    // HUD elements
+    drawTopHUD(roundTime, 12, 6, 5, false);
+    const hp = Math.max(20, 100 - Math.floor(st*40));
+    const ar = Math.max(0, 100 - Math.floor(st*60));
+    drawHealthBar(hp, ar, t);
+    drawAmmo(Math.max(0, 25-Math.floor(st*18)), 75, t);
+    drawAbilities(t);
+    drawCrosshair(recoilAnim*6);
+    drawMinimap(20, 50, 130, 130, t);
+    drawGPOverlay(st>0.3, st>0.6?'RECOIL METRONOME ON':'SPIKE TIMER ACTIVE');
+    drawNoise(0.03); drawVignette(0.45); drawScanlines(0.02); drawBars(1);
+  }
+  // ── SCENE: SPIKE_PLANT ──
+  else if (scene.name === 'SPIKE_PLANT') {
+    if (!plantInitialized) { initPlantParticles(); plantInitialized=true; }
+    drawFPSEnvironment(0.5);
+    const spikeProgress = easeInOut(Math.min(st*2, 1));
+    drawSpikePlant(spikeProgress, t);
+    const spikeTimeLeft = 45 - st*45;
+    drawSpikeTimer(spikeTimeLeft, 1-spikeTimeLeft/45);
+    drawKillFeed(t);
+    drawWeapon(0);
+    drawTopHUD(45-st*45, 12, 7, 5, st>0.4);
+    drawHealthBar(Math.max(25,80-Math.floor(st*30)), 0, t);
+    drawAmmo(Math.max(0, 18-Math.floor(st*10)), 60, t);
+    drawAbilities(t);
+    drawCrosshair(0);
+    drawMinimap(20, 50, 130, 130, t);
+    // Sonar radar at spike scene
+    drawSonarRadar(90, H-110, 80, t);
+    drawGPOverlay(true, 'AUDIO SONAR ACTIVE');
+    drawNoise(0.03); drawVignette(0.5); drawScanlines(0.02); drawBars(1);
+  }
+  // ── SCENE: DEFUSE ──
+  else if (scene.name === 'DEFUSE') {
+    drawFPSEnvironment(0.7);
+    // Defuse progress ring
+    const defusePct = easeInOut(Math.min((st-0.2)*2, 1));
+    const dx=W/2, dy=H*0.52;
+    // Spike (ticking)
+    const tickAlpha = Math.abs(Math.sin(t * (5+st*10))) > 0.3 ? 0.9 : 0.2;
+    ctx.save(); ctx.globalAlpha=tickAlpha;
+    ctx.beginPath(); ctx.arc(dx, dy, 12, 0, Math.PI*2);
+    ctx.fillStyle=C.spike; ctx.fill();
+    ctx.restore();
+    // Defuse ring
+    if (defusePct > 0) {
+      ctx.beginPath();
+      ctx.arc(dx, dy, 32, -Math.PI/2, -Math.PI/2+defusePct*Math.PI*2);
+      ctx.strokeStyle=C.cyan; ctx.lineWidth=5; ctx.stroke();
+      // defuse label
+      ctx.font='11px "JetBrains Mono"'; ctx.textAlign='center';
+      ctx.fillStyle=C.cyan; ctx.fillText('DEFUSING...', dx, dy-45);
+    }
+    // Spike timer urgent
+    const spikeLeft2 = 20 - st*20;
+    drawSpikeTimer(spikeLeft2, 1-spikeLeft2/45);
+    drawKillFeed(t);
+    drawWeapon(0);
+    drawTopHUD(spikeLeft2, 12, 7, 5, true);
+    drawHealthBar(Math.max(5,60-Math.floor(st*40)), 0, t);
+    drawAmmo(Math.max(0,8-Math.floor(st*5)), 60, t);
+    drawAbilities(t);
+    drawCrosshair(0);
+    drawMinimap(20, 50, 130, 130, t);
+    drawSonarRadar(90, H-110, 80, t);
+    drawGPOverlay(true, 'SPIKE TIMER — URGENT');
+    // Defuse complete banner
+    if (defusePct >= 1) {
+      const ba=easeOut((st-0.9)*10);
+      ctx.save(); ctx.globalAlpha=ba;
+      rect(W/2-150, H*0.14, 300, 36, rgba(C.cyan,0.15), 4);
+      border(W/2-150, H*0.14, 300, 36, rgba(C.cyan,0.6), 1.5, 4);
+      textMono('✓ DEFUSED', W/2, H*0.14+24, 16, C.cyan, 'center');
+      ctx.restore();
+    }
+    drawNoise(0.03); drawVignette(0.5); drawScanlines(0.02); drawBars(1);
+  }
+  // ── SCENE: VICTORY ──
+  else if (scene.name === 'VICTORY') {
+    // Background: brief flash of last gameplay
+    ctx.save(); ctx.globalAlpha=Math.max(0,1-st*3);
+    drawFPSEnvironment(1);
+    ctx.restore();
+    drawVictoryScreen(easeOut(Math.min(st*2,1)), false);
+    // GamePilot credit
+    if (st > 0.4) {
+      const ca=easeOut((st-0.4)/0.3);
+      ctx.save(); ctx.globalAlpha=ca*0.9;
+      const cw=340,ch=60;
+      rect(W/2-cw/2, H-100, cw, ch, rgba(C.black,0.9), 8);
+      border(W/2-cw/2, H-100, cw, ch, rgba(C.cyan,0.4), 1.5, 8);
+      ctx.font='13px "Syne"'; ctx.fillStyle=C.cyan; ctx.textAlign='center';
+      ctx.fillText('Powered by GAMEPILOT PRO', W/2, H-78);
+      ctx.font='10px "JetBrains Mono"'; ctx.fillStyle=C.grey;
+      ctx.fillText('gamepilot.pro · ₹299/month · Try Free', W/2, H-60);
+      ctx.restore();
+    }
+    // End card
+    if (st > 0.85) {
+      const ea=easeOut((st-0.85)/0.15);
+      document.getElementById('gamepilot-hud').style.opacity=ea;
+    }
+    drawNoise(0.02); drawVignette(0.6); drawBars(1);
+  }
+
+  animFrame = requestAnimationFrame(render);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CONTROLS
+// ══════════════════════════════════════════════════════════════
+function startTrailer() {
+  initAudio();
+  playing = true;
+  startTime = performance.now();
+  audioFired = {};
+  plantInitialized = false;
+  sonarWaves = [];
+  document.getElementById('play-overlay').classList.add('hidden');
+  document.getElementById('gamepilot-hud').style.opacity='0';
+  document.getElementById('skip-btn').style.display='block';
+  cancelAnimationFrame(animFrame);
+  animFrame = requestAnimationFrame(render);
+}
+function endTrailer() {
+  playing = false;
+  document.getElementById('gamepilot-hud').classList.add('visible');
+  document.getElementById('skip-btn').style.display='none';
+  document.getElementById('scene-label').textContent='';
+  document.getElementById('progress-bar').style.width='100%';
+  cancelAnimationFrame(animFrame);
+}
+function skipToEnd() {
+  startTime = performance.now() - TOTAL_DURATION * 1000 * 0.85;
+}
+// Click canvas to toggle
+canvas.addEventListener('click', ()=>{ if(playing) { playing=false; document.getElementById('play-overlay').classList.remove('hidden'); cancelAnimationFrame(animFrame); } });
+
+// ── Draw static first frame ────────────────────────────────────
+(function drawStaticFrame(){
+  ctx.fillStyle='#050B12'; ctx.fillRect(0,0,W,H);
+  hexPath(ctx, W/2, H/2, 120);
+  ctx.strokeStyle=rgba(C.cyan,0.15); ctx.lineWidth=1; ctx.stroke();
+  ctx.font='bold 80px "Syne"'; ctx.textAlign='center'; ctx.fillStyle=rgba(C.white,0.07);
+  ctx.fillText('GAMEPILOT PRO', W/2, H/2+30);
+  textMono('CLICK PLAY TO START TRAILER', W/2, H/2+80, 13, rgba(C.cyan,0.3), 'center');
+})();
+</script>
+</body>
+</html>

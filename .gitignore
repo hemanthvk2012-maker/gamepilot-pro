@@ -1,0 +1,7 @@
+# Build and temp files
+*.pdb
+*.obj
+*.log
+bin/
+obj/
+*.tmp
