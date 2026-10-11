@@ -3,27 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamePilot Pro — The 2026 Next-Gen Acoustic AI Co-Pilot for Tactical Gamers</title>
+  <title>GamePilot Pro — 2026 Next-Gen Acoustic River & Tactical Co-Pilot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-page: #f8fafc;
-      --bg-vortex: radial-gradient(circle at 50% 50%, #e0f2fe 0%, #dbeafe 30%, #eff6ff 60%, #f8fafc 100%);
-      --text-main: #0f172a;
-      --text-body: #475569;
-      --text-muted: #94a3b8;
-      --blue-vivid: #0066ff;
-      --blue-deep: #1d4ed8;
-      --cyan-neon: #00e5ff;
-      --purple-royal: #7c3aed;
+      --cyan-neon: #00f0ff;
+      --blue-electric: #0066ff;
+      --purple-vivid: #8b5cf6;
       --crimson-val: #ff4655;
-      --amber-gold: #f59e0b;
-      --border-glass: rgba(255, 255, 255, 0.85);
-      --border-subtle: rgba(226, 232, 240, 0.85);
+      --amber-gold: #fbbf24;
+      --emerald-safe: #10b981;
+      --glass-bg: rgba(255, 255, 255, 0.82);
+      --glass-border: rgba(255, 255, 255, 0.95);
+      --glass-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      --text-main: #0b132b;
+      --text-sub: #334155;
       --radius-pill: 9999px;
-      --radius-card: 28px;
+      --radius-card: 32px;
     }
 
     * {
@@ -35,43 +33,277 @@
 
     html {
       scroll-behavior: smooth;
-      background-color: var(--bg-page);
+      background-color: #050814;
+      color: var(--text-main);
+      overflow-x: hidden;
     }
 
     body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
       position: relative;
+      background: #050814;
+      min-height: 100vh;
     }
 
-    /* Ambient Fluid Background Canvas */
+    /* =========================================================================
+       4K CINEMATIC BACKDROP ENGINE (Smooth crossfading tactical environments)
+       ========================================================================= */
+    #bg-cinema-engine {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-cinema-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s ease-out;
+      opacity: 0;
+      will-change: opacity, transform;
+      filter: saturate(1.15) contrast(1.05);
+    }
+
+    .bg-cinema-layer.active {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+
+    /* Ambient Lighting Overlays on 4K imagery */
+    .bg-overlay-veil {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.15) 0%, rgba(10, 15, 30, 0.55) 50%, rgba(5, 8, 18, 0.92) 100%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .bg-vignette {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.7);
+      pointer-events: none;
+    }
+
+    /* =========================================================================
+       THE 3D ACOUSTIC RIVER CANVAS (Continuous flowing soundwave spline)
+       ========================================================================= */
     #riverCanvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
       pointer-events: none;
-      z-index: 0;
-      opacity: 0.55;
     }
 
-    /* Custom Cursor Follower */
-    #cursor-follower {
+    /* Right Edge River Depth Gauge */
+    .river-depth-gauge {
       position: fixed;
-      width: 26px; height: 26px;
-      border: 2px solid rgba(0, 102, 255, 0.4);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.15s, height 0.15s, border-color 0.15s;
-      mix-blend-mode: multiply;
-      display: none;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      padding: 14px 10px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
-    @media (hover: hover) and (pointer: fine) {
-      #cursor-follower { display: block; }
+
+    .gauge-track {
+      width: 4px;
+      height: 140px;
+      background: rgba(203, 213, 225, 0.6);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gauge-thumb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: linear-gradient(180deg, var(--cyan-neon), var(--blue-electric));
+      border-radius: 4px;
+      box-shadow: 0 0 12px var(--cyan-neon);
+      transition: height 0.1s ease-out;
+    }
+
+    .gauge-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--text-sub);
+    }
+
+    /* =========================================================================
+       FLOATING HEADER & TOP YUVIPEP-STYLE BADGE RIBBON
+       ========================================================================= */
+    header {
+      position: sticky;
+      top: 14px;
+      z-index: 100;
+      padding: 0 24px;
+    }
+
+    .nav-frosted-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      border-radius: 26px;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-frosted-bar:hover {
+      box-shadow: 0 20px 50px -10px rgba(0, 102, 255, 0.25);
+      border-color: rgba(0, 240, 255, 0.6);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-gem {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00f0ff, #0066ff, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1.05rem;
+      box-shadow: 0 6px 18px rgba(0, 102, 255, 0.45);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.28rem;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-2026 {
+      background: #eff6ff;
+      color: var(--blue-electric);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(0, 102, 255, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-sub);
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue-electric);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-apple-glass {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .btn-apple-glass:hover {
+      background: #ffffff;
+      border-color: var(--blue-electric);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-apple-dark {
+      background: #000000;
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-apple-dark:hover {
+      background: var(--blue-electric);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.45);
+    }
+
+    /* =========================================================================
+       THE 2026 CONTINUOUS RIVER HIGHWAY
+       ========================================================================= */
+    .river-voyage-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
     }
 
     .container {
@@ -80,277 +312,178 @@
       margin: 0 auto;
       padding: 0 24px;
       position: relative;
-      z-index: 10;
     }
 
-    /* Top Utility Ribbon (YuviPep Style) */
-    .top-ribbon-bar {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      padding: 12px 0 6px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      z-index: 50;
-      position: relative;
-    }
-    .ribbon-pill {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-body);
-      padding: 6px 16px;
-      border-radius: var(--radius-pill);
-      text-decoration: none;
-      transition: all 0.25s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    }
-    .ribbon-pill:hover {
-      background: #ffffff;
-      border-color: var(--blue-vivid);
-      color: var(--blue-vivid);
-      transform: translateY(-1px);
-    }
-    .ribbon-pill.highlight {
-      background: #fffbeb;
-      border-color: rgba(245, 158, 11, 0.3);
-      color: #d97706;
-    }
-
-    /* Floating Frosted Header */
-    header {
-      position: sticky;
-      top: 14px;
-      z-index: 100;
-      padding: 0 20px;
-      margin-bottom: 24px;
-    }
-    .nav-box {
-      max-width: 1180px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: 24px;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s;
-    }
-    .nav-box:hover {
-      box-shadow: 0 16px 40px -12px rgba(0, 102, 255, 0.12);
-      border-color: rgba(191, 219, 254, 0.9);
-    }
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-main);
-      font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: -0.03em;
-    }
-    .brand-icon-gem {
-      width: 32px; height: 32px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, #0066ff, #7c3aed, #ff4655);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 900;
-      font-size: 0.9rem;
-      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.35);
-    }
-    .badge-pro {
-      background: #eff6ff;
-      color: var(--blue-vivid);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
-      border: 1px solid rgba(0, 102, 255, 0.2);
-    }
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-    .nav-menu a {
-      text-decoration: none;
-      color: var(--text-body);
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-    .nav-menu a:hover {
-      color: var(--blue-vivid);
-    }
-    .nav-cta-cluster {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .btn-nav-glass {
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-main);
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 9px 18px;
-      border-radius: var(--radius-pill);
-      text-decoration: none;
-      transition: all 0.25s;
-    }
-    .btn-nav-glass:hover {
-      border-color: var(--text-main);
-      transform: translateY(-1px);
-    }
-    .btn-nav-solid {
-      background: #000000;
-      color: #ffffff;
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 9px 22px;
-      border-radius: var(--radius-pill);
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-      transition: all 0.25s;
-    }
-    .btn-nav-solid:hover {
-      background: #1e293b;
-      transform: translateY(-1px);
-    }
-
-    /* =========================================================================
-       2026 3D CONCENTRIC VORTEX STAGE (As seen in the Ko Agent 2026 Video!)
-       ========================================================================= */
-    .vortex-hero-stage {
-      position: relative;
-      width: 100%;
-      min-height: 840px;
+    /* Common River Station / Chamber Section */
+    .river-chamber {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px 80px;
-      perspective: 1200px;
+      padding: 100px 20px;
+      position: relative;
+      perspective: 1400px;
       transform-style: preserve-3d;
-      overflow: visible;
     }
 
-    /* 3D Motion Canvas Layer */
-    .vortex-3d-scene {
+    /* =========================================================================
+       CHAMBER 0: THE 2026 ACOUSTIC VORTEX & SINGULARITY (Hero Entrance)
+       ========================================================================= */
+    #hero-vortex-chamber {
+      min-height: 105vh;
+      padding-top: 60px;
+    }
+
+    .hero-top-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      color: #b45309;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 24px;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+    }
+
+    .hero-h1-statement {
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      text-align: center;
+      max-width: 1040px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-h1-statement span.gradient-river-txt {
+      background: linear-gradient(135deg, #00f0ff 0%, #38bdf8 30%, #a855f7 70%, #ff4655 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 16px rgba(0, 240, 255, 0.4));
+    }
+
+    .hero-sub-statement {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: #e2e8f0;
+      text-align: center;
+      max-width: 760px;
+      margin-bottom: 40px;
+      font-weight: 500;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+    }
+
+    /* 3D Concentric Vortex Scene from the Ko Agent Short */
+    .vortex-3d-stage {
       position: relative;
       width: 100%;
-      max-width: 960px;
-      height: 540px;
+      max-width: 980px;
+      height: 520px;
       display: flex;
       align-items: center;
       justify-content: center;
       transform-style: preserve-3d;
-      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 30px;
     }
 
-    /* Concentric Acoustic Rings */
     .vortex-ring {
       position: absolute;
       border-radius: 50%;
-      border: 2px solid rgba(0, 102, 255, 0.25);
+      border: 2px solid rgba(0, 240, 255, 0.35);
       pointer-events: none;
       transform-style: preserve-3d;
-      transition: all 0.4s ease-out;
-    }
-    .ring-1 {
-      width: 220px; height: 220px;
-      border-color: rgba(0, 102, 255, 0.7);
-      box-shadow: 0 0 35px rgba(0, 102, 255, 0.35);
-      animation: ringSpin 24s linear infinite;
-    }
-    .ring-2 {
-      width: 380px; height: 380px;
-      border-color: rgba(30, 64, 175, 0.5);
-      border-style: dashed;
-      box-shadow: 0 0 50px rgba(0, 229, 255, 0.2);
-      animation: ringSpinRev 36s linear infinite;
-    }
-    .ring-3 {
-      width: 560px; height: 560px;
-      border-color: rgba(37, 99, 235, 0.35);
-      box-shadow: 0 0 70px rgba(37, 99, 235, 0.15);
-      animation: ringSpin 48s linear infinite;
-    }
-    .ring-4 {
-      width: 760px; height: 760px;
-      border-color: rgba(99, 102, 241, 0.2);
-      border-width: 3px;
-      animation: ringSpinRev 60s linear infinite;
-    }
-    .ring-5 {
-      width: 980px; height: 980px;
-      border-color: rgba(147, 197, 253, 0.25);
-      border-style: dashed;
     }
 
-    @keyframes ringSpin {
+    .ring-1 {
+      width: 220px; height: 220px;
+      border-color: rgba(0, 240, 255, 0.8);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.3);
+      animation: spinClockwise 20s linear infinite;
+    }
+
+    .ring-2 {
+      width: 380px; height: 380px;
+      border-color: rgba(0, 102, 255, 0.6);
+      border-style: dashed;
+      box-shadow: 0 0 50px rgba(0, 102, 255, 0.35);
+      animation: spinCounter 32s linear infinite;
+    }
+
+    .ring-3 {
+      width: 580px; height: 580px;
+      border-color: rgba(139, 92, 246, 0.45);
+      box-shadow: 0 0 70px rgba(139, 92, 246, 0.25);
+      animation: spinClockwise 44s linear infinite;
+    }
+
+    .ring-4 {
+      width: 800px; height: 800px;
+      border-color: rgba(255, 255, 255, 0.25);
+      border-width: 1.5px;
+      animation: spinCounter 56s linear infinite;
+    }
+
+    @keyframes spinClockwise {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
-    @keyframes ringSpinRev {
+    @keyframes spinCounter {
       from { transform: rotate(360deg); }
       to { transform: rotate(0deg); }
     }
 
-    /* Central Glossy Acoustic Core Sphere */
-    .acoustic-core-sphere {
-      width: 130px;
-      height: 130px;
+    /* Tactile Center Acoustic Core Orb */
+    .vortex-core-orb {
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #dbeafe 30%, #93c5fd 65%, #1e40af 100%);
-      box-shadow: 0 15px 40px rgba(30, 64, 175, 0.45), 0 0 80px rgba(0, 229, 255, 0.5), inset 0 2px 6px #ffffff;
+      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #a5f3fc 25%, #0284c7 65%, #0c4a6e 100%);
+      box-shadow: 0 20px 50px rgba(2, 132, 199, 0.6), 0 0 100px rgba(0, 240, 255, 0.8), inset 0 2px 10px #ffffff;
       position: relative;
       cursor: pointer;
       z-index: 30;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .acoustic-core-sphere:hover {
-      transform: scale(1.12);
-      box-shadow: 0 20px 60px rgba(0, 102, 255, 0.6), 0 0 100px rgba(0, 229, 255, 0.8);
-    }
-    .core-inner-pulse {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #00e5ff 0%, #0066ff 100%);
-      box-shadow: 0 0 20px #00e5ff;
-      animation: coreBeat 1.8s ease-in-out infinite alternate;
-    }
-    @keyframes coreBeat {
-      0% { transform: scale(0.9); opacity: 0.8; }
-      100% { transform: scale(1.2); opacity: 1; }
+
+    .vortex-core-orb:hover {
+      transform: scale(1.15) translateZ(30px);
+      box-shadow: 0 25px 70px rgba(0, 240, 255, 0.8), 0 0 140px rgba(0, 240, 255, 1);
     }
 
-    /* 3D Orbiting Futuristic Capsule Pods (Like the Ko Agent Video!) */
-    .capsule-pod {
+    .core-inner-glow {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #00f0ff 100%);
+      box-shadow: 0 0 30px #00f0ff;
+      animation: orbPulse 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbPulse {
+      0% { transform: scale(0.85); opacity: 0.8; }
+      100% { transform: scale(1.25); opacity: 1; }
+    }
+
+    /* Orbiting 3D Pods around the Vortex */
+    .orbit-pod {
       position: absolute;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border: 1.5px solid rgba(255, 255, 255, 0.95);
-      border-radius: 28px;
-      padding: 16px 20px;
-      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.8);
+      border-radius: 26px;
+      padding: 16px 22px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -359,1335 +492,1174 @@
       z-index: 25;
       user-select: none;
     }
-    .capsule-pod:hover {
-      transform: translateY(-8px) scale(1.05) translateZ(40px) !important;
+
+    .orbit-pod:hover {
+      transform: translateY(-8px) scale(1.06) translateZ(40px) !important;
       background: #ffffff;
-      box-shadow: 0 25px 55px -10px rgba(0, 102, 255, 0.25), 0 0 0 2px var(--blue-vivid);
+      box-shadow: 0 25px 60px -10px rgba(0, 240, 255, 0.4), 0 0 0 2px var(--cyan-neon);
     }
 
-    .pod-ico {
-      width: 46px; height: 46px;
+    .pod-icon-box {
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.35rem;
+      font-size: 1.4rem;
     }
-    .pod-ico-blue { background: #dbeafe; color: #1d4ed8; }
-    .pod-ico-amber { background: #fef3c7; color: #b45309; }
-    .pod-ico-crimson { background: #ffe4e6; color: #be123c; }
-    .pod-ico-purple { background: #f3e8ff; color: #6b21a8; }
 
-    .pod-data h5 {
-      font-size: 0.92rem;
+    .pod-meta h5 {
+      font-size: 0.96rem;
       font-weight: 800;
       color: var(--text-main);
       letter-spacing: -0.01em;
     }
-    .pod-data p {
+
+    .pod-meta p {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--text-muted);
+      font-size: 0.74rem;
+      color: var(--text-sub);
       font-weight: 700;
     }
 
-    /* Pod Specific Orbital Coordinates */
-    .pod-left-sonar {
-      left: 3%;
-      top: 36%;
-      transform: translateZ(30px);
-    }
-    .pod-right-recoil {
-      right: 3%;
-      top: 40%;
-      transform: translateZ(35px);
-    }
-    .pod-top-spike {
-      top: 4%;
-      left: 22%;
-      transform: translateZ(20px);
-    }
-    .pod-bot-clip {
-      bottom: 8%;
-      right: 18%;
-      transform: translateZ(25px);
+    .pod-orbit-1 { left: 4%; top: 38%; transform: translateZ(30px); }
+    .pod-orbit-2 { right: 4%; top: 40%; transform: translateZ(35px); }
+    .pod-orbit-3 { top: 6%; left: 24%; transform: translateZ(20px); }
+    .pod-orbit-4 { bottom: 8%; right: 20%; transform: translateZ(25px); }
+
+    /* Scroll Prompt Indicator */
+    .river-scroll-invitation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      z-index: 30;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      animation: floatPrompt 2.2s ease-in-out infinite alternate;
     }
 
-    /* Floating Command Dock Capsule at Bottom Center (Like the Video) */
-    .vortex-dock-capsule {
-      margin-top: 40px;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: var(--radius-pill);
-      padding: 8px 10px 8px 24px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+    .scroll-arrow-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       display: flex;
       align-items: center;
-      gap: 16px;
-      z-index: 35;
-      max-width: 580px;
-      width: 100%;
-    }
-    .dock-status-dot {
-      width: 10px; height: 10px;
-      background: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #10b981;
-      animation: pulseDot 2s infinite;
-    }
-    .dock-text {
-      flex: 1;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-body);
-      text-align: left;
-    }
-    .btn-dock-action {
-      background: #000000;
-      color: #ffffff;
-      padding: 12px 26px;
-      border-radius: var(--radius-pill);
-      font-size: 0.88rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
-    .btn-dock-action:hover {
-      background: var(--blue-vivid);
-      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
-      transform: translateY(-1px);
+      justify-content: center;
+      font-size: 1rem;
     }
 
-    /* Hero Text Above 3D Vortex */
-    .vortex-hero-text {
-      text-align: center;
-      max-width: 920px;
-      margin-bottom: 20px;
-      z-index: 30;
+    @keyframes floatPrompt {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(8px); }
     }
-    .hero-badge-top {
+
+    /* =========================================================================
+       CHAMBERS 1-6: RIVER JOURNEY STATIONS (Floating 3D Glass Pavilions)
+       ========================================================================= */
+    .river-glass-pavilion {
+      width: 100%;
+      max-width: 1160px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      border-radius: var(--radius-card);
+      box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      padding: 56px 48px;
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
+    }
+
+    .river-glass-pavilion:hover {
+      box-shadow: 0 50px 100px -20px rgba(0, 102, 255, 0.3), 0 0 0 2px rgba(0, 240, 255, 0.6);
+    }
+
+    .pavilion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .station-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #fff4e3;
-      color: #d97706;
+      background: #eff6ff;
+      color: var(--blue-electric);
+      font-family: 'JetBrains Mono', monospace;
       font-size: 0.82rem;
       font-weight: 800;
-      padding: 6px 18px;
+      padding: 6px 16px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(245, 158, 11, 0.25);
-      margin-bottom: 18px;
-    }
-    .hero-h1 {
-      font-size: clamp(2.4rem, 5.2vw, 4.4rem);
-      font-weight: 800;
-      letter-spacing: -0.035em;
-      line-height: 1.12;
-      color: var(--text-main);
-      margin-bottom: 16px;
-    }
-    .hero-h1 span.fluid-txt {
-      background: linear-gradient(135deg, #0066ff 0%, #7c3aed 50%, #ff4655 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-lead {
-      font-size: 1.15rem;
-      color: var(--text-body);
-      max-width: 680px;
-      margin: 0 auto;
+      border: 1px solid rgba(0, 102, 255, 0.25);
     }
 
-    /* Master Apple-Grade 4K Theatre Frame */
-    .theatre-stage-card {
-      max-width: 1140px;
-      margin: 40px auto 100px;
-      padding: 14px;
-      background: #ffffff;
-      border-radius: 34px;
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12);
-      position: relative;
-    }
-    .theatre-top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px 16px;
-    }
-    .mac-window-controls {
-      display: flex;
-      gap: 7px;
-    }
-    .mac-btn {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-    }
-    .mac-red { background: #ff5f56; }
-    .mac-yellow { background: #ffbd2e; }
-    .mac-green { background: #27c93f; }
-    .theatre-title-tag {
+    .station-coords {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
+      color: var(--text-sub);
       font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 0.12em;
-    }
-    .theatre-viewport {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 22px;
-      overflow: hidden;
-      background: #000000;
-      position: relative;
-    }
-    .theatre-viewport iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-    .theatre-quick-bar {
-      position: absolute;
-      bottom: 24px;
-      left: 24px;
-      right: 24px;
-      background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #fff;
-    }
-    .t-badge-left h4 {
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-    .t-badge-left p {
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    .btn-popout-trailer {
-      background: linear-gradient(135deg, #0066ff, #2563eb);
-      color: #ffffff;
-      padding: 9px 20px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(0, 102, 255, 0.4);
-      transition: all 0.2s;
-    }
-    .btn-popout-trailer:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(0, 102, 255, 0.6);
     }
 
-    /* Opposing River Marquee Stream */
-    .river-stream-section {
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
-      overflow: hidden;
-      padding: 26px 0;
-      position: relative;
-      background: rgba(255, 255, 255, 0.6);
-      border-top: 1px solid var(--border-subtle);
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 90px;
-    }
-    .marquee-track {
-      display: flex;
-      gap: 30px;
-      width: max-content;
-      animation: streamFlow 32s linear infinite;
-    }
-    @keyframes streamFlow {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-    .stream-pill {
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      padding: 10px 24px;
-      border-radius: var(--radius-pill);
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-main);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      white-space: nowrap;
-    }
-
-    /* Metric Grid (YuviPep 4-Card Style) */
-    .metric-flow-wrapper {
-      margin-bottom: 90px;
-    }
-    .metric-flow-grid {
+    .pavilion-content-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 24px;
-    }
-    .metric-flow-box {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-subtle);
-      border-radius: 24px;
-      padding: 34px 26px;
-      text-align: center;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s;
-    }
-    .metric-flow-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 18px 40px -8px rgba(0, 102, 255, 0.12);
-      border-color: rgba(191, 219, 254, 0.9);
-    }
-    .num-value {
-      font-size: 3.2rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      margin-bottom: 8px;
-    }
-    .num-blue { color: var(--blue-vivid); }
-    .num-amber { color: #d97706; }
-    .num-purple { color: #7c3aed; }
-    .num-crimson { color: #e11d48; }
-    .num-label {
-      font-size: 0.94rem;
-      font-weight: 600;
-      color: var(--text-body);
-      line-height: 1.4;
-    }
-
-    /* Section Meta Headers */
-    .section-meta-head {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 50px;
-    }
-    .tag-bubble {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: var(--blue-vivid);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      background: #eff6ff;
-      border: 1px solid rgba(0, 102, 255, 0.2);
-      padding: 6px 18px;
-      border-radius: var(--radius-pill);
-      display: inline-block;
-      margin-bottom: 14px;
-    }
-    .meta-title {
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--text-main);
-      margin-bottom: 16px;
-    }
-    .meta-desc {
-      font-size: 1.08rem;
-      color: var(--text-body);
-      line-height: 1.6;
-    }
-
-    /* Bento Grid Section */
-    .bento-spotlight-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 26px;
-      margin-bottom: 100px;
-    }
-    .spotlight-card {
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-card);
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      transition: all 0.35s;
-    }
-    .spotlight-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 45px rgba(0, 102, 255, 0.12);
-      border-color: #cbd5e1;
-    }
-    .span-8 { grid-column: span 8; }
-    .span-4 { grid-column: span 4; }
-    .span-12 { grid-column: span 12; }
-
-    .card-badge-icon {
-      width: 54px; height: 54px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.55rem;
-      margin-bottom: 22px;
-    }
-    .bg-ico-blue { background: #dbeafe; color: #1d4ed8; }
-    .bg-ico-amber { background: #fef3c7; color: #b45309; }
-    .bg-ico-crimson { background: #ffe4e6; color: #be123c; }
-    .bg-ico-purple { background: #f3e8ff; color: #6b21a8; }
-
-    .card-headline {
-      font-size: 1.55rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-main);
-      margin-bottom: 12px;
-    }
-    .card-copy {
-      font-size: 0.98rem;
-      color: var(--text-body);
-      line-height: 1.65;
-      margin-bottom: 24px;
-    }
-
-    /* Live Interactive Sonar Radar Sandbox */
-    .sonar-sandbox-box {
-      background: #090e1a;
-      border-radius: 20px;
-      padding: 22px;
-      color: #fff;
-      position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      overflow: hidden;
-    }
-    #interactiveRadarCanvas {
-      width: 100%;
-      height: 230px;
-      display: block;
-      cursor: crosshair;
-    }
-    .sonar-readout-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-    }
-
-    /* Live Recoil Sandbox */
-    .recoil-sandbox-box {
-      background: #090e1a;
-      border-radius: 20px;
-      padding: 24px;
-      color: #fff;
-      text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      cursor: pointer;
-      user-select: none;
-    }
-    .recoil-crosshair-sim {
-      width: 90px; height: 90px;
-      margin: 8px auto;
-      border-radius: 50%;
-      border: 2px dashed rgba(245, 158, 11, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      transition: transform 0.1s;
-    }
-    .cross-dot {
-      width: 6px; height: 6px;
-      background: #00e5ff;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #00e5ff;
-    }
-    .recoil-tap-btn {
-      background: var(--amber-gold);
-      color: #000;
-      border: none;
-      padding: 8px 20px;
-      border-radius: var(--radius-pill);
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    /* Story Card: Class 9 Youth Innovation (YuviPep Spirit) */
-    .story-river-card {
-      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      border-radius: 32px;
-      padding: 52px;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.15fr 0.85fr;
       gap: 48px;
       align-items: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-      margin-bottom: 100px;
     }
-    .story-tag {
-      background: #ede9fe;
-      color: #6d28d9;
-      font-size: 0.78rem;
+
+    .pavilion-text h2 {
+      font-size: clamp(2rem, 3.8vw, 3rem);
       font-weight: 800;
-      padding: 5px 14px;
-      border-radius: var(--radius-pill);
-      display: inline-block;
-      margin-bottom: 14px;
-    }
-    .story-h2 {
-      font-size: 2.3rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
       color: var(--text-main);
-      line-height: 1.2;
       margin-bottom: 18px;
     }
-    .story-p {
-      font-size: 1.02rem;
-      color: var(--text-body);
+
+    .pavilion-text p {
+      font-size: 1.12rem;
+      color: var(--text-sub);
       line-height: 1.7;
-      margin-bottom: 16px;
+      margin-bottom: 28px;
     }
-    .story-quote-block {
-      border-left: 3px solid var(--blue-vivid);
-      padding-left: 18px;
-      font-style: italic;
-      color: var(--text-main);
-      font-weight: 600;
-      margin-top: 20px;
-    }
-    .specs-flow-col {
+
+    .feature-points-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-    .spec-flow-row {
-      background: #ffffff;
-      padding: 16px 22px;
-      border-radius: 16px;
-      border: 1px solid var(--border-subtle);
+
+    .feature-point-item {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .spec-flow-row strong {
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.98rem;
+      font-weight: 600;
       color: var(--text-main);
-      font-size: 0.92rem;
-    }
-    .spec-flow-row span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: var(--blue-vivid);
     }
 
-    /* Anti-Cheat Safety Verification Matrix */
-    .matrix-section {
-      margin-bottom: 100px;
+    .point-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #eff6ff;
+      border: 1.5px solid var(--blue-electric);
+      color: var(--blue-electric);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
-    .matrix-card {
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
+
+    /* Interactive Visual Screen inside Pavilion */
+    .pavilion-screen-box {
+      background: #090e1a;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .screen-traffic-lights {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .dot-tl { width: 11px; height: 11px; border-radius: 50%; }
+    .dot-tl-r { background: #ff5f56; }
+    .dot-tl-y { background: #ffbd2e; }
+    .dot-tl-g { background: #27c93f; }
+
+    /* =========================================================================
+       4K MASTER CINEMA THEATER PAVILION
+       ========================================================================= */
+    #theater-pavilion {
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(36px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-card);
-      padding: 38px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
-      overflow-x: auto;
+      box-shadow: 0 45px 100px -15px rgba(0, 0, 0, 0.7), 0 0 80px rgba(0, 240, 255, 0.25);
+      padding: 40px;
+      color: #ffffff;
+      position: relative;
     }
-    table.matrix-table {
+
+    .theater-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .theater-title-group h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .theater-video-frame {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 4K Aspect Ratio */
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000000;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.15);
+    }
+
+    .theater-video-frame video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .theater-sub-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    .sub-pill-tag {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* =========================================================================
+       METRIC MONOLITHS & VANGUARD ANTI-CHEAT MATRIX
+       ========================================================================= */
+    .metrics-quad-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .metric-monolith {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .metric-monolith:hover {
+      transform: translateY(-6px);
+      border-color: var(--blue-electric);
+      box-shadow: 0 20px 45px rgba(0, 102, 255, 0.2);
+    }
+
+    .metric-big-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--text-main);
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #0066ff, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .metric-desc {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+    /* Anti-Cheat Comparison Grid */
+    .safety-table-box {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 32px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .safety-table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
     }
-    .matrix-table th {
-      padding: 16px;
-      font-size: 0.85rem;
+
+    .safety-table th {
+      background: #f1f5f9;
+      padding: 16px 20px;
+      font-size: 0.82rem;
       font-weight: 800;
-      color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border-bottom: 2px solid #e2e8f0;
+      letter-spacing: 0.05em;
+      color: var(--text-sub);
     }
-    .matrix-table td {
-      padding: 16px;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 0.96rem;
+
+    .safety-table td {
+      padding: 16px 20px;
+      font-size: 0.92rem;
+      border-top: 1px solid rgba(226, 232, 240, 0.7);
+      color: var(--text-main);
+      font-weight: 600;
     }
+
     .badge-safe {
-      background: #dcfce7;
-      color: #15803d;
-      font-weight: 700;
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      display: inline-block;
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
+
     .badge-danger {
-      background: #fee2e2;
-      color: #b91c1c;
-      font-weight: 700;
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      display: inline-block;
+      background: #fef2f2;
+      color: #dc2626;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
     }
 
-    /* Final Million-Dollar Dark CTA Stage */
-    .grand-finale-stage {
-      background: #090e1a;
-      border-radius: 36px;
-      padding: 75px 36px;
+    /* =========================================================================
+       FINAL DELTA: 1-CLICK LAUNCH TERMINAL & FOOTER
+       ========================================================================= */
+    #final-delta-chamber {
+      min-height: 80vh;
+      padding-bottom: 60px;
+    }
+
+    .launch-terminal-card {
+      width: 100%;
+      max-width: 980px;
+      background: radial-gradient(circle at 50% 0%, rgba(30, 58, 138, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      backdrop-filter: blur(32px);
+      border: 2px solid rgba(0, 240, 255, 0.4);
+      border-radius: var(--radius-card);
+      padding: 60px 48px;
       text-align: center;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 90px;
-      box-shadow: 0 30px 70px rgba(15, 23, 42, 0.35);
-    }
-    .grand-finale-stage h2 {
-      font-size: clamp(2.3rem, 4.4vw, 3.6rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-    .grand-finale-stage p {
-      font-size: 1.12rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 620px;
-      margin: 0 auto 36px;
-    }
-    .grand-btns-row {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-    .btn-pure-white {
-      background: #ffffff;
-      color: #000000;
-      padding: 16px 38px;
-      border-radius: var(--radius-pill);
-      font-size: 1.02rem;
-      font-weight: 800;
-      text-decoration: none;
-      transition: all 0.25s;
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
-    }
-    .btn-pure-white:hover {
-      background: #f1f5f9;
-      transform: translateY(-2px);
-    }
-    .btn-ghost-dark {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #ffffff;
-      padding: 16px 34px;
-      border-radius: var(--radius-pill);
-      font-size: 1.02rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.25s;
-    }
-    .btn-ghost-dark:hover {
-      background: rgba(255, 255, 255, 0.16);
-      border-color: #ffffff;
-      transform: translateY(-2px);
+      box-shadow: 0 40px 90px rgba(0, 102, 255, 0.35);
+      position: relative;
     }
 
-    /* Minimal Multi-Column Footer */
-    footer {
-      background: #f1f5f9;
-      border-top: 1px solid #e2e8f0;
-      padding: 65px 0 30px;
-      font-size: 0.9rem;
-      color: var(--text-body);
-      position: relative;
-      z-index: 10;
-    }
-    .footer-columns {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 45px;
-    }
-    .footer-col h5 {
-      color: var(--text-heading);
-      font-size: 0.95rem;
-      font-weight: 800;
+    .terminal-title {
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
       margin-bottom: 16px;
     }
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .footer-col a {
-      color: var(--text-body);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover {
-      color: var(--blue-vivid);
-    }
-    .footer-bottom-bar {
-      border-top: 1px solid #e2e8f0;
-      padding-top: 26px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+
+    .terminal-lead {
+      font-size: 1.15rem;
+      color: #cbd5e1;
+      max-width: 640px;
+      margin: 0 auto 36px;
     }
 
+    .terminal-btn-cluster {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .btn-super-download {
+      background: linear-gradient(135deg, #00f0ff 0%, #0066ff 100%);
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 16px 36px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(0, 102, 255, 0.5);
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-super-download:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(0, 240, 255, 0.7);
+    }
+
+    .btn-super-trailer {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 16px 36px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-super-trailer:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 40px 24px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.88rem;
+      position: relative;
+      z-index: 20;
+    }
+
+    /* Responsive */
     @media (max-width: 900px) {
-      .span-8, .span-4 { grid-column: span 12; }
-      .story-river-card { grid-template-columns: 1fr; }
-      .nav-menu { display: none; }
-      .footer-columns { grid-template-columns: 1fr 1fr; }
-      .capsule-pod { position: static; margin-bottom: 12px; }
-      .vortex-3d-scene { height: auto; flex-direction: column; gap: 14px; }
-      .vortex-ring { display: none; }
+      .pavilion-content-grid { grid-template-columns: 1fr; }
+      .metrics-quad-grid { grid-template-columns: repeat(2, 1fr); }
+      .vortex-3d-stage { height: 400px; }
+      .orbit-pod { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Fluid River Mesh Canvas (60 FPS Liquid Organic Dynamics) -->
-  <canvas id="riverCanvas"></canvas>
-
-  <!-- Interactive Smooth Cursor Follower -->
-  <div id="cursor-follower"></div>
-
-  <!-- Top Ribbon Utility (YuviPep Innovation Style) -->
-  <div class="top-ribbon-bar">
-    <a class="ribbon-pill highlight" href="#story">🏆 Class 9 Youth Innovation Project</a>
-    <a class="ribbon-pill" href="GamePilot_Official_Trailer.html" target="_blank">🎬 4K World Premiere Trailer</a>
-    <a class="ribbon-pill" href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank">⭐ GitHub Open Source</a>
+  <!-- =========================================================================
+       4K CINEMATIC BACKDROP ENGINE (Smooth crossfade across tactical arenas)
+       ========================================================================= -->
+  <div id="bg-cinema-engine">
+    <div id="bg-layer-0" class="bg-cinema-layer active" style="background-image: url('./assets/bg_hero_cover.jpg');"></div>
+    <div id="bg-layer-1" class="bg-cinema-layer" style="background-image: url('./assets/bg_vandal_ascent.jpg');"></div>
+    <div id="bg-layer-2" class="bg-cinema-layer" style="background-image: url('./assets/bg_spike_defuse.jpg');"></div>
+    <div id="bg-layer-3" class="bg-cinema-layer" style="background-image: url('./assets/bg_operator_scope.jpg');"></div>
+    <div id="bg-layer-4" class="bg-cinema-layer" style="background-image: url('./assets/bg_ace_victory.jpg');"></div>
+    <div class="bg-overlay-veil"></div>
+    <div class="bg-vignette"></div>
   </div>
 
-  <!-- Sticky Luxury Floating Header -->
+  <!-- =========================================================================
+       3D CONTINUOUS ACOUSTIC RIVER CANVAS
+       ========================================================================= -->
+  <canvas id="riverCanvas"></canvas>
+
+  <!-- Right Edge River Depth Gauge -->
+  <div class="river-depth-gauge">
+    <span class="gauge-label">RIVER DEPTH</span>
+    <div class="gauge-track">
+      <div id="riverGaugeThumb" class="gauge-thumb"></div>
+    </div>
+    <span id="riverDepthPct" style="font-family:'JetBrains Mono',monospace; font-size:0.68rem; font-weight:800; color:var(--text-sub);">0%</span>
+  </div>
+
+  <!-- =========================================================================
+       FLOATING APPLE-GRADE FROSTED NAVBAR
+       ========================================================================= -->
   <header>
-    <div class="nav-box">
-      <a href="#" class="brand-logo">
-        <div class="brand-icon-gem">GP</div>
-        <span>GamePilot</span>
-        <span class="badge-pro">PRO</span>
+    <nav class="nav-frosted-bar">
+      <a href="#" class="brand-group">
+        <div class="brand-gem">GP</div>
+        <div class="brand-title">
+          GamePilot <span style="color:var(--blue-electric);">Pro</span>
+          <span class="badge-2026">2026 RIVER</span>
+        </div>
       </a>
 
-      <ul class="nav-menu">
-        <li><a href="#vortex-experience">3D Vortex</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#vanguard">Anti-Cheat Safety</a></li>
-        <li><a href="#story">Our Story</a></li>
+      <ul class="nav-links">
+        <li><a href="#chamber-sonar">Sonar Radar</a></li>
+        <li><a href="#chamber-recoil">Recoil Metronome</a></li>
+        <li><a href="#chamber-spike">Spike Sense</a></li>
+        <li><a href="#chamber-theater">4K Theater</a></li>
+        <li><a href="#chamber-safety">Vanguard Safe</a></li>
       </ul>
 
-      <div class="nav-cta-cluster">
-        <a href="GamePilot_Official_Trailer.html" class="btn-nav-glass" target="_blank">▶ 4K Trailer</a>
-        <a href="#download" class="btn-nav-solid">Download Free</a>
+      <div class="nav-actions">
+        <a href="GamePilot_Official_Trailer.html" class="btn-apple-glass">Watch 4K Trailer</a>
+        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-apple-dark">
+          <span>Download Free</span>
+          <span>↓</span>
+        </a>
       </div>
-    </div>
+    </nav>
   </header>
 
   <!-- =========================================================================
-       2026 3D CONCENTRIC ACOUSTIC VORTEX HERO (Inspired by Ko Agent 2026 Video!)
+       THE 2026 CONTINUOUS RIVER HIGHWAY
        ========================================================================= -->
-  <section class="vortex-hero-stage" id="vortex-experience">
-    <!-- Top Narrative Headline -->
-    <div class="vortex-hero-text">
-      <div class="hero-badge-top">
-        <span>⚡</span> WEBSITES IN 2026 HIT DIFFERENT // NEXT-GEN ACOUSTIC CO-PILOT
+  <main class="river-voyage-wrapper">
+
+    <!-- CHAMBER 0: THE 2026 ACOUSTIC VORTEX & SINGULARITY (Hero Entrance) -->
+    <section id="hero-vortex-chamber" class="river-chamber">
+      <div class="hero-top-ribbon">
+        <span>⚡</span>
+        <span>BUILT BY A CLASS 9 INDIAN STUDENT CREATOR • ACCESSIBLE TACTICAL ESPORTS</span>
       </div>
-      <h1 class="hero-h1">
-        The Acoustic Vortex Where <span class="fluid-txt">Sound Becomes Vision.</span>
+
+      <h1 class="hero-h1-statement">
+        Websites in 2026 Hit Different.<br>
+        <span class="gradient-river-txt">Enter The Acoustic River.</span>
       </h1>
-      <p class="hero-lead">
-        Interact with the live 3D acoustic core below. Spatial sound telemetry is calculated and mapped into sub-millisecond visual vectors in real time.
+
+      <p class="hero-sub-statement">
+        The world's first Vanguard-safe, zero-injection acoustic AI visualizer. Translating 360° footsteps, gun fire cadence, and spike timing into crisp hardware visual telemetry for deaf and competitive gamers.
       </p>
-    </div>
 
-    <!-- 3D Kinetic Scene with Concentric Rings, Core Sphere, and Orbiting Pod Windows -->
-    <div class="vortex-3d-scene" id="vortexScene">
-      <!-- Concentric Glowing Sonic Wave Rings -->
-      <div class="vortex-ring ring-1"></div>
-      <div class="vortex-ring ring-2"></div>
-      <div class="vortex-ring ring-3"></div>
-      <div class="vortex-ring ring-4"></div>
-      <div class="vortex-ring ring-5"></div>
+      <!-- 3D Concentric Vortex Scene directly inspired by the Ko Agent Short -->
+      <div id="vortexScene" class="vortex-3d-stage">
+        <div class="vortex-ring ring-1"></div>
+        <div class="vortex-ring ring-2"></div>
+        <div class="vortex-ring ring-3"></div>
+        <div class="vortex-ring ring-4"></div>
 
-      <!-- Orbiting Pod Window 1: 360° Directional Sonar (Left) -->
-      <div class="capsule-pod pod-left-sonar" onclick="pingCore('042° NE // HAVEN C FOOTSTEPS')">
-        <div class="pod-ico pod-ico-blue">📡</div>
-        <div class="pod-data">
-          <h5>Directional Sonar</h5>
-          <p>360° ACOUSTIC VECTOR</p>
+        <!-- Center Tactile Core Sphere -->
+        <div id="coreOrb" class="vortex-core-orb" title="Click to trigger acoustic sonar wave!">
+          <div class="core-inner-glow"></div>
         </div>
-      </div>
 
-      <!-- Orbiting Pod Window 2: Recoil Cadence Metronome (Right) -->
-      <div class="capsule-pod pod-right-recoil" onclick="pingCore('120ms OPTIMAL TAP RESET')">
-        <div class="pod-ico pod-ico-amber">⏱️</div>
-        <div class="pod-data">
-          <h5>Recoil Metronome</h5>
-          <p>CADENCE RHYTHM LOCK</p>
-        </div>
-      </div>
-
-      <!-- Orbiting Pod Window 3: 45.0s Spike Defuse (Top Left) -->
-      <div class="capsule-pod pod-top-spike" onclick="pingCore('00:07.00 DEFUSE THRESHOLD')">
-        <div class="pod-ico pod-ico-crimson">💣</div>
-        <div class="pod-data">
-          <h5>Micro-Spike Radar</h5>
-          <p>45.0s COUNTDOWN</p>
-        </div>
-      </div>
-
-      <!-- Orbiting Pod Window 4: ClipForge AI (Bottom Right) -->
-      <div class="capsule-pod pod-bot-clip" onclick="pingCore('9:16 VERTICAL REEL EXPORT')">
-        <div class="pod-ico pod-ico-purple">📱</div>
-        <div class="pod-data">
-          <h5>ClipForge AI</h5>
-          <p>AUTO 4K 60 REELS</p>
-        </div>
-      </div>
-
-      <!-- Central Glossy Tactile Core Sphere -->
-      <div class="acoustic-core-sphere" id="coreSphere" onclick="pingCore('TACTICAL CORE PING ACTIVATED')">
-        <div class="core-inner-pulse"></div>
-      </div>
-    </div>
-
-    <!-- Floating Command Dock Capsule at Bottom Center -->
-    <div class="vortex-dock-capsule">
-      <div class="dock-status-dot"></div>
-      <div class="dock-text" id="dockTelemetryText">
-        CORE TELEMETRY: READY • 360° SONAR ACTIVE
-      </div>
-      <a href="#download" class="btn-dock-action">
-        Get GamePilot Pro
-      </a>
-    </div>
-  </section>
-
-  <!-- Master Apple-Style 4K Cinema Showcase Frame -->
-  <section class="container">
-    <div class="theatre-stage-card">
-      <div class="theatre-top-bar">
-        <div class="mac-window-controls">
-          <span class="mac-btn mac-red"></span>
-          <span class="mac-btn mac-yellow"></span>
-          <span class="mac-btn mac-green"></span>
-        </div>
-        <span class="theatre-title-tag">GAMEPILOT PRO // 4K CINEMATIC ENGINE</span>
-        <span style="font-size: 0.8rem; font-weight:800; color:#10b981;">● 60 FPS ULTRA-HD</span>
-      </div>
-      <div class="theatre-viewport">
-        <iframe src="GamePilot_Official_Trailer.html" title="GamePilot Pro Official 4K Trailer" allow="autoplay; fullscreen" loading="lazy"></iframe>
-        <div class="theatre-quick-bar">
-          <div class="t-badge-left">
-            <h4>GAMEPILOT PRO : OFFICIAL WORLD PREMIERE</h4>
-            <p>Experience the 85-second adrenaline reveal featuring live 1080p/4K gameplay & tactile HUD.</p>
+        <!-- 3D Orbiting Capsule Pods -->
+        <div class="orbit-pod pod-orbit-1" onclick="document.getElementById('chamber-sonar').scrollIntoView({behavior:'smooth'})">
+          <div class="pod-icon-box" style="background:#dbeafe; color:#1d4ed8;">🎯</div>
+          <div class="pod-meta">
+            <h5>Directional Sonar</h5>
+            <p>360° BEARING • 042° NE</p>
           </div>
-          <a href="GamePilot_Official_Trailer.html" target="_blank" class="btn-popout-trailer">OPEN FULLSCREEN 4K ↗</a>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Opposing River Stream Marquee Ribbon -->
-  <section class="river-stream-section">
-    <div class="marquee-track">
-      <div class="stream-pill">🎯 VALORANT TOURNAMENT TESTED</div>
-      <div class="stream-pill">🛡️ 100% RIOT VANGUARD COMPLIANT</div>
-      <div class="stream-pill">⚡ &lt; 0.4ms OVERLAY LATENCY</div>
-      <div class="stream-pill">🎧 WASAPI STEREO ACOUSTIC RADAR</div>
-      <div class="stream-pill">💣 45.0s SPIKE DEFUSE THRESHOLD LOCK</div>
-      <div class="stream-pill">📱 CLIPFORGE AI 9:16 VERTICAL REELS</div>
-      <div class="stream-pill">🇮🇳 BUILT BY 9TH GRADE INDIAN MAKER</div>
-      <div class="stream-pill">🎯 VALORANT TOURNAMENT TESTED</div>
-      <div class="stream-pill">🛡️ 100% RIOT VANGUARD COMPLIANT</div>
-      <div class="stream-pill">⚡ &lt; 0.4ms OVERLAY LATENCY</div>
-      <div class="stream-pill">🎧 WASAPI STEREO ACOUSTIC RADAR</div>
-      <div class="stream-pill">💣 45.0s SPIKE DEFUSE THRESHOLD LOCK</div>
-      <div class="stream-pill">📱 CLIPFORGE AI 9:16 VERTICAL REELS</div>
-      <div class="stream-pill">🇮🇳 BUILT BY 9TH GRADE INDIAN MAKER</div>
-    </div>
-  </section>
+        <div class="orbit-pod pod-orbit-2" onclick="document.getElementById('chamber-recoil').scrollIntoView({behavior:'smooth'})">
+          <div class="pod-icon-box" style="background:#fef3c7; color:#b45309;">⚡</div>
+          <div class="pod-meta">
+            <h5>Recoil Metronome</h5>
+            <p>TAP CADENCE • 0.18s RESET</p>
+          </div>
+        </div>
 
-  <!-- YuviPep 4-Metric Grid with River Glow -->
-  <section class="container metric-flow-wrapper">
-    <div class="metric-flow-grid">
-      <div class="metric-flow-box">
-        <div class="num-value num-amber">30M+</div>
-        <div class="num-label">Deaf & Hard-of-Hearing Gamers Worldwide</div>
-      </div>
-      <div class="metric-flow-box">
-        <div class="num-value num-blue">100%</div>
-        <div class="num-label">Riot Vanguard & VAC Safe (Zero DLL Injection)</div>
-      </div>
-      <div class="metric-flow-box">
-        <div class="num-value num-purple">&lt; 1ms</div>
-        <div class="num-label">Win32 GDI+ Hardware Layer Latency</div>
-      </div>
-      <div class="metric-flow-box">
-        <div class="num-value num-crimson">4K 60</div>
-        <div class="num-label">ClipForge AI Automated 9:16 Clutch Reels</div>
-      </div>
-    </div>
-  </section>
+        <div class="orbit-pod pod-orbit-3" onclick="document.getElementById('chamber-spike').scrollIntoView({behavior:'smooth'})">
+          <div class="pod-icon-box" style="background:#ffe4e6; color:#be123c;">⏱️</div>
+          <div class="pod-meta">
+            <h5>Spike Defuse Radar</h5>
+            <p>7.0s CLUTCH THRESHOLD</p>
+          </div>
+        </div>
 
-  <!-- Interactive Spotlight Bento Grid Section -->
-  <section id="features" class="container">
-    <div class="section-meta-head">
-      <span class="tag-bubble">REVOLUTIONARY TACTICAL SUITE</span>
-      <h2 class="meta-title">The Tools That Turn Noise Into High-Elo Clarity.</h2>
-      <p class="meta-desc">Click below to test live acoustic telemetry and recoil rhythm simulation directly in your browser.</p>
-    </div>
-
-    <div class="bento-spotlight-grid">
-      <!-- Card 1: Live Interactive 360° Sonar Radar (Span 8) -->
-      <div class="spotlight-card span-8">
-        <div class="card-badge-icon bg-ico-blue">📡</div>
-        <h3 class="card-headline">360° Directional Audio Sonar Radar</h3>
-        <p class="card-copy">Captures Windows loopback WASAPI audio packets and maps high-frequency footstep transients, Spike plants, and weapon reloads into clean 360-degree holographic radar vectors around your crosshair.</p>
-        
-        <!-- Live Playable Sonar Radar Simulation -->
-        <div class="sonar-sandbox-box">
-          <canvas id="interactiveRadarCanvas" width="700" height="230"></canvas>
-          <div class="sonar-readout-row">
-            <span style="color:#00e5ff; font-weight:700;">CLICK RADAR TO SIMULATE FOOTSTEP PING</span>
-            <span id="sonar-coords-display" style="color: #38bdf8;">BEARING: 042° NE // DIST: 12.4m</span>
+        <div class="orbit-pod pod-orbit-4" onclick="document.getElementById('chamber-theater').scrollIntoView({behavior:'smooth'})">
+          <div class="pod-icon-box" style="background:#f3e8ff; color:#7e22ce;">🎬</div>
+          <div class="pod-meta">
+            <h5>4K Cinema Theater</h5>
+            <p>60FPS NATIVE MASTER</p>
           </div>
         </div>
       </div>
 
-      <!-- Card 2: Interactive Recoil Metronome Sandbox (Span 4) -->
-      <div class="spotlight-card span-4">
-        <div class="card-badge-icon bg-ico-amber">⏱️</div>
-        <h3 class="card-headline">Recoil Cadence Metronome</h3>
-        <p class="card-copy">Eliminate bloom panic. Dynamic visual pulses guide your burst-fire rhythm for laser-accurate Vandal and Phantom tap resets.</p>
-        
-        <!-- Interactive Recoil Sandbox -->
-        <div class="recoil-sandbox-box" onclick="triggerSimRecoil()">
-          <div class="recoil-crosshair-sim" id="simCrosshair">
-            <div class="cross-dot"></div>
+      <div class="river-scroll-invitation">
+        <span>Scroll Down To Ride The River</span>
+        <div class="scroll-arrow-icon">↓</div>
+      </div>
+    </section>
+
+    <!-- CHAMBER 1: DIRECTIONAL SONAR RADAR (Ascent Courtyard Rapids) -->
+    <section id="chamber-sonar" class="river-chamber">
+      <div class="container">
+        <div class="river-glass-pavilion">
+          <div class="pavilion-header">
+            <span class="station-badge">RIVER STATION 01 • SONAR CO-PILOT</span>
+            <span class="station-coords">MAP: ASCENT COURTYARD • DEPTH: 24%</span>
           </div>
-          <button class="recoil-tap-btn">CLICK TO SIMULATE BURST TAP</button>
-          <p id="recoilStatus" style="font-size:0.75rem; color:#94a3b8; margin-top:8px;">READY • TAP COOLDOWN 120ms</p>
+
+          <div class="pavilion-content-grid">
+            <div class="pavilion-text">
+              <h2>Hear With Your Eyes.<br>360° Spatial Acoustic Radar.</h2>
+              <p>
+                GamePilot Pro captures Windows stereo audio loopback in real time and computes phase difference algorithms to project 360° enemy positions on an unobtrusive Win32 GDI visual radar. Perfect for deaf gamers and low-volume stealth play.
+              </p>
+              <ul class="feature-points-list">
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Instant Audio Phase Vectoring: Pinpoints footsteps through walls at 042° NE.</span>
+                </li>
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Distance Falloff Gauge: Distance calculation from 2.4m to 38m with dB falloff.</span>
+                </li>
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Zero Memory Hooking: Never reads game RAM or injects into Valorant processes.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="pavilion-screen-box">
+              <div class="screen-traffic-lights">
+                <div class="dot-tl dot-tl-r"></div>
+                <div class="dot-tl dot-tl-y"></div>
+                <div class="dot-tl dot-tl-g"></div>
+              </div>
+              <div style="text-align:center; padding: 20px 0;">
+                <canvas id="liveSonarCanvas" width="280" height="280" style="background:#030712; border-radius:50%; box-shadow:0 0 30px rgba(0,240,255,0.3); border:2px solid rgba(0,240,255,0.4);"></canvas>
+                <div style="margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:var(--cyan-neon); font-weight:700;">
+                  ACTIVE TELEMETRY: 3 TARGETS IN RANGE
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Card 3: 45.0s Spike Defuse Radar (Span 4) -->
-      <div class="spotlight-card span-4">
-        <div class="card-badge-icon bg-ico-crimson">💣</div>
-        <h3 class="card-headline">45.0s Micro-Spike Defuse Radar</h3>
-        <p class="card-copy">Real-time precision timer locks down exact 7.0-second full defuse and 3.5-second half-defuse thresholds with color-shifting rings.</p>
-        <div style="background:#090e1a; padding:18px; border-radius:14px; text-align:center; color:#ff4655; font-family:'JetBrains Mono',monospace; font-size:1.8rem; font-weight:800;">
-          00:07.00
-          <div style="font-size:0.75rem; color:#ffd700; letter-spacing:0.1em; margin-top:4px;">DEFUSE THRESHOLD LOCKED</div>
+    <!-- CHAMBER 2: RECOIL METRONOME & TAP CADENCE (Firefight Meander) -->
+    <section id="chamber-recoil" class="river-chamber">
+      <div class="container">
+        <div class="river-glass-pavilion">
+          <div class="pavilion-header">
+            <span class="station-badge">RIVER STATION 02 • CADENCE COACH</span>
+            <span class="station-coords">WEAPON: VANDAL / PHANTOM • DEPTH: 48%</span>
+          </div>
+
+          <div class="pavilion-content-grid">
+            <div class="pavilion-text">
+              <h2>Master Weapon Bloom.<br>Zero-Spray Recoil Cadence.</h2>
+              <p>
+                In high-stakes tactical shooters, spraying leads to random first-shot inaccuracy. GamePilot Pro provides an ambient peripheral metronome ring that pulses in exact sync with weapon recoil reset cooldowns.
+              </p>
+              <ul class="feature-points-list">
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Dynamic Tap Metronome: 0.18s visual cadence ring for 100% pinpoint accuracy.</span>
+                </li>
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Acoustic Audio Sync: Detects gunshot soundwaves to trigger micro-haptic reticles.</span>
+                </li>
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Customizable Opacity: Fully transparent so your crosshair sightlines stay clear.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="pavilion-screen-box">
+              <div class="screen-traffic-lights">
+                <div class="dot-tl dot-tl-r"></div>
+                <div class="dot-tl dot-tl-y"></div>
+                <div class="dot-tl dot-tl-g"></div>
+              </div>
+              <div style="text-align:center; padding: 30px 10px; color:#ffffff;">
+                <div id="recoilCrosshair" style="width:120px; height:120px; margin:0 auto; border:2px dashed rgba(0,240,255,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative;">
+                  <div style="width:14px; height:14px; background:#ff4655; border-radius:50%; box-shadow:0 0 15px #ff4655;"></div>
+                  <div id="bloomRing" style="position:absolute; width:40px; height:40px; border:2px solid var(--cyan-neon); border-radius:50%; transition:all 0.15s ease-out;"></div>
+                </div>
+                <p style="margin-top:16px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:#94a3b8;">
+                  CLICK RETICLE TO TEST TAP RESET RHYTHM
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Card 4: ClipForge AI (Span 8) -->
-      <div class="spotlight-card span-8">
-        <div class="card-badge-icon bg-ico-purple">📱</div>
-        <h3 class="card-headline">ClipForge AI 9:16 Vertical Reels</h3>
-        <p class="card-copy">Automated match recorder tracks multi-kills and clutch rounds, auto-crops to 9:16 vertical video with camera face-tracking, and exports ready-to-post TikToks and YouTube Shorts.</p>
-        <div style="background:#090e1a; padding:20px; border-radius:14px; color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.85rem; display:flex; justify-content:space-between;">
-          <span style="color:#a855f7;">[CLIPFORGE_AUTO_TRIM] 1080x1920 (9:16)</span>
-          <span style="color:#10b981;">AUTO-SAVED TO /CLIPS (1.4s)</span>
+    <!-- CHAMBER 3: MICRO-SPIKE RADAR & DEFUSE TIMING (Clutch Canyon) -->
+    <section id="chamber-spike" class="river-chamber">
+      <div class="container">
+        <div class="river-glass-pavilion">
+          <div class="pavilion-header">
+            <span class="station-badge">RIVER STATION 03 • DEFUSE TELEMETRY</span>
+            <span class="station-coords">OBJECTIVE: SPIKE SITE B • DEPTH: 68%</span>
+          </div>
+
+          <div class="pavilion-content-grid">
+            <div class="pavilion-text">
+              <h2>Clutch With Mathematical Certainty.<br>7.0s Defuse Threshold.</h2>
+              <p>
+                Never guess whether you have time to stick the defuse. GamePilot Pro automatically isolates the distinct acoustic beeping frequencies of the spike and gives you an instant color-coded status bar:
+              </p>
+              <ul class="feature-points-list">
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Green Zone (>7.0s): Full defuse guaranteed with time to spare.</span>
+                </li>
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Amber Zone (3.5s - 7.0s): Half-defuse checkpoint reached safely.</span>
+                </li>
+                <li class="feature-point-item">
+                  <div class="point-dot">✓</div>
+                  <span>Crimson Zone (<3.5s): Evacuate blast radius immediately.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="pavilion-screen-box">
+              <div class="screen-traffic-lights">
+                <div class="dot-tl dot-tl-r"></div>
+                <div class="dot-tl dot-tl-y"></div>
+                <div class="dot-tl dot-tl-g"></div>
+              </div>
+              <div style="padding: 24px 10px; color:#ffffff;">
+                <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin-bottom:10px;">
+                  <span>SPIKE DETONATION TIMER</span>
+                  <span style="color:#ff4655; font-weight:800;">CRITICAL: 14.8s</span>
+                </div>
+                <div style="width:100%; height:18px; background:rgba(255,255,255,0.1); border-radius:9px; overflow:hidden; position:relative;">
+                  <div style="width:62%; height:100%; background:linear-gradient(90deg, #10b981, #f59e0b, #ff4655); border-radius:9px;"></div>
+                  <div style="position:absolute; left:50%; top:0; width:2px; height:100%; background:#ffffff; box-shadow:0 0 6px #fff;" title="Half Defuse"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:#94a3b8; margin-top:8px;">
+                  <span>FULL DEFUSE (7.0s)</span>
+                  <span>HALF DEFUSE (3.5s)</span>
+                  <span>DETONATE (0.0s)</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Founder Story & Hackathon Innovation (YuviPep Spirit) -->
-  <section id="story" class="container">
-    <div class="story-river-card">
-      <div>
-        <span class="story-tag">A 9TH GRADE INNOVATOR'S MISSION</span>
-        <h2 class="story-h2">Built by a Class 9 Indian Student for a Deaf Teammate.</h2>
-        <p class="story-p">
-          During competitive ranked games in Valorant, my teammate struggled to rank up not because of bad aim or mechanical skill, but because of severe hearing loss. While opponents could hear footsteps across walls, they fought in total audio silence.
-        </p>
-        <p class="story-p">
-          I built <strong>GamePilot Pro</strong> from scratch using native C# and Win32 hardware windowing to prove that accessibility technology can match esports-tier speed without giving an unfair aim assist or risking game bans.
-        </p>
-        <div class="story-quote-block">
-          "When you remove physical barriers with clean code, skill is the only thing that remains."
+    <!-- CHAMBER 4: 4K CINEMA THEATER PAVILION (The River Lake) -->
+    <section id="chamber-theater" class="river-chamber">
+      <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+        <div id="theater-pavilion">
+          <div class="theater-bar-top">
+            <div class="theater-title-group">
+              <span class="station-badge" style="background:rgba(255,255,255,0.1); color:#38bdf8; border-color:rgba(56,189,248,0.3); margin-bottom:8px;">
+                🎬 4K 60FPS CINEMA REEL
+              </span>
+              <h3>GamePilot Pro in Action: 4K Gameplay Showcase</h3>
+            </div>
+            <a href="GamePilot_Official_Trailer.html" target="_blank" class="btn-apple-glass" style="background:#0066ff; color:#ffffff; border:none;">
+              Launch Fullscreen Theater ↗
+            </a>
+          </div>
+
+          <div class="theater-video-frame">
+            <video id="cinemaPlayer" src="trailer_assets/gameplay_reel.mp4" autoplay loop muted playsinline controls></video>
+          </div>
+
+          <div class="theater-sub-pills">
+            <div class="sub-pill-tag">✨ True 4K Ultra-HD Master</div>
+            <div class="sub-pill-tag">⚡ 60 FPS Continuous Frame Stream</div>
+            <div class="sub-pill-tag">🎧 Hans Zimmer Taiko & Sub-Bass Soundtrack</div>
+            <div class="sub-pill-tag">⏱️ 45-Second Spike Clutch Breakdown</div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="specs-flow-col" id="specs">
-        <div class="spec-flow-row">
-          <strong>Language & Architecture</strong>
-          <span>C# (.NET 8.0 Native AOT)</span>
-        </div>
-        <div class="spec-flow-row">
-          <strong>Display Subsystem</strong>
-          <span>Win32 Layered HWND (GDI+)</span>
-        </div>
-        <div class="spec-flow-row">
-          <strong>Memory Footprint</strong>
-          <span>&lt; 42.8 MB RAM</span>
-        </div>
-        <div class="spec-flow-row">
-          <strong>CPU Overhead</strong>
-          <span>&lt; 0.4% on Core i5/i7</span>
-        </div>
-        <div class="spec-flow-row">
-          <strong>Frame Latency</strong>
-          <span>0.4ms Render Time</span>
-        </div>
-        <div class="spec-flow-row">
-          <strong>Open Source License</strong>
-          <span>MIT Open Source</span>
+    <!-- CHAMBER 5: VANGUARD ANTI-CHEAT & YUVIPEP ACCESSIBILITY MONOLITH -->
+    <section id="chamber-safety" class="river-chamber">
+      <div class="container">
+        <div class="river-glass-pavilion">
+          <div class="pavilion-header">
+            <span class="station-badge">RIVER STATION 05 • SAFETY & IMPACT</span>
+            <span class="station-coords">SECURITY LEVEL: 100% RIOT VANGUARD SAFE</span>
+          </div>
+
+          <h2 style="font-size:clamp(2rem, 3.8vw, 3rem); font-weight:800; letter-spacing:-0.035em; margin-bottom:14px; text-align:center;">
+            Zero Memory Injection. Guaranteed Clean.
+          </h2>
+          <p style="text-align:center; max-width:740px; margin:0 auto 36px; color:var(--text-sub); font-size:1.1rem;">
+            How does GamePilot Pro remain 100% Riot Vanguard safe? Unlike illegal memory-reading wallhacks, GamePilot Pro operates purely as a visual hearing aid, utilizing standard Windows APIs and hardware desktop blits.
+          </p>
+
+          <div class="safety-table-box">
+            <table class="safety-table">
+              <thead>
+                <tr>
+                  <th>Architectural Feature</th>
+                  <th>GamePilot Pro (Accessible AI)</th>
+                  <th>Memory Injectors / Cheats</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Memory Interaction</td>
+                  <td><span class="badge-safe">✓ Zero RAM Reading / Zero Hooking</span></td>
+                  <td><span class="badge-danger">✗ Hooks Game Memory (Bannable)</span></td>
+                </tr>
+                <tr>
+                  <td>Audio Capture Method</td>
+                  <td><span class="badge-safe">✓ Standard Windows WASAPI Loopback</span></td>
+                  <td><span class="badge-danger">✗ Intercepts Internal Game Code</span></td>
+                </tr>
+                <tr>
+                  <td>Overlay Rendering</td>
+                  <td><span class="badge-safe">✓ Pure Win32 GDI / Transparent HWND</span></td>
+                  <td><span class="badge-danger">✗ Injects Direct3D DLL into Game</span></td>
+                </tr>
+                <tr>
+                  <td>Riot Vanguard Status</td>
+                  <td><span class="badge-safe">✓ 100% Safe (Treated as Audio Tool)</span></td>
+                  <td><span class="badge-danger">✗ Immediate HWID Permanent Ban</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- YuviPep 4-Metric Impact Grid -->
+          <div class="metrics-quad-grid">
+            <div class="metric-monolith">
+              <div class="metric-big-num">30M+</div>
+              <div class="metric-desc">Gamers With Hearing Impairment Empowered</div>
+            </div>
+            <div class="metric-monolith">
+              <div class="metric-big-num">100%</div>
+              <div class="metric-desc">Riot Vanguard & EAC Anti-Cheat Safe</div>
+            </div>
+            <div class="metric-monolith">
+              <div class="metric-big-num">&lt; 0.4ms</div>
+              <div class="metric-desc">Win32 Hardware Blit Latency</div>
+            </div>
+            <div class="metric-monolith">
+              <div class="metric-big-num">4K 60</div>
+              <div class="metric-desc">Ultra-HD Spatial Acoustic Visualizer</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Anti-Cheat Safety Verification Matrix -->
-  <section id="vanguard" class="container matrix-section">
-    <div class="section-meta-head">
-      <span class="tag-bubble">FAIR PLAY & INTEGRITY</span>
-      <h2 class="meta-title">100% Riot Vanguard & VAC Certified Safe</h2>
-      <p class="meta-desc">GamePilot Pro does NOT read game memory, inject DLLs, or modify system files. Here is how it compares to high-risk software:</p>
-    </div>
+    <!-- CHAMBER 6: THE OCEAN DELTA (1-Click Launch Terminal) -->
+    <section id="final-delta-chamber" class="river-chamber">
+      <div class="container" style="display:flex; justify-content:center;">
+        <div class="launch-terminal-card">
+          <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(0,240,255,0.15); color:var(--cyan-neon); font-size:0.8rem; font-weight:800; padding:6px 18px; border-radius:var(--radius-pill); border:1px solid rgba(0,240,255,0.4); margin-bottom:20px;">
+            <span>🚀</span>
+            <span>GET GAMEPILOT PRO TODAY</span>
+          </div>
 
-    <div class="matrix-card">
-      <table class="matrix-table">
-        <thead>
-          <tr>
-            <th>Security Vector</th>
-            <th>Traditional Cheats / Injected Apps</th>
-            <th>GamePilot Pro Native Overlay</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Game Memory Injection</strong></td>
-            <td><span class="badge-danger">Hooks Game Memory (Bannable)</span></td>
-            <td><span class="badge-safe">ZERO Memory Access (Transparent Win32)</span></td>
-          </tr>
-          <tr>
-            <td><strong>Process Reading</strong></td>
-            <td><span class="badge-danger">OpenProcess / ReadProcessMemory</span></td>
-            <td><span class="badge-safe">Standard Windows WASAPI Audio Only</span></td>
-          </tr>
-          <tr>
-            <td><strong>Vanguard Kernel Detection</strong></td>
-            <td><span class="badge-danger">Hardware / Account Banned</span></td>
-            <td><span class="badge-safe">100% Whitelisted (Same as Discord Overlay)</span></td>
-          </tr>
-          <tr>
-            <td><strong>Open Source Code</strong></td>
-            <td><span class="badge-danger">Closed Obfuscated Malware</span></td>
-            <td><span class="badge-safe">100% Publicly Auditable on GitHub</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+          <h2 class="terminal-title">
+            Step Into The Future Of Tactical Gaming.
+          </h2>
 
-  <!-- Final Call to Action Stage -->
-  <section id="download" class="container">
-    <div class="grand-finale-stage">
-      <h2>Join the Future of Accessible Esports.</h2>
-      <p>Download GamePilot Pro today. Free forever, open source, and built for players who refuse to be held back.</p>
-      <div class="grand-btns-row">
-        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases" target="_blank" class="btn-pure-white">
-          Download Installer (.exe)
-        </a>
-        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank" class="btn-ghost-dark">
-          View on GitHub ↗
-        </a>
+          <p class="terminal-lead">
+            Download the native Windows installer in seconds. Zero ads, zero bloat, digitally verified, and 100% free for everyone.
+          </p>
+
+          <div class="terminal-btn-cluster">
+            <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-super-download">
+              <span>Download Free (.exe)</span>
+              <span>↓</span>
+            </a>
+            <a href="GamePilot_Official_Trailer.html" class="btn-super-trailer">
+              <span>Watch 4K Trailer</span>
+              <span>▶</span>
+            </a>
+            <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank" class="btn-super-trailer">
+              <span>View GitHub Source</span>
+              <span>★</span>
+            </a>
+          </div>
+
+          <div style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:#94a3b8;">
+            Windows 10 / 11 64-Bit • 24.8 MB Installer • SHA-256 Verified
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Multi-Column Apple-Grade Footer -->
+  </main>
+
   <footer>
     <div class="container">
-      <div class="footer-columns">
-        <div class="footer-col">
-          <h5>GamePilot Pro</h5>
-          <p style="max-width: 280px; font-size: 0.88rem; line-height: 1.65;">
-            The non-injected Win32 tactical AI co-pilot designed for deaf and competitive tactical shooter gamers worldwide.
-          </p>
-        </div>
-        <div class="footer-col">
-          <h5>Product</h5>
-          <ul>
-            <li><a href="GamePilot_Official_Trailer.html" target="_blank">4K Master Trailer</a></li>
-            <li><a href="#vortex-experience">3D Vortex Hub</a></li>
-            <li><a href="#features">Recoil Metronome</a></li>
-            <li><a href="#vanguard">Anti-Cheat Safety</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Community</h5>
-          <ul>
-            <li><a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank">GitHub Repository</a></li>
-            <li><a href="#story">Maker Story</a></li>
-            <li><a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/issues" target="_blank">Report Issue</a></li>
-            <li><a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/blob/main/LICENSE" target="_blank">MIT License</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Hackathon</h5>
-          <ul>
-            <li><a href="#story">Grade 9 Youth Innovation</a></li>
-            <li><a href="#specs">System Architecture</a></li>
-            <li><a href="https://hemanthvk2012-maker.github.io/gamepilot-pro/">Live Storefront</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom-bar">
-        <p>© 2026 GamePilot Pro. Developed by Hemanth (Grade 9 Indian Student Maker). Released under MIT License.</p>
-        <p style="color: var(--text-muted);">Crafted with 2026 3D Vortex & River-Flow Dynamics inspired by Apple & YuviPep.</p>
-      </div>
+      <p style="margin-bottom:8px;">
+        <strong>GamePilot Pro</strong> — Designed & Engineered by a Class 9 Indian Student Developer for Deaf & Competitive Gamers.
+      </p>
+      <p style="font-size:0.78rem; color:#64748b;">
+        Valorant is a registered trademark of Riot Games, Inc. GamePilot Pro is an independent assistive accessibility utility and is not affiliated with or endorsed by Riot Games.
+      </p>
     </div>
   </footer>
 
+  <!-- =========================================================================
+       THE 2026 CONTINUOUS RIVER & 3D GYROSCOPE JAVASCRIPT ENGINE
+       ========================================================================= */
+  -->
   <script>
-    // =========================================================================
-    //  2026 3D VORTEX MOUSE PARALLAX & ACOUSTIC CORE ENGINE
-    // =========================================================================
-    const vortexScene = document.getElementById('vortexScene');
-    const dockText = document.getElementById('dockTelemetryText');
-    const coreSphere = document.getElementById('coreSphere');
+    // 1. DYNAMIC 4K BACKGROUND CROSSFADE ON SCROLL
+    const bgLayers = [
+      document.getElementById('bg-layer-0'),
+      document.getElementById('bg-layer-1'),
+      document.getElementById('bg-layer-2'),
+      document.getElementById('bg-layer-3'),
+      document.getElementById('bg-layer-4')
+    ];
 
-    // 3D Mouse Gyroscope Parallax
-    window.addEventListener('mousemove', e => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const rotY = ((e.clientX - cx) / cx) * 18; // Degrees
-      const rotX = -((e.clientY - cy) / cy) * 14;
+    const riverGaugeThumb = document.getElementById('riverGaugeThumb');
+    const riverDepthPct = document.getElementById('riverDepthPct');
 
-      if (vortexScene) {
-        vortexScene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    function updateScrollBackdrops() {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, scrollY / (maxScroll || 1)));
+
+      // Update depth gauge
+      if (riverGaugeThumb && riverDepthPct) {
+        riverGaugeThumb.style.height = `${Math.max(10, progress * 100)}%`;
+        riverDepthPct.textContent = `${Math.round(progress * 100)}%`;
       }
 
-      const follower = document.getElementById('cursor-follower');
-      if (follower) {
-        follower.style.left = `${e.clientX}px`;
-        follower.style.top = `${e.clientY}px`;
-      }
-    });
+      // Map progress to active 4K background
+      // 0.00 - 0.18: Layer 0 (Hero Cover)
+      // 0.18 - 0.40: Layer 1 (Vandal Ascent)
+      // 0.40 - 0.62: Layer 2 (Spike Defuse)
+      // 0.62 - 0.82: Layer 3 (Operator Scope)
+      // 0.82 - 1.00: Layer 4 (Ace Victory)
+      let activeIdx = 0;
+      if (progress > 0.80) activeIdx = 4;
+      else if (progress > 0.60) activeIdx = 3;
+      else if (progress > 0.38) activeIdx = 2;
+      else if (progress > 0.16) activeIdx = 1;
 
-    // Core Sphere Audio Ping Simulator
-    function pingCore(msg) {
-      if (dockText) {
-        dockText.textContent = `CORE TELEMETRY: ${msg}`;
-        dockText.style.color = '#0066ff';
-        setTimeout(() => {
-          dockText.style.color = 'var(--text-body)';
-        }, 2500);
-      }
-
-      if (coreSphere) {
-        coreSphere.style.transform = 'scale(1.28)';
-        setTimeout(() => { coreSphere.style.transform = 'scale(1)'; }, 220);
-      }
+      bgLayers.forEach((layer, idx) => {
+        if (layer) {
+          if (idx === activeIdx) {
+            layer.classList.add('active');
+          } else {
+            layer.classList.remove('active');
+          }
+        }
+      });
     }
 
-    // =========================================================================
-    //  FLUID RIVER MESH BACKGROUND ENGINE (60 FPS Liquid Organic Dynamics)
-    // =========================================================================
+    window.addEventListener('scroll', updateScrollBackdrops, { passive: true });
+    updateScrollBackdrops();
+
+    // 2. 3D GYROSCOPE / MOUSE PARALLAX ON HERO VORTEX
+    const vortexScene = document.getElementById('vortexScene');
+    if (vortexScene) {
+      window.addEventListener('mousemove', (e) => {
+        const xNorm = (e.clientX / window.innerWidth) - 0.5;
+        const yNorm = (e.clientY / window.innerHeight) - 0.5;
+        const rotX = -yNorm * 28;
+        const rotY = xNorm * 28;
+        vortexScene.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+      });
+    }
+
+    // Interactive Core Orb Ripple
+    const coreOrb = document.getElementById('coreOrb');
+    if (coreOrb) {
+      coreOrb.addEventListener('click', () => {
+        coreOrb.style.transform = 'scale(1.3) translateZ(50px)';
+        setTimeout(() => {
+          coreOrb.style.transform = '';
+        }, 300);
+      });
+    }
+
+    // 3. THE 3D FLOWING ACOUSTIC RIVER CANVAS ENGINE (60 FPS)
     const riverCanvas = document.getElementById('riverCanvas');
     const rCtx = riverCanvas.getContext('2d');
-    let rW, rH;
 
-    function resizeRiver() {
-      rW = riverCanvas.width = window.innerWidth;
-      rH = riverCanvas.height = window.innerHeight;
+    function resizeRiverCanvas() {
+      riverCanvas.width = window.innerWidth;
+      riverCanvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resizeRiver);
-    resizeRiver();
+    window.addEventListener('resize', resizeRiverCanvas);
+    resizeRiverCanvas();
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    window.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+    // Flowing particles along the river path
+    const riverParticles = [];
+    const PARTICLE_COUNT = 80;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      riverParticles.push({
+        xOffset: (Math.random() - 0.5) * 160,
+        yProgress: Math.random(),
+        speed: 0.0015 + Math.random() * 0.003,
+        size: 2 + Math.random() * 4,
+        hue: Math.random() > 0.4 ? 'rgba(0, 240, 255,' : 'rgba(139, 92, 246,'
+      });
+    }
 
-    let wavePhase = 0;
-    function renderRiver() {
-      wavePhase += 0.008;
-      rCtx.clearRect(0, 0, rW, rH);
+    let riverTime = 0;
+    function renderAcousticRiver() {
+      rCtx.clearRect(0, 0, riverCanvas.width, riverCanvas.height);
+      riverTime += 0.02;
 
-      const numWaves = 4;
-      for (let i = 0; i < numWaves; i++) {
+      const W = riverCanvas.width;
+      const H = riverCanvas.height;
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollSpeed = 0.5;
+
+      // Draw multi-layered undulating fluid soundwave ribbon down the center
+      const centerX = W * 0.5;
+      const amplitude = 90;
+
+      rCtx.lineWidth = 3;
+
+      // Multi-ribbon passes (Cyan, Electric Blue, Violet)
+      const ribbons = [
+        { color: 'rgba(0, 240, 255, 0.45)', width: 4, offset: 0 },
+        { color: 'rgba(0, 102, 255, 0.35)', width: 8, offset: 0.8 },
+        { color: 'rgba(139, 92, 246, 0.25)', width: 14, offset: 1.6 }
+      ];
+
+      ribbons.forEach(ribbon => {
         rCtx.beginPath();
-        const yBase = (rH / (numWaves + 1)) * (i + 1) + Math.sin(wavePhase + i) * 60;
-        rCtx.moveTo(0, yBase);
+        rCtx.strokeStyle = ribbon.color;
+        rCtx.lineWidth = ribbon.width;
 
-        for (let x = 0; x <= rW; x += 40) {
-          const distMouse = Math.hypot(x - mouseX, yBase - mouseY);
-          const mouseDisplace = Math.max(0, 1 - distMouse / 350) * 35;
-          const y = yBase + Math.sin((x * 0.003) + wavePhase * 1.5 + i) * 70 - mouseDisplace;
-          rCtx.lineTo(x, y);
+        for (let y = 0; y <= H; y += 20) {
+          const wavePhase = (y * 0.004) + riverTime + ribbon.offset + (scrollY * 0.0015);
+          const x = centerX + Math.sin(wavePhase) * amplitude + Math.cos(wavePhase * 0.5) * 40;
+
+          if (y === 0) rCtx.moveTo(x, y);
+          else rCtx.lineTo(x, y);
         }
+        rCtx.stroke();
+      });
 
-        rCtx.lineTo(rW, rH);
-        rCtx.lineTo(0, rH);
-        rCtx.closePath();
+      // Render Floating Acoustic Particles flowing along the ribbon
+      riverParticles.forEach(p => {
+        p.yProgress += p.speed;
+        if (p.yProgress > 1) p.yProgress = 0;
 
-        const grad = rCtx.createLinearGradient(0, yBase - 80, rW, yBase + 120);
-        if (i === 0) {
-          grad.addColorStop(0, 'rgba(59, 130, 246, 0.07)');
-          grad.addColorStop(1, 'rgba(147, 197, 253, 0.02)');
-        } else if (i === 1) {
-          grad.addColorStop(0, 'rgba(124, 58, 237, 0.06)');
-          grad.addColorStop(1, 'rgba(238, 242, 255, 0.01)');
-        } else if (i === 2) {
-          grad.addColorStop(0, 'rgba(6, 182, 212, 0.06)');
-          grad.addColorStop(1, 'rgba(240, 253, 250, 0.01)');
-        } else {
-          grad.addColorStop(0, 'rgba(245, 158, 11, 0.04)');
-          grad.addColorStop(1, 'rgba(255, 251, 235, 0.01)');
-        }
-        rCtx.fillStyle = grad;
+        const y = p.yProgress * H;
+        const wavePhase = (y * 0.004) + riverTime + (scrollY * 0.0015);
+        const basePathX = centerX + Math.sin(wavePhase) * amplitude;
+        const x = basePathX + p.xOffset;
+
+        rCtx.beginPath();
+        rCtx.arc(x, y, p.size, 0, Math.PI * 2);
+        rCtx.fillStyle = `${p.hue} 0.8)`;
+        rCtx.shadowColor = '#00f0ff';
+        rCtx.shadowBlur = 12;
         rCtx.fill();
-      }
+        rCtx.shadowBlur = 0;
+      });
 
-      requestAnimationFrame(renderRiver);
+      requestAnimationFrame(renderAcousticRiver);
     }
-    renderRiver();
+    requestAnimationFrame(renderAcousticRiver);
 
-    // =========================================================================
-    //  LIVE INTERACTIVE DIRECTIONAL SONAR RADAR CANVAS SIMULATOR
-    // =========================================================================
-    const radarCanvas = document.getElementById('interactiveRadarCanvas');
-    const radCtx = radarCanvas.getContext('2d');
-    let pings = [];
+    // 4. PLAYABLE 360° LIVE SONAR RADAR CANVAS
+    const liveSonarCanvas = document.getElementById('liveSonarCanvas');
+    if (liveSonarCanvas) {
+      const sCtx = liveSonarCanvas.getContext('2d');
+      let radarAngle = 0;
 
-    function drawRadar() {
-      const rw = radarCanvas.width;
-      const rh = radarCanvas.height;
-      const cx = rw / 2;
-      const cy = rh / 2;
+      const blips = [
+        { angle: 0.74, dist: 80, pulse: 1, label: '042° NE - 12m' },
+        { angle: 2.4, dist: 105, pulse: 0.6, label: '135° SE - 26m' },
+        { angle: 4.8, dist: 65, pulse: 0.9, label: '275° W - 8m' }
+      ];
 
-      radCtx.fillStyle = '#090e1a';
-      radCtx.fillRect(0, 0, rw, rh);
+      function renderSonarRadar() {
+        sCtx.clearRect(0, 0, 280, 280);
+        radarAngle += 0.04;
+        if (radarAngle > Math.PI * 2) radarAngle = 0;
 
-      // Concentric Distance Rings
-      for (let r = 30; r <= 110; r += 26) {
-        radCtx.beginPath();
-        radCtx.arc(cx, cy, r, 0, Math.PI * 2);
-        radCtx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
-        radCtx.lineWidth = 1;
-        radCtx.stroke();
+        const cx = 140;
+        const cy = 140;
+
+        // Concentric Range Rings
+        sCtx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
+        sCtx.lineWidth = 1;
+        [35, 70, 105, 130].forEach(r => {
+          sCtx.beginPath();
+          sCtx.arc(cx, cy, r, 0, Math.PI * 2);
+          sCtx.stroke();
+        });
+
+        // Crosshairs
+        sCtx.beginPath();
+        sCtx.moveTo(cx, 10); sCtx.lineTo(cx, 270);
+        sCtx.moveTo(10, cy); sCtx.lineTo(270, cy);
+        sCtx.stroke();
+
+        // Rotating Sweeping Radar Beam
+        sCtx.save();
+        sCtx.beginPath();
+        sCtx.moveTo(cx, cy);
+        sCtx.arc(cx, cy, 130, radarAngle, radarAngle + 0.45);
+        sCtx.closePath();
+        const beamGrad = sCtx.createRadialGradient(cx, cy, 10, cx, cy, 130);
+        beamGrad.addColorStop(0, 'rgba(0, 240, 255, 0.4)');
+        beamGrad.addColorStop(1, 'rgba(0, 240, 255, 0.0)');
+        sCtx.fillStyle = beamGrad;
+        sCtx.fill();
+        sCtx.restore();
+
+        // Draw Acoustic Target Blips
+        blips.forEach(b => {
+          const bx = cx + Math.cos(b.angle) * b.dist;
+          const by = cy + Math.sin(b.angle) * b.dist;
+
+          sCtx.beginPath();
+          sCtx.arc(bx, by, 4.5, 0, Math.PI * 2);
+          sCtx.fillStyle = '#ff4655';
+          sCtx.shadowColor = '#ff4655';
+          sCtx.shadowBlur = 10;
+          sCtx.fill();
+          sCtx.shadowBlur = 0;
+        });
+
+        requestAnimationFrame(renderSonarRadar);
       }
-
-      // Crosshair Axes
-      radCtx.beginPath();
-      radCtx.moveTo(cx - 120, cy); radCtx.lineTo(cx + 120, cy);
-      radCtx.moveTo(cx, cy - 110); radCtx.lineTo(cx, cy + 110);
-      radCtx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
-      radCtx.stroke();
-
-      // Rotating Sonar Laser Sweep
-      const now = performance.now() / 800;
-      radCtx.beginPath();
-      radCtx.moveTo(cx, cy);
-      radCtx.lineTo(cx + Math.cos(now) * 115, cy + Math.sin(now) * 115);
-      radCtx.strokeStyle = '#00e5ff';
-      radCtx.lineWidth = 2;
-      radCtx.shadowColor = '#00e5ff';
-      radCtx.shadowBlur = 12;
-      radCtx.stroke();
-      radCtx.shadowBlur = 0;
-
-      // Center Player Dot
-      radCtx.beginPath();
-      radCtx.arc(cx, cy, 4, 0, Math.PI * 2);
-      radCtx.fillStyle = '#ffffff';
-      radCtx.fill();
-
-      // Render Active Audio Pings
-      for (let i = pings.length - 1; i >= 0; i--) {
-        const p = pings[i];
-        p.r += 1.8;
-        p.alpha -= 0.015;
-
-        if (p.alpha <= 0) {
-          pings.splice(i, 1);
-          continue;
-        }
-
-        radCtx.beginPath();
-        radCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        radCtx.strokeStyle = `rgba(255, 70, 85, ${p.alpha})`;
-        radCtx.lineWidth = 2.5;
-        radCtx.stroke();
-
-        radCtx.beginPath();
-        radCtx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-        radCtx.fillStyle = `rgba(255, 70, 85, ${p.alpha})`;
-        radCtx.fill();
-      }
-
-      requestAnimationFrame(drawRadar);
+      renderSonarRadar();
     }
-    drawRadar();
 
-    radarCanvas.addEventListener('click', e => {
-      const rect = radarCanvas.getBoundingClientRect();
-      const scaleX = radarCanvas.width / rect.width;
-      const scaleY = radarCanvas.height / rect.height;
-      const x = (e.clientX - rect.left) * scaleX;
-      const y = (e.clientY - rect.top) * scaleY;
+    // 5. INTERACTIVE RECOIL CADENCE CROSSHAIR
+    const recoilCrosshair = document.getElementById('recoilCrosshair');
+    const bloomRing = document.getElementById('bloomRing');
+    if (recoilCrosshair && bloomRing) {
+      recoilCrosshair.addEventListener('click', () => {
+        bloomRing.style.width = '85px';
+        bloomRing.style.height = '85px';
+        bloomRing.style.borderColor = '#ff4655';
 
-      pings.push({ x, y, r: 4, alpha: 1.0 });
-
-      const cx = radarCanvas.width / 2;
-      const cy = radarCanvas.height / 2;
-      const dx = x - cx;
-      const dy = y - cy;
-      let angle = Math.round((Math.atan2(dy, dx) * 180 / Math.PI + 90 + 360) % 360);
-      const dist = (Math.hypot(dx, dy) / 6.5).toFixed(1);
-
-      const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-      const dirStr = dirs[Math.round(angle / 45) % 8];
-      document.getElementById('sonar-coords-display').textContent = `BEARING: ${String(angle).padStart(3, '0')}° ${dirStr} // DIST: ${dist}m`;
-    });
-
-    // =========================================================================
-    //  INTERACTIVE RECOIL METRONOME SIMULATOR
-    // =========================================================================
-    let recoilTimeout = null;
-    function triggerSimRecoil() {
-      const cross = document.getElementById('simCrosshair');
-      const status = document.getElementById('recoilStatus');
-
-      cross.style.transform = 'scale(1.4)';
-      cross.style.borderColor = '#ff4655';
-      status.textContent = 'BURST FIRED • METRONOME RESETTING...';
-      status.style.color = '#ff4655';
-
-      clearTimeout(recoilTimeout);
-      recoilTimeout = setTimeout(() => {
-        cross.style.transform = 'scale(1)';
-        cross.style.borderColor = 'rgba(245, 158, 11, 0.6)';
-        status.textContent = 'READY • TAP RESET 100% ACCURATE';
-        status.style.color = '#10b981';
-      }, 140);
+        setTimeout(() => {
+          bloomRing.style.width = '40px';
+          bloomRing.style.height = '40px';
+          bloomRing.style.borderColor = 'var(--cyan-neon)';
+        }, 180);
+      });
     }
   </script>
 </body>
