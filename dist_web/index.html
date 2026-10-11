@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamePilot Pro — 2026 Next-Gen 3D River & Acoustic AI Co-Pilot</title>
+  <title>GamePilot Pro — 2026 Tactical Acoustic AI Co-Pilot (Official 4K)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --blue-void: #000b21;
+      --void-bg: #00081c;
       --blue-deep: #001f5c;
-      --blue-vivid: #0052ff;
-      --blue-electric: #0070f3;
-      --cyan-glow: #00f0ff;
-      --purple-neon: #8b5cf6;
+      --blue-core: #0052ff;
+      --cyan-laser: #00f0ff;
       --val-red: #ff4655;
-      --glass-capsule: rgba(255, 255, 255, 0.12);
-      --glass-border: rgba(255, 255, 255, 0.35);
-      --radius-capsule: 44px;
-      --radius-pill: 9999px;
+      --gold-ace: #f59e0b;
+      --emerald-safe: #10b981;
+      --purple-flux: #8b5cf6;
+      --pill-white: rgba(255, 255, 255, 0.96);
+      --glass-panel: rgba(3, 12, 38, 0.82);
     }
 
     * {
@@ -27,27 +26,27 @@
       margin: 0;
       padding: 0;
       -webkit-font-smoothing: antialiased;
+      user-select: none;
     }
 
     html, body {
       width: 100%;
-      height: 100%;
-      background-color: var(--blue-void);
+      min-height: 100%;
+      background: var(--void-bg);
       color: #ffffff;
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       overflow-x: hidden;
     }
 
-    /* Outer Virtual Scroll Track (600vh drives the continuous 3D camera river) */
+    /* SCROLL CONTAINER: 600vh height drives the virtual momentum timeline */
     #scroll-track {
-      position: relative;
       width: 100%;
       height: 600vh;
-      pointer-events: none;
+      position: relative;
     }
 
-    /* Fixed Viewport Stage (100vw x 100vh holds the entire 3D universe) */
-    #world-stage {
+    /* FIXED 100VW x 100VH 3D UNIVERSE VIEWPORT */
+    #viewport-3d-stage {
       position: fixed;
       top: 0;
       left: 0;
@@ -60,40 +59,40 @@
     }
 
     /* =========================================================================
-       4K CINEMATIC BACKDROP STACK (Crossfading tactical arenas behind river)
+       4K CINEMATIC BACKGROUND STACK (Smooth crossfading tactical environments)
        ========================================================================= */
-    #bg-stack {
+    #cinema-bg-stack {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       z-index: 1;
       pointer-events: none;
     }
 
-    .bg-layer {
+    .bg-cinema-layer {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       background-size: cover;
       background-position: center center;
       opacity: 0;
-      transition: opacity 0.8s ease-out, transform 1s ease-out;
-      transform: scale(1.05);
-      filter: saturate(1.2) contrast(1.1);
+      transform: scale(1.06);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: saturate(1.25) contrast(1.1);
     }
 
-    .bg-layer.active {
-      opacity: 0.38;
+    .bg-cinema-layer.active {
+      opacity: 0.42;
       transform: scale(1.0);
     }
 
-    .bg-vignette-overlay {
+    .bg-vignette-ambient {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 50% 50%, rgba(0, 15, 50, 0.4) 0%, rgba(0, 7, 24, 0.88) 60%, #000718 100%);
+      background: radial-gradient(circle at 50% 50%, rgba(0, 15, 50, 0.25) 0%, rgba(0, 7, 24, 0.85) 65%, #000511 100%);
       pointer-events: none;
     }
 
     /* =========================================================================
-       SWIRLING CONCENTRIC 2026 BLUE ARCS (As seen in the Ko Agent Short!)
+       SWIRLING CONCENTRIC 2026 FLUID WAVES CANVAS (Direct Ko Agent replica)
        ========================================================================= */
     #vortex-waves-canvas {
       position: absolute;
@@ -103,125 +102,150 @@
     }
 
     /* =========================================================================
-       FLOATING NAVIGATION BAR (Minimal Apple / 2026 pill)
+       AUDIO & HYPE HUD STATUS BAR (Top Edge)
        ========================================================================= */
     header {
       position: absolute;
-      top: 24px;
+      top: 20px;
       left: 0;
       width: 100%;
       z-index: 100;
-      padding: 0 32px;
+      padding: 0 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       pointer-events: auto;
     }
 
-    .brand-pill {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: var(--radius-pill);
-      padding: 10px 22px;
+    .brand-cluster {
       display: flex;
       align-items: center;
       gap: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: var(--radius-pill);
+      padding: 8px 20px;
       text-decoration: none;
       color: #ffffff;
-      font-weight: 800;
-      font-size: 1.05rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.25s;
     }
 
-    .brand-pill:hover {
+    .brand-cluster:hover {
       background: rgba(255, 255, 255, 0.18);
-      border-color: var(--cyan-glow);
+      border-color: var(--cyan-laser);
+      transform: translateY(-1px);
     }
 
-    .brand-pill-gem {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--cyan-glow), var(--blue-vivid));
+    .brand-badge-gem {
+      width: 30px; height: 30px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--cyan-laser), var(--blue-core), var(--val-red));
       display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 0.8rem;
+      font-weight: 900; font-size: 0.85rem;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
     }
 
-    .header-center-tabs {
+    .brand-text-name {
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-tag-2026 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 800;
+      background: rgba(0, 240, 255, 0.2);
+      border: 1px solid var(--cyan-laser);
+      color: var(--cyan-laser);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    /* Center Navigation Tabs (Interactive warp stations) */
+    .header-nav-tabs {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(0, 15, 45, 0.6);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      gap: 6px;
+      background: rgba(0, 15, 45, 0.7);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-pill);
       padding: 6px 10px;
     }
 
-    .header-tab-btn {
+    .nav-tab-pill {
       background: transparent;
       border: none;
       color: #94a3b8;
       font-family: inherit;
       font-size: 0.82rem;
       font-weight: 700;
-      padding: 8px 18px;
+      padding: 7px 16px;
       border-radius: var(--radius-pill);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
 
-    .header-tab-btn.active, .header-tab-btn:hover {
+    .nav-tab-pill.active, .nav-tab-pill:hover {
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
     }
 
-    .header-cta-group {
+    .header-actions {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .btn-header-trailer {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(16px);
+    /* Interactive Audio Toggle with visualizer bars */
+    .btn-audio-toggle {
+      background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #ffffff;
-      font-size: 0.86rem;
-      font-weight: 700;
-      padding: 10px 20px;
       border-radius: var(--radius-pill);
-      text-decoration: none;
-      transition: all 0.25s;
+      padding: 8px 16px;
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .btn-header-trailer:hover {
-      background: rgba(255, 255, 255, 0.25);
+    .btn-audio-toggle:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: var(--cyan-laser);
     }
 
-    .btn-header-download {
-      background: linear-gradient(135deg, #0066ff, #00f0ff);
+    .btn-download-top {
+      background: linear-gradient(135deg, #00f0ff 0%, #0052ff 100%);
       color: #ffffff;
       font-size: 0.86rem;
       font-weight: 800;
-      padding: 10px 24px;
+      padding: 9px 24px;
       border-radius: var(--radius-pill);
       text-decoration: none;
-      box-shadow: 0 4px 20px rgba(0, 102, 255, 0.5);
+      box-shadow: 0 4px 20px rgba(0, 82, 255, 0.6);
       transition: all 0.25s;
+      cursor: pointer;
     }
 
-    .btn-header-download:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 26px rgba(0, 240, 255, 0.7);
+    .btn-download-top:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 30px rgba(0, 240, 255, 0.8);
     }
 
     /* =========================================================================
-       HERO CORE STAGE (Center Tactile Sphere & Orbiting Pod Windows)
+       HERO SPATIAL CORE: 1:1 REPLICA OF THE YOUTUBE SHORT
        ========================================================================= */
-    #hero-spatial-chamber {
+    #hero-spatial-stage {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       z-index: 20;
@@ -230,21 +254,22 @@
       align-items: center;
       justify-content: center;
       transform-style: preserve-3d;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease-out;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease-out;
       pointer-events: auto;
     }
 
-    /* Central Tactile 3D Core Sphere (Identical to Ko Agent Short!) */
+    /* THE TACTILE 3D CENTER SPHERE (Ultra-refined with volumetric specular light) */
     .tactile-center-sphere {
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, #ffffff 0%, #e2e8f0 35%, #94a3b8 70%, #475569 100%);
+      background: radial-gradient(circle at 35% 28%, #ffffff 0%, #f1f5f9 25%, #cbd5e1 55%, #64748b 85%, #334155 100%);
       box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.7),
-        0 0 100px rgba(0, 102, 255, 0.5),
-        inset 0 3px 12px #ffffff,
-        inset 0 -8px 20px rgba(0, 0, 0, 0.5);
+        0 40px 80px rgba(0, 0, 0, 0.8),
+        0 0 120px rgba(0, 102, 255, 0.6),
+        0 0 40px rgba(0, 240, 255, 0.4),
+        inset 0 4px 14px #ffffff,
+        inset 0 -10px 24px rgba(0, 0, 0, 0.6);
       position: relative;
       cursor: pointer;
       z-index: 30;
@@ -255,85 +280,102 @@
     }
 
     .tactile-center-sphere:hover {
-      transform: scale(1.1) translateZ(40px);
+      transform: scale(1.12) translateZ(40px);
       box-shadow: 
-        0 40px 80px rgba(0, 0, 0, 0.8),
-        0 0 140px rgba(0, 240, 255, 0.8),
-        inset 0 3px 12px #ffffff;
+        0 50px 100px rgba(0, 0, 0, 0.9),
+        0 0 160px rgba(0, 240, 255, 0.9),
+        inset 0 4px 16px #ffffff;
     }
 
+    .tactile-center-sphere:active {
+      transform: scale(0.96) translateZ(20px);
+    }
+
+    /* Core Pulsing Reactor Dot */
     .sphere-core-dot {
-      width: 24px;
-      height: 24px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: radial-gradient(circle, #00f0ff 0%, #0066ff 100%);
-      box-shadow: 0 0 25px var(--cyan-glow);
-      animation: pulseSphereDot 2s ease-in-out infinite alternate;
+      background: radial-gradient(circle, #ffffff 0%, #00f0ff 40%, #0052ff 100%);
+      box-shadow: 0 0 35px var(--cyan-laser);
+      animation: pulseSphereReactor 1.8s ease-in-out infinite alternate;
     }
 
-    @keyframes pulseSphereDot {
-      0% { transform: scale(0.9); opacity: 0.8; }
+    @keyframes pulseSphereReactor {
+      0% { transform: scale(0.85); opacity: 0.8; }
       100% { transform: scale(1.25); opacity: 1; }
     }
 
-    /* FLOATING CAPSULE POD WINDOWS (Directly styled from the Ko Agent video!) */
+    /* FLOATING CAPSULE POD WINDOWS (Directly matching Ko Agent Short!) */
     .capsule-pod-window {
       position: absolute;
-      width: 140px;
-      height: 220px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: var(--radius-capsule);
+      width: 144px;
+      height: 228px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 46px;
       padding: 10px;
       box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(0, 102, 255, 0.35),
-        inset 0 0 0 2px rgba(255, 255, 255, 0.9);
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(0, 102, 255, 0.4),
+        inset 0 0 0 2px #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 25;
       transform-style: preserve-3d;
-      user-select: none;
     }
 
     .capsule-pod-window:hover {
-      transform: scale(1.12) translateZ(50px) !important;
+      transform: scale(1.15) translateY(-8px) translateZ(60px) !important;
+      background: #ffffff;
       box-shadow: 
-        0 40px 80px rgba(0, 102, 255, 0.6),
-        0 0 60px rgba(0, 240, 255, 0.8),
-        inset 0 0 0 3px var(--cyan-glow);
+        0 40px 90px rgba(0, 240, 255, 0.6),
+        0 0 60px var(--cyan-laser),
+        inset 0 0 0 3px var(--cyan-laser);
     }
 
     .pod-inner-display {
       width: 100%;
-      height: 140px;
-      border-radius: 34px;
+      height: 148px;
+      border-radius: 36px;
       background: #020b24;
       overflow: hidden;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .pod-inner-display img, .pod-inner-display video {
+    .pod-inner-display img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       opacity: 0.85;
-      transition: opacity 0.3s;
+      transition: transform 0.4s, opacity 0.3s;
     }
 
     .capsule-pod-window:hover .pod-inner-display img {
+      transform: scale(1.12);
       opacity: 1;
     }
 
-    .pod-label-text {
-      font-size: 0.72rem;
+    .pod-hud-tag {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--cyan-laser);
+      color: var(--cyan-laser);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .pod-title-label {
+      font-size: 0.75rem;
       font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.01em;
@@ -342,110 +384,125 @@
       font-family: 'Space Grotesk', sans-serif;
     }
 
-    /* Orbital placement around center sphere */
+    /* Spatial Coordinates Orbiting the Center Sphere */
     .pod-pos-left {
-      left: calc(50% - 380px);
-      top: calc(50% - 110px);
-      transform: translateZ(20px);
-    }
-
-    .pod-pos-right {
-      right: calc(50% - 380px);
-      top: calc(50% - 110px);
+      left: calc(50% - 390px);
+      top: calc(50% - 114px);
       transform: translateZ(25px);
     }
 
+    .pod-pos-right {
+      right: calc(50% - 390px);
+      top: calc(50% - 114px);
+      transform: translateZ(30px);
+    }
+
     .pod-pos-top {
-      top: calc(50% - 280px);
-      left: calc(50% - 70px);
+      top: calc(50% - 290px);
+      left: calc(50% - 72px);
+      transform: translateZ(20px);
+    }
+
+    .pod-pos-bot-left {
+      left: calc(50% - 250px);
+      bottom: 110px;
       transform: translateZ(15px);
     }
 
-    .pod-pos-bottom-left {
-      left: calc(50% - 240px);
+    .pod-pos-bot-right {
+      right: calc(50% - 250px);
       bottom: 110px;
-      transform: translateZ(10px);
+      transform: translateZ(15px);
     }
 
-    .pod-pos-bottom-right {
-      right: calc(50% - 240px);
-      bottom: 110px;
-      transform: translateZ(10px);
-    }
-
-    /* FLOATING BOTTOM COMMAND CAPSULE BAR (Like the Ko Agent Short!) */
+    /* FLOATING BOTTOM COMMAND CAPSULE BAR (Direct Ko Agent replica) */
     .floating-command-dock {
       position: absolute;
-      bottom: 36px;
+      bottom: 34px;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      max-width: 540px;
-      background: rgba(255, 255, 255, 0.95);
+      max-width: 580px;
+      background: rgba(255, 255, 255, 0.98);
       border-radius: var(--radius-pill);
       padding: 8px 10px 8px 24px;
       box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.4),
-        0 0 35px rgba(0, 102, 255, 0.25);
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        0 0 45px rgba(0, 102, 255, 0.35);
       display: flex;
       align-items: center;
       gap: 16px;
       z-index: 50;
+      cursor: pointer;
       transition: all 0.3s;
     }
 
-    .dock-ai-indicator {
-      width: 10px;
-      height: 10px;
+    .floating-command-dock:hover {
+      box-shadow: 0 30px 70px rgba(0, 240, 255, 0.5);
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .dock-telemetry-dot {
+      width: 10px; height: 10px;
       border-radius: 50%;
       background: #10b981;
       box-shadow: 0 0 12px #10b981;
+      animation: pulseDot 1.6s infinite alternate;
     }
 
-    .dock-input-prompt {
+    .dock-prompt-text {
       flex: 1;
       font-size: 0.92rem;
       font-weight: 700;
-      color: #334155;
-      text-decoration: none;
+      color: #1e293b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .btn-dock-action-blue {
-      background: #0052ff;
+      background: linear-gradient(135deg, #0052ff, #0070f3);
       color: #ffffff;
-      padding: 12px 26px;
+      padding: 12px 28px;
       border-radius: var(--radius-pill);
       font-size: 0.88rem;
       font-weight: 800;
       text-decoration: none;
-      box-shadow: 0 4px 16px rgba(0, 82, 255, 0.4);
+      box-shadow: 0 4px 18px rgba(0, 82, 255, 0.5);
       transition: all 0.2s;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .btn-dock-action-blue:hover {
-      background: #0040cc;
-      transform: translateY(-1px);
+      background: linear-gradient(135deg, #00f0ff, #0052ff);
+      box-shadow: 0 6px 25px rgba(0, 240, 255, 0.7);
     }
 
-    /* Scroll Down Prompt */
+    /* SCROLL HINT WITH INTERACTIVE CLICK */
     .scroll-down-hint {
       position: absolute;
-      bottom: 100px;
+      bottom: 96px;
       left: 50%;
       transform: translateX(-50%);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
-      letter-spacing: 0.15em;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #94a3b8;
+      color: #cbd5e1;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      animation: floatHint 2s infinite alternate;
+      cursor: pointer;
       z-index: 30;
-      pointer-events: none;
+      animation: floatHint 2s infinite alternate;
+    }
+
+    .scroll-down-hint:hover {
+      color: var(--cyan-laser);
     }
 
     @keyframes floatHint {
@@ -454,7 +511,7 @@
     }
 
     /* =========================================================================
-       THE 3D RIVER CHAMBERS (Sections that swoop in as you scroll down)
+       THE 5 RIVER STATIONS (SWOOP IN AS THE 3D CAMERA TRAVELS FORWARD)
        ========================================================================= */
     .river-station-chamber {
       position: absolute;
@@ -465,8 +522,8 @@
       justify-content: center;
       padding: 40px;
       opacity: 0;
-      transform: translateZ(-400px) scale(0.7);
-      transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateZ(-500px) scale(0.65);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
     }
 
@@ -476,23 +533,23 @@
       pointer-events: auto;
     }
 
-    /* 3D Giant Glass Pavilion Panel */
+    /* Massive Holographic Frosted Glass Monolith */
     .station-monolith {
       width: 100%;
-      max-width: 1120px;
-      background: rgba(4, 15, 45, 0.75);
+      max-width: 1140px;
+      background: rgba(3, 12, 38, 0.85);
       backdrop-filter: blur(36px);
       -webkit-backdrop-filter: blur(36px);
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      border-radius: 36px;
-      padding: 50px 60px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 40px;
+      padding: 56px 64px;
       box-shadow: 
-        0 50px 100px -20px rgba(0, 0, 0, 0.8),
-        0 0 60px rgba(0, 102, 255, 0.25),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+        0 50px 120px -20px rgba(0, 0, 0, 0.9),
+        0 0 80px rgba(0, 102, 255, 0.35),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
-      gap: 50px;
+      gap: 56px;
       align-items: center;
       position: relative;
     }
@@ -501,52 +558,53 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 240, 255, 0.12);
-      border: 1px solid rgba(0, 240, 255, 0.4);
-      color: var(--cyan-glow);
+      background: rgba(0, 240, 255, 0.14);
+      border: 1px solid var(--cyan-laser);
+      color: var(--cyan-laser);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 6px 16px;
+      padding: 6px 18px;
       border-radius: var(--radius-pill);
       margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
     }
 
     .monolith-text h2 {
-      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      font-size: clamp(2.4rem, 4.2vw, 3.6rem);
       font-weight: 900;
       letter-spacing: -0.04em;
-      line-height: 1.1;
-      margin-bottom: 18px;
+      line-height: 1.08;
+      margin-bottom: 20px;
       color: #ffffff;
     }
 
     .monolith-text p {
-      font-size: 1.12rem;
+      font-size: 1.15rem;
       color: #cbd5e1;
       line-height: 1.7;
-      margin-bottom: 28px;
+      margin-bottom: 30px;
     }
 
     .monolith-hud-screen {
       background: #020819;
-      border: 1.5px solid rgba(0, 240, 255, 0.35);
-      border-radius: 28px;
-      padding: 24px;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(0, 240, 255, 0.4);
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(0, 240, 255, 0.1);
       text-align: center;
     }
 
-    /* 4K Cinema Theater Station */
+    /* Station 4: 4K Cinema Theater Monolith */
     .theater-full-monolith {
       width: 100%;
-      max-width: 1180px;
-      background: rgba(2, 8, 26, 0.88);
+      max-width: 1200px;
+      background: rgba(2, 8, 26, 0.92);
       backdrop-filter: blur(40px);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 36px;
-      padding: 40px;
-      box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 240, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 40px;
+      padding: 44px;
+      box-shadow: 0 60px 140px rgba(0, 0, 0, 0.9), 0 0 100px rgba(0, 240, 255, 0.35);
     }
 
     .theater-video-box {
@@ -554,10 +612,10 @@
       height: 0;
       padding-bottom: 56.25%;
       position: relative;
-      border-radius: 20px;
+      border-radius: 22px;
       overflow: hidden;
-      margin-top: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+      margin-top: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.95), 0 0 0 1px rgba(255, 255, 255, 0.15);
       background: #000000;
     }
 
@@ -567,39 +625,39 @@
       object-fit: cover;
     }
 
-    /* Final Launch Terminal Station */
+    /* Station 5: Ocean Delta Instant Launch */
     .launch-monolith {
       text-align: center;
-      max-width: 900px;
-      background: radial-gradient(circle at 50% 0%, rgba(0, 102, 255, 0.35) 0%, rgba(2, 9, 32, 0.95) 100%);
-      border: 2px solid rgba(0, 240, 255, 0.5);
-      border-radius: 36px;
-      padding: 60px 48px;
-      box-shadow: 0 50px 120px rgba(0, 102, 255, 0.4);
+      max-width: 940px;
+      background: radial-gradient(circle at 50% 0%, rgba(0, 102, 255, 0.45) 0%, rgba(2, 9, 32, 0.98) 100%);
+      border: 2px solid var(--cyan-laser);
+      border-radius: 40px;
+      padding: 68px 56px;
+      box-shadow: 0 60px 150px rgba(0, 102, 255, 0.5), 0 0 80px rgba(0, 240, 255, 0.4);
     }
 
-    .btn-massive-download {
-      background: linear-gradient(135deg, #00f0ff 0%, #0066ff 100%);
+    .btn-epic-download {
+      background: linear-gradient(135deg, #00f0ff 0%, #0052ff 100%);
       color: #ffffff;
-      font-size: 1.18rem;
-      font-weight: 800;
-      padding: 18px 44px;
+      font-size: 1.25rem;
+      font-weight: 900;
+      padding: 20px 48px;
       border-radius: var(--radius-pill);
       text-decoration: none;
-      box-shadow: 0 10px 35px rgba(0, 102, 255, 0.6);
+      box-shadow: 0 10px 40px rgba(0, 102, 255, 0.7);
       transition: all 0.25s;
       display: inline-flex;
       align-items: center;
       gap: 12px;
     }
 
-    .btn-massive-download:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 16px 50px rgba(0, 240, 255, 0.8);
+    .btn-epic-download:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 20px 60px rgba(0, 240, 255, 0.9);
     }
 
-    /* Right River Progress Beads */
-    .river-progress-dock {
+    /* RIGHT RIVER ELEVATION GAUGE (Interactive Draggable Beads) */
+    .river-progress-elevator {
       position: fixed;
       right: 28px;
       top: 50%;
@@ -607,213 +665,249 @@
       z-index: 100;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 14px;
+      background: rgba(0, 15, 45, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 10px;
+      border-radius: var(--radius-pill);
     }
 
     .progress-bead {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       cursor: pointer;
       transition: all 0.3s;
     }
 
     .progress-bead.active {
-      background: var(--cyan-glow);
-      box-shadow: 0 0 12px var(--cyan-glow);
-      transform: scale(1.4);
+      background: var(--cyan-laser);
+      box-shadow: 0 0 15px var(--cyan-laser);
+      transform: scale(1.5);
+    }
+
+    /* SHOCKWAVE PULSE FX ON CLICK */
+    .shockwave-pulse {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 3px solid var(--cyan-laser);
+      box-shadow: 0 0 40px var(--cyan-laser);
+      pointer-events: none;
+      animation: explodeWave 0.7s ease-out forwards;
+      z-index: 40;
+    }
+
+    @keyframes explodeWave {
+      0% { width: 10px; height: 10px; opacity: 1; }
+      100% { width: 1200px; height: 1200px; opacity: 0; }
     }
 
     @media (max-width: 900px) {
-      .station-monolith { grid-template-columns: 1fr; padding: 30px; }
+      .station-monolith { grid-template-columns: 1fr; padding: 32px; }
       .capsule-pod-window { display: none; }
-      .header-center-tabs { display: none; }
+      .header-nav-tabs { display: none; }
+      .tactile-center-sphere { width: 150px; height: 150px; }
     }
   </style>
 </head>
 <body>
 
   <!-- =========================================================================
-     FIXED 3D WORLD VIEWPORT
+     FIXED 3D WORLD VIEWPORT (Renders the entire 2026 Universe)
      ========================================================================= -->
-  <div id="world-stage">
+  <div id="viewport-3d-stage">
 
-    <!-- 4K Cinematic Background Layers (Ascent, Spike Defuse, Scope, Victory) -->
-    <div id="bg-stack">
-      <div id="bg-0" class="bg-layer active" style="background-image: url('./assets/bg_hero_cover.jpg');"></div>
-      <div id="bg-1" class="bg-layer" style="background-image: url('./assets/bg_vandal_ascent.jpg');"></div>
-      <div id="bg-2" class="bg-layer" style="background-image: url('./assets/bg_spike_defuse.jpg');"></div>
-      <div id="bg-3" class="bg-layer" style="background-image: url('./assets/bg_operator_scope.jpg');"></div>
-      <div id="bg-4" class="bg-layer" style="background-image: url('./assets/bg_ace_victory.jpg');"></div>
-      <div class="bg-vignette-overlay"></div>
+    <!-- 4K Cinematic Background Layers (Ascent, Firefight, Spike Site, Operator Scope, Victory) -->
+    <div id="cinema-bg-stack">
+      <div id="bg-0" class="bg-cinema-layer active" style="background-image: url('./assets/bg_hero_cover.jpg');"></div>
+      <div id="bg-1" class="bg-cinema-layer" style="background-image: url('./assets/bg_vandal_ascent.jpg');"></div>
+      <div id="bg-2" class="bg-cinema-layer" style="background-image: url('./assets/bg_spike_defuse.jpg');"></div>
+      <div id="bg-3" class="bg-cinema-layer" style="background-image: url('./assets/bg_operator_scope.jpg');"></div>
+      <div id="bg-4" class="bg-cinema-layer" style="background-image: url('./assets/bg_ace_victory.jpg');"></div>
+      <div class="bg-vignette-ambient"></div>
     </div>
 
     <!-- Swirling 3D Concentric Fluid Blue Waves (Matching the Ko Agent Short!) -->
     <canvas id="vortex-waves-canvas"></canvas>
 
-    <!-- Top Navigation Pill -->
+    <!-- Top Navigation & Audio Control Bar -->
     <header>
-      <a href="#" class="brand-pill">
-        <div class="brand-pill-gem">GP</div>
-        <span>GamePilot Pro</span>
-      </a>
-
-      <div class="header-center-tabs">
-        <button class="header-tab-btn active" onclick="jumpToChamber(0)">2026 Core</button>
-        <button class="header-tab-btn" onclick="jumpToChamber(1)">Sonar Radar</button>
-        <button class="header-tab-btn" onclick="jumpToChamber(2)">Recoil Metronome</button>
-        <button class="header-tab-btn" onclick="jumpToChamber(3)">Spike Defuse</button>
-        <button class="header-tab-btn" onclick="jumpToChamber(4)">4K Cinema</button>
-        <button class="header-tab-btn" onclick="jumpToChamber(5)">Download</button>
+      <div class="brand-cluster" onclick="jumpToStation(0)">
+        <div class="brand-badge-gem">GP</div>
+        <span class="brand-text-name">GamePilot Pro</span>
+        <span class="brand-tag-2026">2026</span>
       </div>
 
-      <div class="header-cta-group">
-        <a href="GamePilot_Official_Trailer.html" class="btn-header-trailer">Watch 4K Trailer</a>
-        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-header-download">
+      <div class="header-nav-tabs">
+        <button class="nav-tab-pill active" onclick="jumpToStation(0)">Acoustic Core</button>
+        <button class="nav-tab-pill" onclick="jumpToStation(1)">Sonar Radar</button>
+        <button class="nav-tab-pill" onclick="jumpToStation(2)">Recoil Metronome</button>
+        <button class="nav-tab-pill" onclick="jumpToStation(3)">Spike 7.0s</button>
+        <button class="nav-tab-pill" onclick="jumpToStation(4)">4K Cinema</button>
+        <button class="nav-tab-pill" onclick="jumpToStation(5)">Download</button>
+      </div>
+
+      <div class="header-actions">
+        <button id="btnAudioToggle" class="btn-audio-toggle" onclick="toggleAudioSynth()">
+          <span id="audioIcon">🔊</span>
+          <span id="audioText">Hans Zimmer FX</span>
+        </button>
+        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-download-top">
           Download Free
         </a>
       </div>
     </header>
 
     <!-- =========================================================================
-       HERO SPATIAL CHAMBER (The 2026 Concentric Vortex from YouTube Short!)
+       HERO SPATIAL CORE (Direct 1:1 Match to the Ko Agent 2026 Video!)
        ========================================================================= -->
-    <div id="hero-spatial-chamber">
+    <div id="hero-spatial-stage">
 
       <!-- Center Tactile 3D Core Sphere -->
-      <div id="coreSphere" class="tactile-center-sphere" title="Tactile Acoustic Core">
+      <div id="coreSphere" class="tactile-center-sphere" title="Click to trigger acoustic shockwave!">
         <div class="sphere-core-dot"></div>
       </div>
 
-      <!-- Orbiting Capsule Pod Windows (Window into each feature) -->
-      <div class="capsule-pod-window pod-pos-left" onclick="jumpToChamber(1)">
+      <!-- Orbiting Capsule Pod Windows (Rounded Window into Each Feature) -->
+      <div class="capsule-pod-window pod-pos-left" onclick="jumpToStation(1)">
         <div class="pod-inner-display">
+          <div class="pod-hud-tag">042° NE</div>
           <img src="./assets/bg_vandal_ascent.jpg" alt="Sonar Radar">
         </div>
-        <span class="pod-label-text">SONAR RADAR</span>
+        <span class="pod-title-label">SONAR RADAR</span>
       </div>
 
-      <div class="capsule-pod-window pod-pos-right" onclick="jumpToChamber(2)">
+      <div class="capsule-pod-window pod-pos-right" onclick="jumpToStation(2)">
         <div class="pod-inner-display">
+          <div class="pod-hud-tag">0.18s TAP</div>
           <img src="./assets/bg_spike_defuse.jpg" alt="Recoil Cadence">
         </div>
-        <span class="pod-label-text">RECOIL METRONOME</span>
+        <span class="pod-title-label">RECOIL COACH</span>
       </div>
 
-      <div class="capsule-pod-window pod-pos-top" onclick="jumpToChamber(3)">
+      <div class="capsule-pod-window pod-pos-top" onclick="jumpToStation(3)">
         <div class="pod-inner-display">
+          <div class="pod-hud-tag">7.0s DEFUSE</div>
           <img src="./assets/bg_operator_scope.jpg" alt="Spike Sense">
         </div>
-        <span class="pod-label-text">SPIKE 7.0s</span>
+        <span class="pod-title-label">SPIKE TELEMETRY</span>
       </div>
 
-      <div class="capsule-pod-window pod-pos-bottom-left" onclick="jumpToChamber(4)">
+      <div class="capsule-pod-window pod-pos-bot-left" onclick="jumpToStation(4)">
         <div class="pod-inner-display">
+          <div class="pod-hud-tag">4K 60FPS</div>
           <img src="./assets/bg_ace_victory.jpg" alt="4K Cinema">
         </div>
-        <span class="pod-label-text">4K CINEMA</span>
+        <span class="pod-title-label">4K CINEMA</span>
       </div>
 
-      <div class="capsule-pod-window pod-pos-bottom-right" onclick="jumpToChamber(5)">
+      <div class="capsule-pod-window pod-pos-bot-right" onclick="jumpToStation(5)">
         <div class="pod-inner-display">
+          <div class="pod-hud-tag">100% SAFE</div>
           <img src="./assets/bg_hero_cover.jpg" alt="Vanguard Safe">
         </div>
-        <span class="pod-label-text">VANGUARD SAFE</span>
+        <span class="pod-title-label">VANGUARD PASS</span>
       </div>
 
       <!-- Floating Command Capsule Bar at Bottom (Ko Agent style) -->
-      <div class="floating-command-dock">
-        <div class="dock-ai-indicator"></div>
-        <span class="dock-input-prompt">GamePilot Pro 2026 Acoustic AI is Active</span>
-        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-dock-action-blue">
-          Download v2.1
+      <div class="floating-command-dock" onclick="jumpToStation(5)">
+        <div class="dock-telemetry-dot"></div>
+        <span id="dockTypingPrompt" class="dock-prompt-text">GamePilot Pro 2026 Acoustic AI Online • Click to Launch</span>
+        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-dock-action-blue" onclick="event.stopPropagation()">
+          <span>Download v2.1</span>
+          <span>↓</span>
         </a>
       </div>
 
-      <div class="scroll-down-hint">
-        <span>SCROLL DOWN TO DIVE THE RIVER</span>
+      <div class="scroll-down-hint" onclick="jumpToStation(1)">
+        <span>SCROLL DOWN OR CLICK TO DIVE RIVER</span>
         <span>↓</span>
       </div>
     </div>
 
     <!-- =========================================================================
-       CHAMBER 1: DIRECTIONAL SONAR RADAR (Ascent Courtyard Rapids)
+       STATION 1: DIRECTIONAL SONAR RADAR (Ascent Courtyard Rapids)
        ========================================================================= -->
     <div id="chamber-1" class="river-station-chamber">
       <div class="station-monolith">
         <div class="monolith-text">
-          <div class="monolith-badge">RIVER STATION 01 • SPATIAL ACOUSTICS</div>
+          <div class="monolith-badge">STATION 01 // SPATIAL ACOUSTIC VECTORING</div>
           <h2>Hear With Your Eyes.<br>360° Directional Sonar.</h2>
           <p>
-            Transforms stereo sound into real-time visual vectors. Pinpoints enemy footsteps, reloads, and abilities through walls with sub-millisecond precision. Designed for deaf gamers and tactical advantage.
+            Translates Windows stereo loopback into spatial vector geometry. Footsteps, reloads, and defusal pins through walls at 042° NE appear as crisp hardware overlay blips. Built for deaf gamers and tactical esports dominance.
           </p>
-          <div style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--cyan-glow); font-weight:700;">
-            • ZERO MEMORY INJECTION • 100% VANGUARD SAFE • WIN32 GDI
+          <div style="font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:var(--cyan-laser); font-weight:700;">
+            • ZERO MEMORY HOOKING • WIN32 GDI OVERLAY • 100% VANGUARD SAFE
           </div>
         </div>
         <div class="monolith-hud-screen">
-          <canvas id="sonarRadarCanvas" width="260" height="260" style="border-radius:50%; background:#000a20; box-shadow:0 0 30px rgba(0,240,255,0.4);"></canvas>
-          <div style="margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:#38bdf8;">
-            BEARING: 042° NE • DISTANCE: 12.4m
+          <canvas id="liveSonarCanvas" width="280" height="280" style="border-radius:50%; background:#000a20; box-shadow:0 0 35px rgba(0,240,255,0.4);"></canvas>
+          <div style="margin-top:16px; font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:#38bdf8; font-weight:700;">
+            TARGET ACQUIRED: 042° NE • DISTANCE: 12.4m
           </div>
         </div>
       </div>
     </div>
 
     <!-- =========================================================================
-       CHAMBER 2: RECOIL METRONOME & TAP CADENCE (Firefight Meander)
+       STATION 2: RECOIL METRONOME & TAP CADENCE (Firefight Meander)
        ========================================================================= -->
     <div id="chamber-2" class="river-station-chamber">
       <div class="station-monolith">
         <div class="monolith-text">
-          <div class="monolith-badge">RIVER STATION 02 • CADENCE COACH</div>
+          <div class="monolith-badge">STATION 02 // CADENCE RESET COACH</div>
           <h2>Zero-Spray Recoil Cadence.<br>Pinpoint First-Shot Accuracy.</h2>
           <p>
-            Spraying in Valorant causes bullet bloom. GamePilot Pro provides an unobtrusive peripheral rhythm indicator that synchronizes with your rifle's exact tap-fire reset cooldown.
+            Spraying in Valorant creates random bullet bloom. GamePilot Pro provides an ambient peripheral metronome ring that pulses in exact sync with weapon recoil cooldowns.
           </p>
-          <div style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:#f59e0b; font-weight:700;">
-            • VANDAL / PHANTOM 0.18s RESET CADENCE • ZERO SPRAY DRIFT
+          <div style="font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:var(--gold-ace); font-weight:700;">
+            • 0.18s VANDAL TAP RESET • ZERO BULLET SPREAD DRIFT
           </div>
         </div>
         <div class="monolith-hud-screen">
-          <div id="tapReticleBox" style="width:140px; height:140px; margin:20px auto; border:2px dashed rgba(251,191,36,0.6); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer;">
-            <div style="width:16px; height:16px; background:#ff4655; border-radius:50%; box-shadow:0 0 20px #ff4655;"></div>
-            <div id="bloomPulseRing" style="position:absolute; width:45px; height:45px; border:2px solid #00f0ff; border-radius:50%; transition:all 0.18s ease-out;"></div>
+          <div id="recoilReticle" style="width:150px; height:150px; margin:20px auto; border:2px dashed rgba(245,158,11,0.6); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; cursor:pointer;" onclick="triggerRecoilTap()">
+            <div style="width:18px; height:18px; background:var(--val-red); border-radius:50%; box-shadow:0 0 25px var(--val-red);"></div>
+            <div id="bloomRing" style="position:absolute; width:48px; height:48px; border:2px solid var(--cyan-laser); border-radius:50%; transition:all 0.18s ease-out;"></div>
           </div>
-          <span style="font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:#94a3b8;">
-            CLICK RETICLE TO TEST TAP RESET CADENCE
+          <span style="font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:#94a3b8;">
+            CLICK RETICLE TO TEST TAP-FIRE RESET CADENCE
           </span>
         </div>
       </div>
     </div>
 
     <!-- =========================================================================
-       CHAMBER 3: MICRO-SPIKE RADAR (Clutch Canyon 7.0s Threshold)
+       STATION 3: MICRO-SPIKE RADAR (Clutch Canyon 7.0s Threshold)
        ========================================================================= -->
     <div id="chamber-3" class="river-station-chamber">
       <div class="station-monolith">
         <div class="monolith-text">
-          <div class="monolith-badge">RIVER STATION 03 • DEFUSE TELEMETRY</div>
+          <div class="monolith-badge">STATION 03 // SPIKE DEFUSE CLUTCH TIMING</div>
           <h2>Clutch With Zero Guesswork.<br>7.0s Defuse Threshold.</h2>
           <p>
-            Isolates the spike's acoustic beeping frequency and projects a live mathematical countdown. Instantly shows whether you have time for a full stick, half defuse, or need to run.
+            Isolates the spike's acoustic beeping frequency and projects a live mathematical countdown. Instantly shows whether you have time for a full stick, half defuse, or need to evacuate blast radius.
           </p>
-          <div style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:#10b981; font-weight:700;">
-            • GREEN: FULL DEFUSE • AMBER: HALF DEFUSE • RED: EVACUATE
+          <div style="font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:var(--emerald-safe); font-weight:700;">
+            • GREEN: FULL DEFUSE • AMBER: HALF DEFUSE • RED: RUN
           </div>
         </div>
         <div class="monolith-hud-screen">
-          <div style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin-bottom:12px; display:flex; justify-content:space-between;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:0.9rem; margin-bottom:14px; display:flex; justify-content:space-between;">
             <span>SPIKE CLUTCH TIMER</span>
-            <span style="color:#ff4655; font-weight:800;">14.2s DETONATION</span>
+            <span style="color:var(--val-red); font-weight:800;">14.2s DETONATION</span>
           </div>
-          <div style="width:100%; height:20px; background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; position:relative;">
+          <div style="width:100%; height:22px; background:rgba(255,255,255,0.1); border-radius:11px; overflow:hidden; position:relative;">
             <div style="width:68%; height:100%; background:linear-gradient(90deg, #10b981, #f59e0b, #ff4655);"></div>
-            <div style="position:absolute; left:50%; top:0; width:2px; height:100%; background:#fff; box-shadow:0 0 6px #fff;"></div>
+            <div style="position:absolute; left:50%; top:0; width:2px; height:100%; background:#fff; box-shadow:0 0 8px #fff;"></div>
           </div>
-          <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:#94a3b8; margin-top:8px;">
+          <div style="display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#94a3b8; margin-top:10px;">
             <span>FULL (7.0s)</span>
             <span>HALF (3.5s)</span>
             <span>DETONATE (0.0s)</span>
@@ -823,129 +917,266 @@
     </div>
 
     <!-- =========================================================================
-       CHAMBER 4: 4K CINEMA THEATER PAVILION
+       STATION 4: 4K CINEMA THEATER PAVILION
        ========================================================================= -->
     <div id="chamber-4" class="river-station-chamber">
       <div class="theater-full-monolith">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div>
-            <div class="monolith-badge" style="margin-bottom:6px;">RIVER STATION 04 • CINEMA THEATER</div>
-            <h3 style="font-size:1.6rem; font-weight:800;">GamePilot Pro 4K 60FPS Video Reel</h3>
+            <div class="monolith-badge" style="margin-bottom:6px;">STATION 04 // 4K 60FPS CINEMA REEL</div>
+            <h3 style="font-size:1.8rem; font-weight:900;">GamePilot Pro 4K Continuous Video Showcase</h3>
           </div>
-          <a href="GamePilot_Official_Trailer.html" target="_blank" class="btn-header-trailer" style="background:#0066ff;">
-            Open Dedicated Theater ↗
+          <a href="GamePilot_Official_Trailer.html" target="_blank" class="btn-download-top" style="text-decoration:none;">
+            Open Standalone 4K Theater ↗
           </a>
         </div>
         <div class="theater-video-box">
-          <video src="trailer_assets/gameplay_reel.mp4" autoplay loop muted playsinline controls></video>
+          <video id="cinemaVideoPlayer" src="trailer_assets/gameplay_reel.mp4" autoplay loop muted playsinline controls></video>
         </div>
       </div>
     </div>
 
     <!-- =========================================================================
-       CHAMBER 5: OCEAN DELTA (1-Click Launch Terminal)
+       STATION 5: OCEAN DELTA (1-Click Launch Terminal)
        ========================================================================= -->
     <div id="chamber-5" class="river-station-chamber">
       <div class="launch-monolith">
-        <div class="monolith-badge">THE OCEAN DELTA • INSTANT LAUNCH</div>
-        <h2 style="font-size:clamp(2.4rem, 4.5vw, 3.8rem); font-weight:900; letter-spacing:-0.035em; margin-bottom:18px;">
+        <div class="monolith-badge">THE OCEAN DELTA // INSTANT DOWNLOAD</div>
+        <h2 style="font-size:clamp(2.6rem, 4.8vw, 4rem); font-weight:900; letter-spacing:-0.04em; margin-bottom:18px;">
           The Future Of Tactical Esports Is Here.
         </h2>
-        <p style="font-size:1.15rem; color:#cbd5e1; max-width:680px; margin:0 auto 36px; line-height:1.7;">
-          Engineered by a Class 9 Indian student developer for hearing-impaired and competitive gamers. Free forever, digitally signed, zero bloatware.
+        <p style="font-size:1.18rem; color:#cbd5e1; max-width:700px; margin:0 auto 36px; line-height:1.7;">
+          Built by a Class 9 Indian student creator for deaf and competitive gamers worldwide. Free forever, digitally signed, zero ads, zero memory injection.
         </p>
-        <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:30px;">
-          <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-massive-download">
-            <span>Download Free (.exe)</span>
+        <div style="display:flex; justify-content:center; gap:18px; flex-wrap:wrap; margin-bottom:34px;">
+          <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-epic-download">
+            <span>Download Free Installer (.exe)</span>
             <span>↓</span>
           </a>
-          <a href="GamePilot_Official_Trailer.html" class="btn-header-trailer" style="padding:18px 36px; font-size:1.1rem;">
+          <a href="GamePilot_Official_Trailer.html" class="btn-audio-toggle" style="padding:20px 36px; font-size:1.1rem; text-decoration:none;">
             Watch 4K Trailer ▶
           </a>
-          <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank" class="btn-header-trailer" style="padding:18px 36px; font-size:1.1rem;">
+          <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank" class="btn-audio-toggle" style="padding:20px 36px; font-size:1.1rem; text-decoration:none;">
             GitHub Source ★
           </a>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; color:#94a3b8;">
-          100% RIOT VANGUARD SAFE • ZERO MEMORY INJECTION • WIN32 NATIVE
+        <div style="font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:#94a3b8;">
+          100% RIOT VANGUARD SAFE • CERTIFIED CLEAN • WINDOWS 10/11 64-BIT
         </div>
       </div>
     </div>
 
-    <!-- Right River Progress Beads -->
-    <div class="river-progress-dock">
-      <div class="progress-bead active" onclick="jumpToChamber(0)" title="2026 Core"></div>
-      <div class="progress-bead" onclick="jumpToChamber(1)" title="Sonar Radar"></div>
-      <div class="progress-bead" onclick="jumpToChamber(2)" title="Recoil Metronome"></div>
-      <div class="progress-bead" onclick="jumpToChamber(3)" title="Spike Defuse"></div>
-      <div class="progress-bead" onclick="jumpToChamber(4)" title="4K Cinema"></div>
-      <div class="progress-bead" onclick="jumpToChamber(5)" title="Download"></div>
+    <!-- RIGHT RIVER PROGRESS ELEVATOR -->
+    <div class="river-progress-elevator">
+      <div class="progress-bead active" onclick="jumpToStation(0)" title="Acoustic Core"></div>
+      <div class="progress-bead" onclick="jumpToStation(1)" title="Sonar Radar"></div>
+      <div class="progress-bead" onclick="jumpToStation(2)" title="Recoil Metronome"></div>
+      <div class="progress-bead" onclick="jumpToStation(3)" title="Spike 7.0s"></div>
+      <div class="progress-bead" onclick="jumpToStation(4)" title="4K Cinema"></div>
+      <div class="progress-bead" onclick="jumpToStation(5)" title="Download"></div>
     </div>
 
   </div>
 
-  <!-- VIRTUAL SCROLL TRACK TO PROVIDE CONTINUOUS 600VH DRIVING WHEEL -->
+  <!-- VIRTUAL SCROLL TRACK TO GUARANTEE ACCESSIBLE SCROLLBAR & WHEEL MOTION -->
   <div id="scroll-track"></div>
 
   <!-- =========================================================================
-     2026 CONTINUOUS 3D RIVER ENGINE JAVASCRIPT
+     HYPER-ENGINE: SMOOTH MOMENTUM SCROLL, WEB AUDIO SYNTH, & 3D CAMERA TRAVEL
      ========================================================================= -->
   <script>
-    // 1. SWIRLING 3D CONCENTRIC BLUE FLUID WAVES CANVAS (Directly matching Ko Agent Short!)
+    // =========================================================================
+    // 1. BUILT-IN WEB AUDIO HANS ZIMMER SYNTHESIZER (ZERO EXTERNAL ASSET DEPENDENCY)
+    // =========================================================================
+    let audioCtx = null;
+    let audioEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playBraam() {
+      if (!audioEnabled) return;
+      initAudio();
+      try {
+        const now = audioCtx.currentTime;
+        // Deep sub-bass oscillator
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(45, now);
+        osc.frequency.exponentialRampToValueAtTime(32, now + 1.2);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(180, now);
+        filter.frequency.exponentialRampToValueAtTime(60, now + 1.2);
+
+        gain.gain.setValueAtTime(0.45, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 1.2);
+      } catch (e) {}
+    }
+
+    function playTechClick() {
+      if (!audioEnabled) return;
+      initAudio();
+      try {
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1400, now);
+        osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.08);
+      } catch (e) {}
+    }
+
+    function playWarpWhoosh() {
+      if (!audioEnabled) return;
+      initAudio();
+      try {
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(120, now);
+        osc.frequency.exponentialRampToValueAtTime(550, now + 0.35);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(300, now);
+        filter.frequency.exponentialRampToValueAtTime(1800, now + 0.35);
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } catch (e) {}
+    }
+
+    function toggleAudioSynth() {
+      audioEnabled = !audioEnabled;
+      const icon = document.getElementById('audioIcon');
+      const text = document.getElementById('audioText');
+      if (audioEnabled) {
+        icon.textContent = '🔊';
+        text.textContent = 'Hans Zimmer FX';
+        initAudio();
+        playBraam();
+      } else {
+        icon.textContent = '🔇';
+        text.textContent = 'FX Muted';
+      }
+    }
+
+    // =========================================================================
+    // 2. CONCENTRIC FLUID BLUE WAVES CANVAS (KO AGENT SHORT REPLICA)
+    // =========================================================================
     const waveCanvas = document.getElementById('vortex-waves-canvas');
     const wCtx = waveCanvas.getContext('2d');
 
-    function resizeWaveCanvas() {
+    function resizeCanvas() {
       waveCanvas.width = window.innerWidth;
       waveCanvas.height = window.innerHeight;
     }
-    window.addEventListener('resize', resizeWaveCanvas);
-    resizeWaveCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
     let waveAngle = 0;
-    function renderVortexWaves() {
+    function renderVortexArcs() {
       wCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-      waveAngle += 0.008;
+      waveAngle += 0.009;
 
       const W = waveCanvas.width;
       const H = waveCanvas.height;
       const cx = W * 0.5;
       const cy = H * 0.5;
 
-      // Swirling thick sweeping blue arcs as seen in the YouTube short!
-      const ringRadii = [140, 240, 360, 500, 660, 840];
+      const ringRadii = [140, 240, 360, 510, 680, 870];
       ringRadii.forEach((r, idx) => {
         wCtx.save();
         wCtx.translate(cx, cy);
-        wCtx.rotate(waveAngle * (idx % 2 === 0 ? 1 : -0.7) + (idx * 0.4));
+        wCtx.rotate(waveAngle * (idx % 2 === 0 ? 1 : -0.75) + (idx * 0.42));
 
         wCtx.beginPath();
         wCtx.arc(0, 0, r, 0, Math.PI * 1.35);
-        wCtx.strokeStyle = idx % 2 === 0 ? 'rgba(0, 82, 255, 0.55)' : 'rgba(0, 160, 255, 0.35)';
-        wCtx.lineWidth = 32 + idx * 10;
+        wCtx.strokeStyle = idx % 2 === 0 ? 'rgba(0, 82, 255, 0.55)' : 'rgba(0, 240, 255, 0.32)';
+        wCtx.lineWidth = 34 + idx * 10;
         wCtx.lineCap = 'round';
         wCtx.shadowColor = '#0066ff';
-        wCtx.shadowBlur = 40;
+        wCtx.shadowBlur = 45;
         wCtx.stroke();
 
         wCtx.restore();
       });
 
-      requestAnimationFrame(renderVortexWaves);
+      requestAnimationFrame(renderVortexArcs);
     }
-    requestAnimationFrame(renderVortexWaves);
+    requestAnimationFrame(renderVortexArcs);
 
-    // 2. MOUSE GYROSCOPE PARALLAX ON HERO SPHERE
-    const heroChamber = document.getElementById('hero-spatial-chamber');
+    // =========================================================================
+    // 3. SHOCKWAVE PULSE ON CORE SPHERE CLICK
+    // =========================================================================
+    const coreSphere = document.getElementById('coreSphere');
+    const heroSpatialStage = document.getElementById('hero-spatial-stage');
+
+    if (coreSphere) {
+      coreSphere.addEventListener('click', (e) => {
+        playBraam();
+        // Generate shockwave element
+        const wave = document.createElement('div');
+        wave.className = 'shockwave-pulse';
+        heroSpatialStage.appendChild(wave);
+        setTimeout(() => wave.remove(), 700);
+      });
+    }
+
+    // =========================================================================
+    // 4. MOUSE GYROSCOPE 3D TILT ON HERO STAGE
+    // =========================================================================
     window.addEventListener('mousemove', (e) => {
       const xNorm = (e.clientX / window.innerWidth) - 0.5;
       const yNorm = (e.clientY / window.innerHeight) - 0.5;
-      if (currentChamberIdx === 0 && heroChamber) {
-        heroChamber.style.transform = `rotateX(${-yNorm * 22}deg) rotateY(${xNorm * 22}deg)`;
+      if (currentActiveStation === 0 && heroSpatialStage) {
+        heroSpatialStage.style.transform = `rotateX(${-yNorm * 24}deg) rotateY(${xNorm * 24}deg)`;
       }
     });
 
-    // 3. CONTINUOUS SCROLL-DRIVEN 3D CAMERA RIVER TIMELINE
+    // =========================================================================
+    // 5. FAIL-PROOF SMOOTH MOMENTUM SCROLL & VIRTUAL TIMELINE ENGINE
+    // =========================================================================
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let currentActiveStation = 0;
+
     const bgLayers = [
       document.getElementById('bg-0'),
       document.getElementById('bg-1'),
@@ -963,147 +1194,179 @@
     ];
 
     const progressBeads = document.querySelectorAll('.progress-bead');
-    const headerTabs = document.querySelectorAll('.header-tab-btn');
+    const navTabs = document.querySelectorAll('.nav-tab-pill');
 
-    let currentChamberIdx = 0;
+    // Direct wheel interception ensures smooth scrolling on ANY device
+    window.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      initAudio();
+      targetProgress = Math.max(0, Math.min(1, targetProgress + e.deltaY * 0.0009));
+    }, { passive: false });
 
-    function handleScrollUpdate() {
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const p = Math.max(0, Math.min(1, scrollY / (maxScroll || 1)));
+    // Touch event handlers for mobile & touchscreens
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+      initAudio();
+    }, { passive: true });
 
-      // Determine active chamber (0 to 5)
-      let activeChamber = 0;
-      if (p < 0.14) activeChamber = 0;
-      else if (p < 0.32) activeChamber = 1;
-      else if (p < 0.52) activeChamber = 2;
-      else if (p < 0.72) activeChamber = 3;
-      else if (p < 0.88) activeChamber = 4;
-      else activeChamber = 5;
+    window.addEventListener('touchmove', (e) => {
+      const deltaY = touchStartY - e.touches[0].clientY;
+      touchStartY = e.touches[0].clientY;
+      targetProgress = Math.max(0, Math.min(1, targetProgress + deltaY * 0.0018));
+    }, { passive: true });
 
-      currentChamberIdx = activeChamber;
+    // Keyboard navigation (Arrow keys, Space, PageUp/Down)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        targetProgress = Math.min(1, targetProgress + 0.18);
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        targetProgress = Math.max(0, targetProgress - 0.18);
+      }
+    });
 
-      // Update Hero State (Dives away into 3D when scrolling!)
-      if (activeChamber === 0) {
-        heroChamber.style.opacity = '1';
-        heroChamber.style.pointerEvents = 'auto';
-        heroChamber.style.transform = `translateZ(${p * -500}px) scale(${1 - p * 0.4})`;
-      } else {
-        heroChamber.style.opacity = '0';
-        heroChamber.style.pointerEvents = 'none';
-        heroChamber.style.transform = 'translateZ(-600px) scale(0.5)';
+    // Animation Loop: Buttery Smooth Lerp & Station Transitions
+    function animateTimeline() {
+      currentProgress += (targetProgress - currentProgress) * 0.085;
+
+      // Map progress to active station (0 to 5)
+      let activeStation = 0;
+      if (currentProgress < 0.14) activeStation = 0;
+      else if (currentProgress < 0.32) activeStation = 1;
+      else if (currentProgress < 0.52) activeStation = 2;
+      else if (currentProgress < 0.72) activeStation = 3;
+      else if (currentProgress < 0.88) activeStation = 4;
+      else activeStation = 5;
+
+      if (activeStation !== currentActiveStation) {
+        currentActiveStation = activeStation;
+        playWarpWhoosh();
       }
 
-      // Update River Station Chambers
+      // Hero 3D Recede / Plunge
+      if (activeStation === 0) {
+        heroSpatialStage.style.opacity = `${1 - currentProgress * 2.5}`;
+        heroSpatialStage.style.pointerEvents = 'auto';
+        heroSpatialStage.style.transform = `translateZ(${-currentProgress * 650}px) scale(${1 - currentProgress * 0.5})`;
+      } else {
+        heroSpatialStage.style.opacity = '0';
+        heroSpatialStage.style.pointerEvents = 'none';
+        heroSpatialStage.style.transform = 'translateZ(-700px) scale(0.5)';
+      }
+
+      // Chamber Active States
       chamberEls.forEach((ch, idx) => {
-        const stationIdx = idx + 1; // 1 to 5
-        if (activeChamber === stationIdx) {
+        const sIdx = idx + 1;
+        if (activeStation === sIdx) {
           ch.classList.add('chamber-active');
         } else {
           ch.classList.remove('chamber-active');
         }
       });
 
-      // Update 4K Background Layers
+      // 4K Background Crossfades
       bgLayers.forEach((bg, idx) => {
         let shouldActive = false;
-        if (activeChamber === 0 && idx === 0) shouldActive = true;
-        else if (activeChamber === 1 && idx === 1) shouldActive = true;
-        else if (activeChamber === 2 && idx === 2) shouldActive = true;
-        else if (activeChamber === 3 && idx === 2) shouldActive = true;
-        else if (activeChamber === 4 && idx === 3) shouldActive = true;
-        else if (activeChamber === 5 && idx === 4) shouldActive = true;
+        if (activeStation === 0 && idx === 0) shouldActive = true;
+        else if (activeStation === 1 && idx === 1) shouldActive = true;
+        else if (activeStation === 2 && idx === 2) shouldActive = true;
+        else if (activeStation === 3 && idx === 2) shouldActive = true;
+        else if (activeStation === 4 && idx === 3) shouldActive = true;
+        else if (activeStation === 5 && idx === 4) shouldActive = true;
 
         if (shouldActive) bg.classList.add('active');
         else bg.classList.remove('active');
       });
 
-      // Update Beads and Tabs
+      // Beads and Tabs
       progressBeads.forEach((b, idx) => {
-        if (idx === activeChamber) b.classList.add('active');
+        if (idx === activeStation) b.classList.add('active');
         else b.classList.remove('active');
       });
 
-      headerTabs.forEach((t, idx) => {
-        if (idx === activeChamber) t.classList.add('active');
+      navTabs.forEach((t, idx) => {
+        if (idx === activeStation) t.classList.add('active');
         else t.classList.remove('active');
       });
+
+      requestAnimationFrame(animateTimeline);
+    }
+    requestAnimationFrame(animateTimeline);
+
+    function jumpToStation(stationIdx) {
+      playTechClick();
+      const stationTargets = [0.0, 0.22, 0.42, 0.62, 0.80, 0.98];
+      targetProgress = stationTargets[stationIdx];
     }
 
-    window.addEventListener('scroll', handleScrollUpdate, { passive: true });
-    handleScrollUpdate();
+    // =========================================================================
+    // 6. LIVE RADAR ANIMATION (STATION 1)
+    // =========================================================================
+    const liveSonarCanvas = document.getElementById('liveSonarCanvas');
+    if (liveSonarCanvas) {
+      const sCtx = liveSonarCanvas.getContext('2d');
+      let rAngle = 0;
+      function renderSonar() {
+        sCtx.clearRect(0, 0, 280, 280);
+        rAngle += 0.05;
+        const cx = 140, cy = 140;
 
-    function jumpToChamber(idx) {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const targetP = [0.0, 0.22, 0.42, 0.62, 0.80, 0.98][idx];
-      window.scrollTo({
-        top: targetP * maxScroll,
-        behavior: 'smooth'
-      });
-    }
-
-    // 4. LIVE 360° SONAR RADAR CANVAS (Station 1)
-    const sonarCanvas = document.getElementById('sonarRadarCanvas');
-    if (sonarCanvas) {
-      const sCtx = sonarCanvas.getContext('2d');
-      let angle = 0;
-      function renderRadar() {
-        sCtx.clearRect(0, 0, 260, 260);
-        angle += 0.045;
-        const cx = 130, cy = 130;
-
-        // Concentric Rings
-        sCtx.strokeStyle = 'rgba(0, 240, 255, 0.3)';
+        // Rings
+        sCtx.strokeStyle = 'rgba(0, 240, 255, 0.35)';
         sCtx.lineWidth = 1;
-        [30, 65, 95, 120].forEach(r => {
+        [35, 70, 105, 130].forEach(r => {
           sCtx.beginPath();
           sCtx.arc(cx, cy, r, 0, Math.PI * 2);
           sCtx.stroke();
         });
 
-        // Crosshairs
+        // Crosshair
         sCtx.beginPath();
-        sCtx.moveTo(cx, 10); sCtx.lineTo(cx, 250);
-        sCtx.moveTo(10, cy); sCtx.lineTo(250, cy);
+        sCtx.moveTo(cx, 10); sCtx.lineTo(cx, 270);
+        sCtx.moveTo(10, cy); sCtx.lineTo(270, cy);
         sCtx.stroke();
 
-        // Beam
+        // Sweeping beam
         sCtx.beginPath();
         sCtx.moveTo(cx, cy);
-        sCtx.arc(cx, cy, 120, angle, angle + 0.5);
-        sCtx.fillStyle = 'rgba(0, 240, 255, 0.25)';
+        sCtx.arc(cx, cy, 130, rAngle, rAngle + 0.5);
+        sCtx.fillStyle = 'rgba(0, 240, 255, 0.3)';
         sCtx.fill();
 
         // Target Blip
-        const bx = cx + Math.cos(0.73) * 78;
-        const by = cy + Math.sin(0.73) * 78;
+        const bx = cx + Math.cos(0.74) * 82;
+        const by = cy + Math.sin(0.74) * 82;
         sCtx.beginPath();
         sCtx.arc(bx, by, 5, 0, Math.PI * 2);
         sCtx.fillStyle = '#ff4655';
         sCtx.shadowColor = '#ff4655';
-        sCtx.shadowBlur = 12;
+        sCtx.shadowBlur = 14;
         sCtx.fill();
         sCtx.shadowBlur = 0;
 
-        requestAnimationFrame(renderRadar);
+        requestAnimationFrame(renderSonar);
       }
-      renderRadar();
+      renderSonar();
     }
 
-    // 5. RECOIL BLOOM RETICLE (Station 2)
-    const tapBox = document.getElementById('tapReticleBox');
-    const bloomRing = document.getElementById('bloomPulseRing');
-    if (tapBox && bloomRing) {
-      tapBox.addEventListener('click', () => {
-        bloomRing.style.width = '95px';
-        bloomRing.style.height = '95px';
-        bloomRing.style.borderColor = '#ff4655';
+    // =========================================================================
+    // 7. RECOIL TAP INTERACTION (STATION 2)
+    // =========================================================================
+    function triggerRecoilTap() {
+      playTechClick();
+      const bloomRing = document.getElementById('bloomRing');
+      if (bloomRing) {
+        bloomRing.style.width = '100px';
+        bloomRing.style.height = '100px';
+        bloomRing.style.borderColor = 'var(--val-red)';
         setTimeout(() => {
-          bloomRing.style.width = '45px';
-          bloomRing.style.height = '45px';
-          bloomRing.style.borderColor = '#00f0ff';
+          bloomRing.style.width = '48px';
+          bloomRing.style.height = '48px';
+          bloomRing.style.borderColor = 'var(--cyan-laser)';
         }, 180);
-      });
+      }
     }
   </script>
 </body>
