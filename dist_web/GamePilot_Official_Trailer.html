@@ -761,204 +761,232 @@ function renderAnamorphicFlare(cx, cy, intensity, color = '#00e5ff') {
 }
 
 // -------------------------------------------------------------------------
-//  CINEMATIC 5-ACT SCENES
+//  AUTHENTIC 1080p IN-GAME GAMEPLAY ASSETS & CINEMATIC COMPOSITOR
 // -------------------------------------------------------------------------
 
-// ACT 1: THE VOID & DARK TRUTH (0:00 - 0:18)
-function renderAct1(t) {
-  const zoom = 1.0 + t * 0.012;
+const imgAscent = new Image(); imgAscent.src = 'trailer_assets/gameplay_ascent.jpg';
+const imgScope  = new Image(); imgScope.src  = 'trailer_assets/gameplay_scope.jpg';
+const imgDefuse = new Image(); imgDefuse.src = 'trailer_assets/gameplay_defuse.jpg';
+const imgClutch = new Image(); imgClutch.src = 'trailer_assets/gameplay_clutch.jpg';
+
+function drawGameFrame(img, zoom = 1.0, panX = 0, panY = 0, alpha = 1.0) {
+  if (!img.complete || img.naturalWidth === 0) return;
   ctx.save();
-  ctx.translate(W/2, H/2);
-  ctx.scale(zoom, zoom);
-  ctx.translate(-W/2, -H/2);
-
-  const bg = ctx.createRadialGradient(W/2, H/2, 50, W/2, H/2, H * 0.7);
-  bg.addColorStop(0, '#0a101d');
-  bg.addColorStop(0.6, '#030509');
-  bg.addColorStop(1, '#000000');
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, W, H);
-
-  // Radar Grid
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-  for (let y = 0; y < H; y += 80) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-
-  if (t >= 1.5 && t < 7.5) {
-    const fadeIn = Math.min(1.0, (t - 1.5) / 1.5);
-    const fadeOut = Math.max(0.0, 1.0 - (t - 6.0) / 1.5);
-    const alpha = Math.min(fadeIn, fadeOut);
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.font = '900 52px "Cinzel"';
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.letterSpacing = '0.35em';
-    ctx.shadowColor = 'rgba(0, 229, 255, 0.6)';
-    ctx.shadowBlur = 30;
-    ctx.fillText('IN HIGH-STAKES COMPETITION', W/2, H/2 - 20);
-
-    ctx.font = '300 22px "Montserrat"';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
-    ctx.letterSpacing = '0.5em';
-    ctx.fillText('MILLISECONDS DECIDE DESTINY', W/2, H/2 + 40);
-    ctx.restore();
-  } else if (t >= 8.5 && t < 15.5) {
-    const fadeIn = Math.min(1.0, (t - 8.5) / 1.5);
-    const fadeOut = Math.max(0.0, 1.0 - (t - 14.0) / 1.5);
-    const alpha = Math.min(fadeIn, fadeOut);
-    ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.font = '900 56px "Cinzel"';
-    ctx.fillStyle = '#ff2a4b';
-    ctx.textAlign = 'center';
-    ctx.letterSpacing = '0.3em';
-    ctx.shadowColor = 'rgba(255, 42, 75, 0.8)';
-    ctx.shadowBlur = 40;
-    ctx.fillText('YET 30 MILLION PLAYERS', W/2, H/2 - 20);
-
-    ctx.font = '300 24px "Montserrat"';
-    ctx.fillStyle = '#ffffff';
-    ctx.letterSpacing = '0.45em';
-    ctx.fillText('FIGHT IN TOTAL AUDIO SILENCE', W/2, H/2 + 45);
-    ctx.restore();
-  }
-
-  renderParticles(0.4);
+  ctx.globalAlpha = Math.max(0, Math.min(1.0, alpha));
+  const dw = W * zoom;
+  const dh = H * zoom;
+  const dx = (W - dw) / 2 + panX;
+  const dy = (H - dh) / 2 + panY;
+  ctx.drawImage(img, dx, dy, dw, dh);
   ctx.restore();
 }
 
-// ACT 2: COMBAT RADAR & RECOIL CALIBRATION (0:18 - 0:42)
-function renderAct2(t) {
-  const relT = t - 18.0;
-  ctx.fillStyle = '#03070e';
+// -------------------------------------------------------------------------
+//  CINEMATIC 5-ACT SCENES WITH REAL IN-GAME GAMEPLAY
+// -------------------------------------------------------------------------
+
+// ACT 1: THE VOID & IN-GAME ASCENT REVEAL (0:00 - 0:18)
+function renderAct1(t) {
+  ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, W, H);
 
-  // Moving 3D Grid
+  // 0s - 7s: Atmospheric void and tension
+  if (t < 7.0) {
+    const bg = ctx.createRadialGradient(W/2, H/2, 50, W/2, H/2, H * 0.7);
+    bg.addColorStop(0, '#0a101d');
+    bg.addColorStop(0.6, '#030509');
+    bg.addColorStop(1, '#000000');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 80) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+    if (t >= 1.5) {
+      const fadeIn = Math.min(1.0, (t - 1.5) / 1.5);
+      const fadeOut = Math.max(0.0, 1.0 - (t - 5.5) / 1.5);
+      const alpha = Math.min(fadeIn, fadeOut);
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.font = '900 52px "Cinzel"';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '0.35em';
+      ctx.shadowColor = 'rgba(0, 229, 255, 0.6)';
+      ctx.shadowBlur = 30;
+      ctx.fillText('IN HIGH-STAKES COMPETITION', W/2, H/2 - 20);
+
+      ctx.font = '300 22px "Montserrat"';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.letterSpacing = '0.5em';
+      ctx.fillText('MILLISECONDS DECIDE DESTINY', W/2, H/2 + 40);
+      ctx.restore();
+    }
+  } else {
+    // 7s - 18s: REAL IN-GAME ASCENT A-SITE GAMEPLAY POV
+    const gameAlpha = Math.min(1.0, (t - 7.0) / 1.5);
+    const zoom = 1.0 + (t - 7.0) * 0.015;
+    const panX = Math.sin((t - 7.0) * 0.5) * 20;
+    drawGameFrame(imgAscent, zoom, panX, 0, gameAlpha);
+
+    // Dark cinematic vignette overlay
+    const vig = ctx.createRadialGradient(W/2, H/2, H * 0.35, W/2, H/2, H * 0.85);
+    vig.addColorStop(0, 'rgba(0,0,0,0.1)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.75)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, W, H);
+
+    if (t >= 8.5 && t < 16.5) {
+      const fadeIn = Math.min(1.0, (t - 8.5) / 1.2);
+      const fadeOut = Math.max(0.0, 1.0 - (t - 15.0) / 1.5);
+      const alpha = Math.min(fadeIn, fadeOut);
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.font = '900 56px "Cinzel"';
+      ctx.fillStyle = '#ff2a4b';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '0.3em';
+      ctx.shadowColor = 'rgba(255, 42, 75, 0.9)';
+      ctx.shadowBlur = 40;
+      ctx.fillText('YET 30 MILLION PLAYERS', W/2, H * 0.22);
+
+      ctx.font = '300 24px "Montserrat"';
+      ctx.fillStyle = '#ffffff';
+      ctx.letterSpacing = '0.45em';
+      ctx.fillText('FIGHT IN TOTAL AUDIO SILENCE', W/2, H * 0.22 + 55);
+      ctx.restore();
+    }
+  }
+
+  renderParticles(0.4);
+}
+
+// ACT 2: REAL OPERATOR SNIPER POV & RECOIL METRONOME (0:18 - 0:42)
+function renderAct2(t) {
+  const relT = t - 18.0;
+
+  // REAL IN-GAME OPERATOR SNIPER SCOPE FRAME (Ascent Mid - Match Point)
+  const zoom = 1.03 + Math.sin(relT * 0.6) * 0.02;
+  const panX = Math.cos(relT * 0.8) * 15;
+  const panY = Math.sin(relT * 0.5) * 8;
+  drawGameFrame(imgScope, zoom, panX, panY, 1.0);
+
+  // Holographic GamePilot Pro Tactical HUD Layer
   ctx.save();
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.12)';
-  ctx.lineWidth = 1;
-  const offset = (relT * 60) % 60;
-  for (let x = -offset; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-  for (let y = -offset; y < H; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-  ctx.restore();
+  ctx.translate(W/2 + panX, H/2 + panY);
 
-  // Tactical Ascent A-Site Blueprint projection
-  ctx.save();
-  ctx.translate(W/2, H/2);
-  ctx.rotate(Math.sin(relT * 0.4) * 0.08);
-
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.4)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(-320, -180, 640, 360);
-  ctx.strokeRect(-220, -120, 140, 80);
-  ctx.strokeRect(80, 40, 180, 100);
-
-  // Flank Warning Box
-  const pulseAlpha = 0.3 + Math.sin(t * 8) * 0.25;
-  ctx.fillStyle = `rgba(255, 42, 75, ${pulseAlpha})`;
-  ctx.fillRect(180, -140, 120, 70);
+  // Flank & Angle Detection Vector
+  const pulseAlpha = 0.4 + Math.sin(t * 8) * 0.3;
+  ctx.strokeStyle = `rgba(255, 42, 75, ${pulseAlpha})`;
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(30, -60, 90, 120); // Box around peeking enemy Jett
 
   ctx.font = '800 13px "JetBrains Mono"';
   ctx.fillStyle = '#00e5ff';
   ctx.textAlign = 'left';
-  ctx.fillText('TACTICAL TELEMETRY // SECTOR A-SITE HEAVEN', -310, -155);
+  ctx.fillText('TARGET LOCK // ASCENT MID DOORS', 130, -40);
   ctx.fillStyle = '#ff2a4b';
-  ctx.fillText('⚠ SILENT ENEMY FLANK DETECTED [AUDIO CUE ABSENT]', 185, -120);
+  ctx.fillText('HOSTILE FLANK // SILENT AUDIO CUE', 130, -20);
 
-  // Crosshair Recoil Metronome Display
-  const reticleX = Math.sin(relT * 1.5) * 160;
-  const reticleY = Math.cos(relT * 1.2) * 90;
-  ctx.strokeStyle = '#00e5ff';
+  // Recoil Metronome & Crosshair Horizon Cadence
+  const recoilRadius = Math.max(0, (relT * 3.5 % 1.0) * 55);
+  ctx.strokeStyle = '#ffd700';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.arc(reticleX, reticleY, 28, 0, Math.PI * 2);
+  ctx.arc(0, 0, recoilRadius, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Recoil Reset Cadence Ring
-  const recoilRing = (relT * 3.5 % 1.0) * 45;
-  ctx.strokeStyle = '#ffd700';
+  // Head-level Horizon Line
+  ctx.strokeStyle = 'rgba(0, 229, 255, 0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([8, 8]);
   ctx.beginPath();
-  ctx.arc(reticleX, reticleY, recoilRing, 0, Math.PI * 2);
+  ctx.moveTo(-450, 0); ctx.lineTo(450, 0);
   ctx.stroke();
+  ctx.setLineDash([]);
 
   ctx.restore();
 
   // Bold Trailer Headline Cuts
   ctx.save();
-  if (t >= 22.0 && t < 26.5) {
-    ctx.font = '900 68px "Montserrat"';
+  if (t >= 21.0 && t < 26.5) {
+    ctx.font = '900 70px "Montserrat"';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.3em';
-    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 40;
-    ctx.fillText('SEE WHAT YOU CANNOT HEAR', W/2, H * 0.2);
-  } else if (t >= 30.0 && t < 35.0) {
+    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 45;
+    ctx.fillText('SEE WHAT YOU CANNOT HEAR', W/2, H * 0.16);
+  } else if (t >= 29.0 && t < 34.5) {
     ctx.font = '900 72px "Montserrat"';
     ctx.fillStyle = '#ffd700';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.25em';
     ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 50;
-    ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.2);
-  } else if (t >= 36.0 && t < 41.0) {
+    ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.16);
+  } else if (t >= 36.0 && t < 41.5) {
     ctx.font = '900 70px "Montserrat"';
     ctx.fillStyle = '#ff2a4b';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.25em';
     ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
-    ctx.fillText('RECOIL CADENCE METRONOME', W/2, H * 0.2);
+    ctx.fillText('RECOIL CADENCE METRONOME', W/2, H * 0.16);
   }
   ctx.restore();
 
-  renderParticles(0.7);
-  renderAnamorphicFlare(W * 0.75, H * 0.35, Math.sin(t * 3) * 0.5 + 0.5, '#00e5ff');
+  renderParticles(0.6);
+  renderAnamorphicFlare(W * 0.72, H * 0.4, Math.sin(t * 3) * 0.5 + 0.5, '#00e5ff');
 }
 
-// ACT 3: THE 45-SECOND SPIKE NIGHTMARE (0:42 - 0:54)
+// ACT 3: REAL IN-GAME SPIKE DEFUSE & 45s CLOCK (0:42 - 0:54)
 function renderAct3(t) {
   const relT = t - 42.0;
 
   if (t < 52.5) {
-    const vig = ctx.createRadialGradient(W/2, H/2, 10, W/2, H/2, 500);
-    vig.addColorStop(0, '#0c1a2e');
-    vig.addColorStop(1, '#000000');
+    // REAL IN-GAME HAVEN C-SITE SPIKE DEFUSE FRAME
+    const zoom = 1.04 + (relT / 10.0) * 0.05;
+    drawGameFrame(imgDefuse, zoom, 0, 0, 1.0);
+
+    // Dark tension vignette
+    const vig = ctx.createRadialGradient(W/2, H/2, H * 0.3, W/2, H/2, H * 0.9);
+    vig.addColorStop(0, 'rgba(0,0,0,0.15)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.85)');
     ctx.fillStyle = vig;
     ctx.fillRect(0, 0, W, H);
 
-    // Heartbeat Pulse Ring
-    const pulseSize = Math.max(0, ((Math.abs(relT) * 3.5) % 1.0) * 320);
-    const pulseAlpha = Math.max(0, 1.0 - pulseSize / 320);
+    // Heartbeat Pulse Ring over Spike
+    const pulseSize = Math.max(0, ((Math.abs(relT) * 3.5) % 1.0) * 340);
+    const pulseAlpha = Math.max(0, 1.0 - pulseSize / 340);
     ctx.strokeStyle = `rgba(0, 229, 255, ${pulseAlpha})`;
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 3.5;
     ctx.beginPath();
-    ctx.arc(W/2, H/2, pulseSize, 0, Math.PI * 2);
+    ctx.arc(W/2, H * 0.65, pulseSize, 0, Math.PI * 2);
     ctx.stroke();
 
+    // 45.0s Spike Radar Dial Overlay
     ctx.font = '900 36px "JetBrains Mono"';
     ctx.fillStyle = '#00e5ff';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.35em';
-    ctx.fillText('MICRO-SPIKE DEFUSE RADAR // 45.0s COUNTDOWN', W/2, H/2 + 80);
+    ctx.fillText('MICRO-SPIKE DEFUSE RADAR // 45.0s COUNTDOWN', W/2, H * 0.22);
 
-    // Dynamic Spike Time Left
     const spikeSeconds = Math.max(0.01, 7.0 - (relT / 10.0) * 6.99).toFixed(2);
-    ctx.font = '900 96px "JetBrains Mono"';
+    ctx.font = '900 100px "JetBrains Mono"';
     ctx.fillStyle = '#ff2a4b';
     ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 60;
-    ctx.fillText(`00:0${spikeSeconds}`, W/2, H/2 - 20);
+    ctx.fillText(`00:0${spikeSeconds}`, W/2, H * 0.35);
 
-    // Threshold Markers
-    ctx.font = '800 16px "JetBrains Mono"';
+    ctx.font = '800 18px "JetBrains Mono"';
     ctx.fillStyle = '#ffd700';
-    ctx.fillText('◄ 7.0s FULL DEFUSE THRESHOLD LOCKED ►', W/2, H/2 + 130);
+    ctx.fillText('◄ 7.0s FULL DEFUSE THRESHOLD LOCKED ►', W/2, H * 0.44);
   } else {
-    // 52.5s - 54.0s: TOTAL DEAD SILENCE
+    // 52.5s - 54.0s: TOTAL DEAD SILENCE BLACKOUT
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, W, H);
 
     if (t > 53.0) {
-      ctx.font = '900 32px "Montserrat"';
+      ctx.font = '900 34px "Montserrat"';
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.letterSpacing = '0.6em';
@@ -967,67 +995,46 @@ function renderAct3(t) {
   }
 }
 
-// ACT 4: THE MONUMENTAL DROP & RADIANT CLUTCH (0:54 - 0:70)
+// ACT 4: THE MONUMENTAL DROP & REAL 1v3 ACE CLUTCH (0:54 - 0:70)
 function renderAct4(t) {
   const relT = t - 54.0;
 
-  const bg = ctx.createRadialGradient(W/2, H/2, 100, W/2, H/2, W);
-  bg.addColorStop(0, '#0a1d33');
-  bg.addColorStop(0.5, '#050c18');
-  bg.addColorStop(1, '#000205');
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, W, H);
+  // Alternate between Real Ascent Gameplay (54-61s) and Real Bind 1v3 Clutch Ace (61-70s)
+  if (relT < 7.0) {
+    // HIGH-OCTANE ASCENT A-SITE COMBAT
+    const zoom = 1.05 + Math.sin(relT * 3.0) * 0.03;
+    drawGameFrame(imgAscent, zoom, 0, 0, 1.0);
 
-  // 360° Laser Sonar Radar Sweep
-  ctx.save();
-  ctx.translate(W/2, H/2);
-  const sweepAngle = relT * 4.2;
+    // 360° Holographic Sonar Laser Radar scanning real game geometry
+    ctx.save();
+    ctx.translate(W/2, H * 0.6);
+    const sweepAngle = relT * 4.2;
 
-  for (let r = 100; r < 750; r += 140) {
-    const waveR = Math.max(0, (r + Math.abs(relT) * 280) % 750);
-    const waveAlpha = Math.max(0, 1.0 - waveR / 750);
-    ctx.strokeStyle = `rgba(0, 229, 255, ${waveAlpha * 0.7})`;
-    ctx.lineWidth = 2.5;
+    for (let r = 80; r < 650; r += 120) {
+      const waveR = Math.max(0, (r + Math.abs(relT) * 260) % 650);
+      const waveAlpha = Math.max(0, 1.0 - waveR / 650);
+      ctx.strokeStyle = `rgba(0, 229, 255, ${waveAlpha * 0.7})`;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, waveR, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
     ctx.beginPath();
-    ctx.arc(0, 0, waveR, 0, Math.PI * 2);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(Math.cos(sweepAngle) * 700, Math.sin(sweepAngle) * 700);
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 3;
+    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 25;
     ctx.stroke();
+    ctx.restore();
+  } else {
+    // REAL IN-GAME BIND B-SITE 1v3 CLUTCH & VALORANT ACE VICTORY
+    const zoom = 1.02 + Math.sin(relT * 1.5) * 0.015;
+    drawGameFrame(imgClutch, zoom, 0, 0, 1.0);
   }
 
-  // Laser Scanner
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(Math.cos(sweepAngle) * 800, Math.sin(sweepAngle) * 800);
-  ctx.strokeStyle = '#00e5ff';
-  ctx.lineWidth = 3;
-  ctx.shadowColor = '#00e5ff';
-  ctx.shadowBlur = 25;
-  ctx.stroke();
-
-  // Target Locks
-  const targets = [
-    { x: -340, y: -190, label: 'ENEMY VANDAL // 18m' },
-    { x: 400, y: -110, label: 'ENEMY OPERATOR // 34m' },
-    { x: 200, y: 240, label: 'DEFUSER CONFIRMED // 0.04s' }
-  ];
-  targets.forEach(tgt => {
-    ctx.save();
-    ctx.strokeStyle = '#ff2a4b';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(tgt.x - 20, tgt.y - 20, 40, 40);
-    ctx.beginPath();
-    ctx.arc(tgt.x, tgt.y, 6, 0, Math.PI * 2);
-    ctx.fillStyle = '#ff2a4b';
-    ctx.fill();
-
-    ctx.font = '800 12px "JetBrains Mono"';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(tgt.label, tgt.x + 30, tgt.y + 5);
-    ctx.restore();
-  });
-
-  ctx.restore();
-
-  // Adrenaline Cutlines
+  // Adrenaline Cutlines Synced to 130 BPM War Drums
   ctx.save();
   ctx.textAlign = 'center';
   if (relT < 4.0) {
@@ -1035,25 +1042,25 @@ function renderAct4(t) {
     ctx.fillStyle = '#00e5ff';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 50;
-    ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.18);
+    ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.16);
   } else if (relT < 8.0) {
     ctx.font = '900 80px "Montserrat"';
     ctx.fillStyle = '#ffd700';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 50;
-    ctx.fillText('CLIPFORGE 9:16 VERTICAL REELS', W/2, H * 0.18);
+    ctx.fillText('CLIPFORGE 9:16 VERTICAL REELS', W/2, H * 0.16);
   } else if (relT < 12.0) {
     ctx.font = '900 76px "Montserrat"';
     ctx.fillStyle = '#ff2a4b';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
-    ctx.fillText('100% RIOT VANGUARD & VAC SAFE', W/2, H * 0.18);
+    ctx.fillText('100% RIOT VANGUARD & VAC SAFE', W/2, H * 0.16);
   } else {
     ctx.font = '900 88px "Montserrat"';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '0.35em';
     ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 60;
-    ctx.fillText('ACE // ROUND WON // 13 : 7', W/2, H * 0.18);
+    ctx.fillText('ACE // ROUND WON // 13 : 11', W/2, H * 0.16);
   }
   ctx.restore();
 
@@ -1061,17 +1068,17 @@ function renderAct4(t) {
   renderAnamorphicFlare(W/2 + Math.sin(t * 4) * 300, H/2, 1.2, '#00e5ff');
 }
 
-// ACT 5: GRAND MONOLITHIC TITLE SLAM & CREDITS (0:70 - 0:85)
+// ACT 5: GRAND MONOLITHIC TITLE SLAM OVER VICTORY ARENA (0:70 - 0:85)
 function renderAct5(t) {
   const relT = t - 70.0;
-  ctx.fillStyle = '#020306';
-  ctx.fillRect(0, 0, W, H);
 
-  const light = ctx.createLinearGradient(0, 0, W, H);
-  light.addColorStop(0, 'rgba(0, 229, 255, 0.08)');
-  light.addColorStop(0.5, 'rgba(0, 0, 0, 0.0)');
-  light.addColorStop(1, 'rgba(255, 42, 75, 0.05)');
-  ctx.fillStyle = light;
+  // Background: Real Victory Arena (imgClutch) with dark cinematic grade
+  drawGameFrame(imgClutch, 1.06, 0, 0, 0.45);
+
+  const darkGrade = ctx.createRadialGradient(W/2, H/2, 100, W/2, H/2, W);
+  darkGrade.addColorStop(0, 'rgba(2, 4, 10, 0.7)');
+  darkGrade.addColorStop(1, 'rgba(0, 0, 0, 0.95)');
+  ctx.fillStyle = darkGrade;
   ctx.fillRect(0, 0, W, H);
 
   // Metallic 3D Title Slam
