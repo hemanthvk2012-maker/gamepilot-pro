@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamePilot Pro — Official World Premiere Gameplay Trailer</title>
+  <title>GamePilot Pro — Official World Premiere 4K Gameplay Trailer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@300;600;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -33,22 +33,22 @@
     }
     #cinemaCanvas {
       width: 100vw;
-      height: 56.25vw; /* 16:9 Aspect Ratio */
+      height: 56.25vw; /* 16:9 4K Cinema Aspect */
       max-height: 100vh;
       max-width: 177.78vh;
       object-fit: cover;
-      box-shadow: 0 0 100px rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 120px rgba(0, 240, 255, 0.35);
     }
 
     /* Anamorphic 2.39:1 Letterbox Bars */
     .anamorphic-bar {
       position: absolute;
       left: 0; right: 0;
-      height: 9.5vh;
+      height: 9vh;
       background: #000;
       z-index: 25;
       pointer-events: none;
-      box-shadow: 0 0 25px rgba(0,0,0,0.9);
+      box-shadow: 0 0 30px rgba(0,0,0,0.95);
     }
     .bar-top { top: 0; }
     .bar-bot { bottom: 0; }
@@ -60,25 +60,25 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 40;
-      background: rgba(10, 20, 35, 0.88);
-      border: 1px solid rgba(0, 229, 255, 0.6);
-      padding: 9px 24px;
+      background: rgba(10, 20, 38, 0.92);
+      border: 1.5px solid rgba(0, 240, 255, 0.7);
+      padding: 10px 28px;
       border-radius: 30px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       letter-spacing: 0.18em;
-      color: #00e5ff;
+      color: #00f0ff;
       display: flex;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 0 25px rgba(0, 229, 255, 0.35);
+      gap: 12px;
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.45);
       cursor: pointer;
       animation: bannerPulse 2s infinite alternate;
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     #sound-banner.dismissed {
       opacity: 0;
-      transform: translate(-50%, -25px);
+      transform: translate(-50%, -30px);
       pointer-events: none;
     }
 
@@ -92,88 +92,90 @@
       gap: 12px;
     }
     .btn-top-action {
-      background: rgba(10, 22, 38, 0.85);
-      border: 1px solid rgba(0, 229, 255, 0.5);
-      padding: 8px 18px;
-      border-radius: 4px;
+      background: rgba(10, 22, 40, 0.88);
+      border: 1px solid rgba(0, 240, 255, 0.5);
+      padding: 9px 20px;
+      border-radius: 6px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       color: #fff;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
+      text-decoration: none;
       transition: all 0.25s;
     }
     .btn-top-action:hover {
-      background: rgba(0, 229, 255, 0.25);
-      border-color: #00e5ff;
-      box-shadow: 0 0 25px rgba(0, 229, 255, 0.5);
-      transform: translateY(-1px);
-    }
-    .btn-load-custom {
-      border-color: rgba(255, 215, 0, 0.6);
-      color: #ffd700;
-    }
-    .btn-load-custom:hover {
-      background: rgba(255, 215, 0, 0.2);
-      border-color: #ffd700;
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+      background: rgba(0, 240, 255, 0.25);
+      border-color: #00f0ff;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+      transform: translateY(-2px);
     }
 
-    /* Stealth Cinema Scrubber (Revealed on hover) */
+    /* Cinema Scrubber HUD */
     #cinema-hud {
       position: absolute;
       bottom: 2.2vh;
-      left: 4vw;
-      right: 4vw;
-      z-index: 30;
+      left: 3vw;
+      right: 3vw;
+      z-index: 35;
       display: flex;
       align-items: center;
       justify-content: space-between;
       opacity: 0;
       transition: opacity 0.3s ease;
+      background: rgba(4, 10, 25, 0.85);
+      backdrop-filter: blur(16px);
+      padding: 8px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
     #stage:hover #cinema-hud {
       opacity: 1;
     }
     .timeline-bar {
       flex: 1;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.15);
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
       margin: 0 20px;
       position: relative;
       cursor: pointer;
+      border-radius: 2px;
     }
     .timeline-fill {
       position: absolute;
       left: 0; top: 0; bottom: 0;
-      background: linear-gradient(90deg, #00e5ff, #ff2a4b, #ffd700);
+      background: linear-gradient(90deg, #00f0ff, #0066ff, #ff4655);
       width: 0%;
-      box-shadow: 0 0 12px #00e5ff;
+      border-radius: 2px;
+      box-shadow: 0 0 14px #00f0ff;
     }
     .time-readout {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.6);
-      letter-spacing: 0.15em;
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.12em;
     }
-    .btn-replay-cine {
+    .hud-btn {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       padding: 6px 14px;
+      border-radius: 4px;
       cursor: pointer;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em;
       transition: all 0.2s;
+      margin: 0 4px;
     }
-    .btn-replay-cine:hover {
-      border-color: #00e5ff;
-      color: #00e5ff;
+    .hud-btn:hover {
+      border-color: #00f0ff;
+      color: #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
     }
 
     #rec-indicator {
@@ -181,17 +183,17 @@
       align-items: center;
       gap: 7px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: #ff2a4b;
+      font-size: 0.72rem;
+      color: #ff4655;
       letter-spacing: 0.15em;
       margin-left: 15px;
     }
     .rec-dot {
-      width: 8px;
-      height: 8px;
-      background: #ff2a4b;
+      width: 9px;
+      height: 9px;
+      background: #ff4655;
       border-radius: 50%;
-      box-shadow: 0 0 10px #ff2a4b;
+      box-shadow: 0 0 12px #ff4655;
       animation: recBlink 1s infinite;
     }
 
@@ -200,16 +202,17 @@
       50% { opacity: 0.2; }
     }
     @keyframes bannerPulse {
-      from { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
-      to { box-shadow: 0 0 35px rgba(0, 229, 255, 0.6); }
+      from { box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+      to { box-shadow: 0 0 40px rgba(0, 240, 255, 0.7); }
     }
 
-    /* End Screen Modal */
+    /* Grand End Screen Modal */
     #end-modal {
       position: absolute;
       inset: 0;
       z-index: 50;
-      background: rgba(2, 4, 10, 0.94);
+      background: radial-gradient(circle at 50% 50%, rgba(5, 15, 45, 0.96) 0%, rgba(0, 3, 12, 0.98) 100%);
+      backdrop-filter: blur(24px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -217,7 +220,7 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
-      padding: 24px;
+      padding: 30px;
       text-align: center;
     }
     #end-modal.active {
@@ -226,290 +229,257 @@
     }
     .modal-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       letter-spacing: 0.4em;
-      color: #00e5ff;
+      color: #00f0ff;
       margin-bottom: 16px;
     }
     .modal-title {
       font-family: 'Cinzel', serif;
-      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-size: clamp(2.8rem, 6vw, 5rem);
       font-weight: 900;
-      letter-spacing: 0.2em;
-      background: linear-gradient(180deg, #FFFFFF 0%, #A0B0C8 60%, #4A5B73 100%);
+      letter-spacing: 0.15em;
+      background: linear-gradient(180deg, #FFFFFF 0%, #D0E5FF 50%, #4A6B99 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.4));
     }
     .modal-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.3em;
-      color: rgba(255, 255, 255, 0.65);
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+      color: #cbd5e1;
       margin-bottom: 40px;
+      max-width: 700px;
     }
     .modal-actions {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       flex-wrap: wrap;
       justify-content: center;
     }
-    .btn-modal-dl {
-      background: linear-gradient(135deg, rgba(0, 229, 255, 0.25) 0%, rgba(255, 42, 75, 0.25) 100%);
-      border: 1px solid #00e5ff;
-      color: #fff;
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      font-weight: 900;
-      letter-spacing: 0.25em;
-      padding: 16px 40px;
-      border-radius: 4px;
-      cursor: pointer;
-      text-transform: uppercase;
-      box-shadow: 0 0 35px rgba(0, 229, 255, 0.3);
-      transition: all 0.3s;
-    }
-    .btn-modal-dl:hover {
-      background: linear-gradient(135deg, rgba(0, 229, 255, 0.45) 0%, rgba(255, 42, 75, 0.45) 100%);
-      box-shadow: 0 0 55px rgba(0, 229, 255, 0.6);
-      transform: scale(1.04);
-    }
-    .btn-modal-replay {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+    .btn-modal-primary {
+      background: linear-gradient(135deg, #00f0ff 0%, #0052ff 100%);
       color: #fff;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      padding: 16px 36px;
-      border-radius: 4px;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-    .btn-modal-replay:hover {
-      border-color: #00e5ff;
-      color: #00e5ff;
-    }
-
-    /* Download Toast Notification */
-    #download-toast {
-      position: absolute;
-      bottom: 12vh;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: rgba(10, 25, 45, 0.95);
-      border: 1px solid #00e5ff;
-      padding: 12px 28px;
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 1rem;
+      font-weight: 900;
       letter-spacing: 0.15em;
-      color: #fff;
-      box-shadow: 0 0 40px rgba(0, 229, 255, 0.4);
-      z-index: 70;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 18px 40px;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 10px 40px rgba(0, 102, 255, 0.6);
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
-    #download-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    .btn-modal-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 15px 50px rgba(0, 240, 255, 0.8);
+    }
+    .btn-modal-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      padding: 18px 36px;
+      border-radius: 9999px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-modal-secondary:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: #00f0ff;
+      color: #00f0ff;
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
 
-<div id="stage" onclick="unlockAudioOnInteraction()">
+<div id="stage">
   <div class="anamorphic-bar bar-top"></div>
   <div class="anamorphic-bar bar-bot"></div>
 
-  <canvas id="cinemaCanvas" width="1920" height="1080"></canvas>
+  <!-- Audio Prompt -->
+  <div id="sound-banner" onclick="unlockAudioOnInteraction()">
+    <span>🔊</span>
+    <span>CLICK TO UNLOCK HANS ZIMMER 4K SOUNDSCAPE</span>
+  </div>
 
   <!-- Top Action Bar -->
   <div class="top-action-bar">
-    <label class="btn-top-action btn-load-custom" title="Load your own gameplay MP4 recording directly into the trailer">
-      <span>📂</span> LOAD GAMEPLAY CLIP (.MP4)
-      <input type="file" id="clipPicker" accept="video/mp4,video/webm" style="display:none" onchange="loadCustomVideo(event)">
-    </label>
-    <div class="btn-top-action" onclick="downloadTrailerVideo(event)" title="Download high-definition master trailer recording">
-      <span>⬇️</span> DOWNLOAD VIDEO (.WEBM)
-    </div>
+    <a href="index.html" class="btn-top-action" title="Visit the 2026 River-Flow Website">
+      <span>🌊 2026 River Site</span>
+    </a>
+    <button class="btn-top-action" onclick="downloadTrailerVideo(event)" title="Export pristine 4K video master">
+      <span>💾 Export 4K Master</span>
+    </button>
   </div>
 
-  <!-- Sound unlock prompt -->
-  <div id="sound-banner" onclick="unlockAudioOnInteraction()">
-    <span>🔊</span> CLICK ANYWHERE TO UNLOCK CINEMA SURROUND SOUND
-  </div>
+  <!-- Master 4K Canvas -->
+  <canvas id="cinemaCanvas" width="3840" height="2160"></canvas>
 
-  <!-- Stealth Scrubber HUD -->
+  <!-- Cinema Scrubber HUD -->
   <div id="cinema-hud">
-    <span class="time-readout" id="time-curr">00:00</span>
+    <div style="display:flex; align-items:center;">
+      <button class="hud-btn" onclick="togglePlayPause()" id="btnPlayPause">⏸</button>
+      <button class="hud-btn" onclick="replayTrailer()">↺ REPLAY</button>
+      <div id="rec-indicator">
+        <div class="rec-dot"></div>
+        <span>MASTER 4K EXPORTING...</span>
+      </div>
+    </div>
+
     <div class="timeline-bar" onclick="seekTrailer(event)">
       <div class="timeline-fill" id="timeline-fill"></div>
     </div>
-    <span class="time-readout" id="time-dur">01:25</span>
-    <div id="rec-indicator"><span class="rec-dot"></span> 4K RECORDING</div>
-    <button class="btn-replay-cine" onclick="downloadTrailerVideo(event)" style="margin-left: 16px; border-color: #00e5ff; color: #00e5ff; background: rgba(0, 229, 255, 0.1);">⬇️ DOWNLOAD</button>
-    <button class="btn-replay-cine" onclick="replayTrailer()" style="margin-left: 10px;">↺ REPLAY</button>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div class="time-readout">
+        <span id="time-curr">00:00</span> / <span id="time-dur">01:25</span>
+      </div>
+      <button class="hud-btn" onclick="toggleFullscreen()">⛶ 4K EXPAND</button>
+    </div>
   </div>
 
-  <!-- Download Toast -->
-  <div id="download-toast">🎬 VIDEO EXPORT COMPLETED — SAVED TO DOWNLOADS</div>
-
-  <!-- End Screen Modal -->
+  <!-- Grand Finale End Screen -->
   <div id="end-modal">
-    <div class="modal-tag">ESPORTS CINEMATICS // WORLD PREMIERE</div>
-    <div class="modal-title">GAMEPILOT PRO</div>
-    <div class="modal-sub">THE WEAPON THEY NEVER SAW COMING</div>
+    <div class="modal-tag">OFFICIAL 2026 WORLD PREMIERE</div>
+    <h1 class="modal-title">GAMEPILOT PRO</h1>
+    <p class="modal-sub">
+      The world's first Vanguard-safe, zero-injection acoustic AI visualizer. Translating 360° footsteps, gun fire cadence, and spike timing into crisp hardware visual telemetry for deaf and competitive gamers.
+    </p>
+
     <div class="modal-actions">
-      <button class="btn-modal-dl" onclick="downloadTrailerVideo(event)">⬇️ DOWNLOAD 4K TRAILER FILE (.WEBM)</button>
-      <button class="btn-modal-replay" onclick="replayTrailer()">↺ REPLAY CINEMA</button>
+      <a href="index.html" class="btn-modal-primary">
+        <span>Enter 2026 River Experience</span>
+        <span>→</span>
+      </a>
+      <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-modal-secondary">
+        <span>Download Free (.exe)</span>
+        <span>↓</span>
+      </a>
+      <button class="btn-modal-secondary" onclick="downloadTrailerVideo(event)">
+        <span>Export 4K Master (.webm)</span>
+        <span>💾</span>
+      </button>
+      <button class="btn-modal-secondary" onclick="replayTrailer()">
+        <span>Replay Trailer</span>
+        <span>↺</span>
+      </button>
     </div>
   </div>
 </div>
 
 <script>
 // =========================================================================
-//  GAMEPILOT PRO — MASTER ESPORTS CINEMATIC TRAILER ENGINE
-//  Real 1080p Continuous Gameplay Video Stream • Instant Autoplay
-//  Hans Zimmer Dynamic Score • 0 Freeze / 0 RangeError Architecture
+//  ENGINE INITIALIZATION & ASSET LOADING
 // =========================================================================
-
 const canvas = document.getElementById('cinemaCanvas');
-const ctx = canvas.getContext('2d');
-const W = 1920, H = 1080;
-canvas.width = W; canvas.height = H;
+const ctx = canvas.getContext('2d', { alpha: false });
+const W = 3840;
+const H = 2160;
+
+// High-performance image smoothing
 ctx.imageSmoothingEnabled = true;
 ctx.imageSmoothingQuality = 'high';
 
-let isPlaying = true;
-let startTime = performance.now();
-let currentTime = 0;
-const DURATION = 85.0; // 85-Second epic Hollywood trailer arc
-let animId = null;
+// 4K Static Master Still Assets for dynamic flash-cuts and PIP
+const imgAscent = new Image();
+imgAscent.src = './assets/bg_vandal_ascent.jpg';
+const imgDefuse = new Image();
+imgDefuse.src = './assets/bg_spike_defuse.jpg';
+const imgScope = new Image();
+imgScope.src = './assets/bg_operator_scope.jpg';
+const imgClutch = new Image();
+imgClutch.src = './assets/bg_ace_victory.jpg';
+const imgHero = new Image();
+imgHero.src = './assets/bg_hero_cover.jpg';
 
-// =========================================================================
-//  REAL 1080p GAMEPLAY VIDEO PLAYER ENGINE
-// =========================================================================
+// Video Stream Engine
 const gameplayVideo = document.createElement('video');
-gameplayVideo.crossOrigin = 'anonymous';
-gameplayVideo.playsInline = true;
 gameplayVideo.muted = true;
+gameplayVideo.playsInline = true;
+gameplayVideo.crossOrigin = 'anonymous';
 gameplayVideo.loop = true;
 gameplayVideo.preload = 'auto';
-
-// Primary path: Local downloaded video file. Fallback: High-speed cloud CDN archive
 gameplayVideo.src = 'trailer_assets/gameplay_reel.mp4';
+
 gameplayVideo.addEventListener('error', () => {
   if (gameplayVideo.src.indexOf('archive.org') === -1) {
-    console.log("Switching to verified high-speed web CDN gameplay stream...");
     gameplayVideo.src = 'https://archive.org/download/youtube-j4NwsG8wKl4/j4NwsG8wKl4.mp4';
     gameplayVideo.load();
     gameplayVideo.play().catch(e => console.warn(e));
   }
 });
-
-// Auto-start video playback instantly
-gameplayVideo.addEventListener('canplay', () => {
-  gameplayVideo.play().catch(e => console.warn(e));
-});
 gameplayVideo.load();
 gameplayVideo.play().catch(() => {});
 
-// User custom clip loader
-function loadCustomVideo(e) {
-  const file = e.target.files[0];
-  if (file) {
-    const url = URL.createObjectURL(file);
-    gameplayVideo.src = url;
-    gameplayVideo.load();
-    gameplayVideo.play().catch(err => console.warn(err));
-    replayTrailer();
-  }
-}
-
-// Drag & drop support on canvas stage
-const stageEl = document.getElementById('stage');
-stageEl.addEventListener('dragover', e => { e.preventDefault(); });
-stageEl.addEventListener('drop', e => {
-  e.preventDefault();
-  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-    const file = e.dataTransfer.files[0];
-    if (file.type.indexOf('video') !== -1 || file.name.endsWith('.mp4') || file.name.endsWith('.webm')) {
-      const url = URL.createObjectURL(file);
-      gameplayVideo.src = url;
-      gameplayVideo.load();
-      gameplayVideo.play().catch(err => console.warn(err));
-      replayTrailer();
-    }
-  }
-});
-
-// -------------------------------------------------------------------------
-//  AUDIO SYSTEM & BULLETPROOF SYNTHESIZERS
-// -------------------------------------------------------------------------
+// =========================================================================
+//  PRO HANS ZIMMER SYNTHESIZER SCORE & AUDIO SCHEDULER
+// =========================================================================
 let ac = null;
-let masterGain = null;
 let compressor = null;
+let masterGain = null;
 let mediaStreamDest = null;
-let audioUnlocked = false;
+let isAudioActive = false;
 
-function initAudioSystem() {
+function initAudio() {
   if (ac) return;
   try {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     ac = new AudioCtx();
 
     compressor = ac.createDynamicsCompressor();
-    compressor.threshold.setValueAtTime(-16, ac.currentTime);
-    compressor.knee.setValueAtTime(30, ac.currentTime);
-    compressor.ratio.setValueAtTime(14, ac.currentTime);
-    compressor.attack.setValueAtTime(0.003, ac.currentTime);
-    compressor.release.setValueAtTime(0.25, ac.currentTime);
+    compressor.threshold.setValueAtTime(-14, ac.currentTime);
+    compressor.knee.setValueAtTime(28, ac.currentTime);
+    compressor.ratio.setValueAtTime(12, ac.currentTime);
+    compressor.attack.setValueAtTime(0.002, ac.currentTime);
+    compressor.release.setValueAtTime(0.2, ac.currentTime);
 
     masterGain = ac.createGain();
-    masterGain.gain.setValueAtTime(0.9, ac.currentTime);
+    masterGain.gain.setValueAtTime(0.95, ac.currentTime);
 
     try {
       mediaStreamDest = ac.createMediaStreamDestination();
       masterGain.connect(mediaStreamDest);
-    } catch (err) {
-      console.warn("mediaStreamDest not supported:", err);
-    }
+    } catch (e) {}
 
     compressor.connect(masterGain);
     masterGain.connect(ac.destination);
-  } catch (e) {
-    console.warn("Audio Context init error:", e);
-  }
+    isAudioActive = true;
+  } catch (e) {}
 }
 
 function unlockAudioOnInteraction() {
-  initAudioSystem();
+  initAudio();
   if (ac && ac.state === 'suspended') {
     ac.resume().then(() => {
-      audioUnlocked = true;
       document.getElementById('sound-banner').classList.add('dismissed');
       planAudioScore();
-      startSubDrone();
-    }).catch(e => console.warn(e));
+    });
   } else {
-    audioUnlocked = true;
     document.getElementById('sound-banner').classList.add('dismissed');
+    planAudioScore();
   }
 }
-['click', 'keydown', 'touchstart'].forEach(evt => window.addEventListener(evt, unlockAudioOnInteraction, { once: false }));
+['click', 'keydown', 'touchstart'].forEach(e => window.addEventListener(e, unlockAudioOnInteraction, { once: false }));
 
-// 1. Iconic Hans Zimmer BRAAM Horn
+// 1. BRAAM Horn
 function triggerBraam(intensity = 1.0, pitch = 45) {
   if (!ac || ac.state !== 'running') return;
   try {
     const t = ac.currentTime + 0.005;
-    const freqs = [pitch, pitch * 1.008, pitch * 0.992];
-
-    freqs.forEach(f => {
+    [pitch, pitch * 1.008, pitch * 0.992].forEach(f => {
       const osc = ac.createOscillator();
       const g = ac.createGain();
       const filter = ac.createBiquadFilter();
@@ -522,7 +492,7 @@ function triggerBraam(intensity = 1.0, pitch = 45) {
       filter.frequency.setValueAtTime(3200 * intensity, t);
       filter.frequency.linearRampToValueAtTime(400, t + 2.2);
 
-      g.gain.setValueAtTime(0.3 * intensity, t);
+      g.gain.setValueAtTime(0.35 * intensity, t);
       g.gain.linearRampToValueAtTime(0.0001, t + 2.8);
 
       osc.connect(filter);
@@ -538,7 +508,7 @@ function triggerBraam(intensity = 1.0, pitch = 45) {
     sub.type = 'sine';
     sub.frequency.setValueAtTime(pitch, t);
     sub.frequency.linearRampToValueAtTime(pitch * 0.75, t + 1.8);
-    subG.gain.setValueAtTime(0.7 * intensity, t);
+    subG.gain.setValueAtTime(0.75 * intensity, t);
     subG.gain.linearRampToValueAtTime(0.0001, t + 2.5);
 
     sub.connect(subG);
@@ -548,7 +518,7 @@ function triggerBraam(intensity = 1.0, pitch = 45) {
   } catch (e) {}
 }
 
-// 2. Cinematic War Drum / Impact Drop
+// 2. Taiko War Drum Impact
 function triggerWarDrum(intensity = 1.0) {
   if (!ac || ac.state !== 'running') return;
   try {
@@ -557,21 +527,21 @@ function triggerWarDrum(intensity = 1.0) {
     const g = ac.createGain();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(140, t);
-    osc.frequency.linearRampToValueAtTime(26, t + 0.55);
+    osc.frequency.linearRampToValueAtTime(28, t + 0.55);
 
     g.gain.setValueAtTime(0.9 * intensity, t);
-    g.gain.linearRampToValueAtTime(0.0001, t + 0.9);
+    g.gain.linearRampToValueAtTime(0.0001, t + 0.85);
 
     osc.connect(g);
     g.connect(compressor);
     osc.start(t);
-    osc.stop(t + 0.95);
+    osc.stop(t + 0.9);
 
-    // Noise click transient
-    const bufSize = Math.floor(ac.sampleRate * 0.06);
+    // Noise crack
+    const bufSize = Math.floor(ac.sampleRate * 0.05);
     const buf = ac.createBuffer(1, bufSize, ac.sampleRate);
     const data = buf.getChannelData(0);
-    for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.25));
+    for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.2));
     const noise = ac.createBufferSource();
     noise.buffer = buf;
     const nGain = ac.createGain();
@@ -582,48 +552,72 @@ function triggerWarDrum(intensity = 1.0) {
   } catch (e) {}
 }
 
-// 3. Sub Heartbeat
-function triggerHeartbeat(intensity = 1.0) {
-  if (!ac || ac.state !== 'running') return;
-  try {
-    const t = ac.currentTime + 0.005;
-    [0, 0.24].forEach((offset, idx) => {
-      const osc = ac.createOscillator();
-      const g = ac.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(idx === 0 ? 56 : 48, t + offset);
-      osc.frequency.linearRampToValueAtTime(28, t + offset + 0.25);
-
-      g.gain.setValueAtTime(0.55 * (idx === 0 ? 0.8 : 1.0) * intensity, t + offset);
-      g.gain.linearRampToValueAtTime(0.0001, t + offset + 0.32);
-
-      osc.connect(g);
-      g.connect(compressor);
-      osc.start(t + offset);
-      osc.stop(t + offset + 0.35);
-    });
-  } catch (e) {}
-}
-
-// 4. Clock Tick
-function triggerClockTick(isAccent = false) {
+// 3. Headshot Metallic Bell ("CHING!")
+function triggerHeadshotDing() {
   if (!ac || ac.state !== 'running') return;
   try {
     const t = ac.currentTime + 0.005;
     const osc = ac.createOscillator();
     const g = ac.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(isAccent ? 1800 : 1200, t);
-    g.gain.setValueAtTime(isAccent ? 0.35 : 0.15, t);
-    g.gain.linearRampToValueAtTime(0.0001, t + 0.04);
+    osc.frequency.setValueAtTime(2800, t);
+    osc.frequency.exponentialRampToValueAtTime(1800, t + 0.4);
+
+    g.gain.setValueAtTime(0.45, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+
     osc.connect(g);
     g.connect(compressor);
     osc.start(t);
-    osc.stop(t + 0.05);
+    osc.stop(t + 0.45);
   } catch (e) {}
 }
 
-// 5. Tension Riser
+// 4. Tactical Radio Beep Squelch
+function triggerRadioChirp() {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(2200, t);
+    osc.frequency.setValueAtTime(1760, t + 0.04);
+
+    g.gain.setValueAtTime(0.2, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+
+    osc.connect(g);
+    g.connect(compressor);
+    osc.start(t);
+    osc.stop(t + 0.09);
+  } catch (e) {}
+}
+
+// 5. Heartbeat & Clock Ticks
+function triggerHeartbeat() {
+  if (!ac || ac.state !== 'running') return;
+  try {
+    const t = ac.currentTime + 0.005;
+    [0, 0.22].forEach((offset, idx) => {
+      const osc = ac.createOscillator();
+      const g = ac.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(idx === 0 ? 58 : 46, t + offset);
+      osc.frequency.linearRampToValueAtTime(26, t + offset + 0.24);
+
+      g.gain.setValueAtTime(0.55 * (idx === 0 ? 0.8 : 1.0), t + offset);
+      g.gain.linearRampToValueAtTime(0.0001, t + offset + 0.3);
+
+      osc.connect(g);
+      g.connect(compressor);
+      osc.start(t + offset);
+      osc.stop(t + offset + 0.32);
+    });
+  } catch (e) {}
+}
+
+// 6. Shepard Tension Riser
 function triggerRiser(dur = 9.0) {
   if (!ac || ac.state !== 'running') return;
   try {
@@ -631,11 +625,11 @@ function triggerRiser(dur = 9.0) {
     const osc = ac.createOscillator();
     const g = ac.createGain();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(80, t);
-    osc.frequency.linearRampToValueAtTime(2200, t + dur);
+    osc.frequency.setValueAtTime(75, t);
+    osc.frequency.linearRampToValueAtTime(2400, t + dur);
 
     g.gain.setValueAtTime(0.02, t);
-    g.gain.linearRampToValueAtTime(0.4, t + dur);
+    g.gain.linearRampToValueAtTime(0.42, t + dur);
     g.gain.linearRampToValueAtTime(0.0001, t + dur + 0.05);
 
     osc.connect(g);
@@ -645,92 +639,60 @@ function triggerRiser(dur = 9.0) {
   } catch (e) {}
 }
 
-// 6. Sub Drone
-let droneOsc = null, droneGain = null;
-function startSubDrone() {
-  if (!ac || droneOsc || ac.state !== 'running') return;
-  try {
-    droneOsc = ac.createOscillator();
-    droneGain = ac.createGain();
-    droneOsc.type = 'sawtooth';
-    droneOsc.frequency.setValueAtTime(43.65, ac.currentTime);
-
-    const filter = ac.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(110, ac.currentTime);
-
-    droneGain.gain.setValueAtTime(0.001, ac.currentTime);
-    droneGain.gain.linearRampToValueAtTime(0.3, ac.currentTime + 3.0);
-
-    droneOsc.connect(filter);
-    filter.connect(droneGain);
-    droneGain.connect(compressor);
-    droneOsc.start();
-  } catch (e) {}
-}
-function stopSubDrone() {
-  if (droneGain && ac) {
-    try {
-      droneGain.gain.linearRampToValueAtTime(0.001, ac.currentTime + 0.4);
-      setTimeout(() => { if (droneOsc) { droneOsc.stop(); droneOsc = null; } }, 500);
-    } catch (e) {}
-  }
-}
-
-// -------------------------------------------------------------------------
-//  AUDIO SCHEDULING TIMELINE
-// -------------------------------------------------------------------------
+// Timeline Audio Scheduler
 let scheduledEvents = [];
 function planAudioScore() {
   scheduledEvents = [];
 
-  // ACT I: HEARTBEATS & TENSION (0:00 - 0:18)
+  // Act 1: Tension Heartbeats (0:00 - 0:18)
   for (let sec = 1.0; sec < 17.0; sec += 1.8) {
     scheduledEvents.push({ time: sec, fn: () => triggerHeartbeat() });
   }
-  scheduledEvents.push({ time: 8.0, fn: () => { triggerBraam(1.2, 48); triggerShockwave(1.0); } });
+  scheduledEvents.push({ time: 8.0, fn: () => { triggerBraam(1.2, 48); triggerShockwave(1.0); triggerRadioChirp(); } });
   scheduledEvents.push({ time: 16.0, fn: () => { triggerBraam(1.3, 44); triggerShockwave(1.2); } });
 
-  // ACT II: CLOCK TICK & WAR DRUMS (0:18 - 0:42)
-  for (let sec = 18.0; sec < 42.0; sec += 0.35) {
-    const isBeat = Math.round((sec - 18.0) / 0.35) % 4 === 0;
-    scheduledEvents.push({ time: sec, fn: () => triggerClockTick(isBeat) });
-  }
+  // Act 2: War Drums & Tactical Scout (0:18 - 0:42)
   const drumBeats = [18.0, 19.4, 20.8, 22.2, 23.6, 25.0, 26.4, 27.8, 29.2, 30.6, 32.0, 33.4, 34.8, 36.2, 37.6, 39.0, 40.4];
   drumBeats.forEach(t => {
     scheduledEvents.push({ time: t, fn: () => { triggerWarDrum(1.1); camShake = 16; } });
   });
+  scheduledEvents.push({ time: 24.5, fn: () => triggerHeadshotDing() });
   scheduledEvents.push({ time: 28.0, fn: () => { triggerBraam(1.4, 50); triggerShockwave(1.3); } });
+  scheduledEvents.push({ time: 35.5, fn: () => triggerHeadshotDing() });
 
-  // ACT III: SHEPARD RISER & SUDDEN SILENCE (0:42 - 0:54)
+  // Act 3: 45.0s Spike Riser & Silence (0:42 - 0:54)
   scheduledEvents.push({ time: 42.0, fn: () => triggerRiser(9.5) });
   [43.0, 45.0, 46.8, 48.2, 49.4, 50.4, 51.2].forEach(t => {
     scheduledEvents.push({ time: t, fn: () => triggerHeartbeat() });
   });
 
-  // MONUMENTAL DROP AT 54.0s (The Climax Drop)
+  // CLIMAX DROP AT 54.0s
   scheduledEvents.push({ time: 54.0, fn: () => {
-    triggerBraam(2.0, 36);
-    triggerWarDrum(2.0);
-    triggerShockwave(1.8);
-    camShake = 40;
+    triggerBraam(2.2, 36);
+    triggerWarDrum(2.2);
+    triggerShockwave(2.0);
+    camShake = 45;
     chromaticGlitch = 1.0;
+    triggerHeadshotDing();
   }});
 
-  // ACT IV: HIGH-SPEED 130 BPM DRUM BARRAGE (0:54 - 0:70)
+  // Act 4: High-Velocity 130 BPM Barrage (0:54 - 0:70)
   for (let sec = 54.0; sec < 70.0; sec += 0.46) {
     scheduledEvents.push({ time: sec, fn: () => { triggerWarDrum(1.0); camShake = Math.max(camShake, 10); } });
   }
   [57.6, 61.3, 65.0, 68.7].forEach(t => {
-    scheduledEvents.push({ time: t, fn: () => { triggerBraam(1.3, 46); triggerShockwave(1.1); } });
+    scheduledEvents.push({ time: t, fn: () => { triggerBraam(1.4, 46); triggerShockwave(1.2); } });
+  });
+  [59.0, 63.5, 67.2].forEach(t => {
+    scheduledEvents.push({ time: t, fn: () => triggerHeadshotDing() });
   });
 
-  // ACT V: GRAND TITLE SLAM AT 71.0s
+  // Act 5: Title Slam AT 71.0s
   scheduledEvents.push({ time: 71.0, fn: () => {
-    triggerBraam(2.2, 38);
-    triggerWarDrum(2.2);
-    triggerShockwave(2.0);
-    camShake = 50;
+    triggerBraam(2.4, 38);
+    triggerWarDrum(2.4);
+    triggerShockwave(2.2);
+    camShake = 55;
   }});
 }
 
@@ -738,43 +700,44 @@ function processAudioTimeline(ct) {
   for (let i = scheduledEvents.length - 1; i >= 0; i--) {
     if (ct >= scheduledEvents[i].time) {
       const ev = scheduledEvents.splice(i, 1)[0];
-      try {
-        ev.fn();
-      } catch (err) {
-        console.warn("Audio event error at " + ct, err);
-      }
+      try { ev.fn(); } catch (e) {}
     }
   }
 }
 
-// -------------------------------------------------------------------------
-//  CINEMATIC GRAPHICS ENGINE (Real Motion Video, Particles, HUD)
-// -------------------------------------------------------------------------
+// =========================================================================
+//  CINEMATIC GRAPHICS ENGINE (Video Frame, Shockwaves, Spectrum HUD)
+// =========================================================================
 let camShake = 0;
 let chromaticGlitch = 0;
 let shockwaves = [];
 const particles = [];
+const DURATION = 85.0;
+let currentTime = 0;
+let startTime = 0;
+let isPlaying = true;
+let animId = null;
 
 function triggerShockwave(strength = 1.0) {
   shockwaves.push({
     radius: 10,
-    maxRadius: 1300,
-    alpha: 0.9 * strength,
-    speed: 38 * strength,
-    lineWidth: 12 * strength
+    maxRadius: 1500,
+    alpha: 0.95 * strength,
+    speed: 42 * strength,
+    lineWidth: 14 * strength
   });
 }
 
-// Floating Tactical Embers / Sparks
+// 260 Floating Tactical Embers
 for (let i = 0; i < 260; i++) {
   particles.push({
     x: Math.random() * W,
     y: Math.random() * H,
-    vx: (Math.random() - 0.5) * 1.6,
-    vy: -Math.random() * 2.8 - 0.5,
-    size: Math.random() * 3 + 1,
+    vx: (Math.random() - 0.5) * 1.8,
+    vy: -Math.random() * 3.2 - 0.6,
+    size: Math.random() * 3.5 + 1,
     alpha: Math.random() * 0.8 + 0.2,
-    color: Math.random() > 0.5 ? '#00e5ff' : '#ff4655'
+    color: Math.random() > 0.4 ? '#00f0ff' : '#ff4655'
   });
 }
 
@@ -802,36 +765,8 @@ function renderParticles(alphaMult = 1.0) {
   ctx.restore();
 }
 
-function renderAnamorphicFlare(cx, cy, intensity, color = '#00e5ff') {
-  if (intensity <= 0.05) return;
-  ctx.save();
-  ctx.globalCompositeOperation = 'screen';
-  ctx.globalAlpha = Math.min(1.0, intensity);
-
-  const grad1 = ctx.createLinearGradient(0, cy, W, cy);
-  grad1.addColorStop(0, 'rgba(0, 229, 255, 0)');
-  grad1.addColorStop(Math.max(0, cx/W - 0.25), 'rgba(0, 229, 255, 0.12)');
-  grad1.addColorStop(cx/W, color);
-  grad1.addColorStop(Math.min(1, cx/W + 0.25), 'rgba(0, 229, 255, 0.12)');
-  grad1.addColorStop(1, 'rgba(0, 229, 255, 0)');
-  ctx.fillStyle = grad1;
-  ctx.fillRect(0, cy - 3, W, 6);
-
-  const gradCore = ctx.createRadialGradient(cx, cy, 0, cx, cy, 140);
-  gradCore.addColorStop(0, '#ffffff');
-  gradCore.addColorStop(0.3, color);
-  gradCore.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = gradCore;
-  ctx.beginPath();
-  ctx.arc(cx, cy, 140, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
-}
-
-// =========================================================================
-//  MASTER VIDEO COMPOSITOR: DRAWS LIVE GAMEPLAY VIDEO TO CANVAS
-// =========================================================================
-function drawGameFrame(zoom = 1.0, panX = 0, panY = 0, alpha = 1.0) {
+// Master Video & Still Frame Compositor
+function drawFrameCompositor(zoom = 1.0, panX = 0, panY = 0, alpha = 1.0, flashStill = null) {
   ctx.save();
   ctx.globalAlpha = Math.max(0, Math.min(1.0, alpha));
   const dw = W * zoom;
@@ -839,11 +774,11 @@ function drawGameFrame(zoom = 1.0, panX = 0, panY = 0, alpha = 1.0) {
   const dx = (W - dw) / 2 + panX;
   const dy = (H - dh) / 2 + panY;
 
-  // Render actual playing video stream
-  if (gameplayVideo.readyState >= 2) {
+  if (flashStill && flashStill.complete && flashStill.naturalWidth > 0) {
+    ctx.drawImage(flashStill, dx, dy, dw, dh);
+  } else if (gameplayVideo.readyState >= 2) {
     if (chromaticGlitch > 0.05) {
-      // Pro RGB Chromatic Aberration Split on Action Drop
-      const offset = chromaticGlitch * 12;
+      const offset = chromaticGlitch * 16;
       ctx.globalCompositeOperation = 'screen';
       ctx.drawImage(gameplayVideo, dx - offset, dy, dw, dh);
       ctx.drawImage(gameplayVideo, dx + offset, dy, dw, dh);
@@ -852,26 +787,135 @@ function drawGameFrame(zoom = 1.0, panX = 0, panY = 0, alpha = 1.0) {
       ctx.drawImage(gameplayVideo, dx, dy, dw, dh);
     }
   } else {
-    // Elegant procedural dark gradient while buffering
+    // Elegant procedural dark gradient
     const bg = ctx.createLinearGradient(0, 0, W, H);
     bg.addColorStop(0, '#0a101d');
-    bg.addColorStop(1, '#030509');
+    bg.addColorStop(1, '#020509');
     ctx.fillStyle = bg;
     ctx.fillRect(dx, dy, dw, dh);
   }
   ctx.restore();
 }
 
-// -------------------------------------------------------------------------
-//  5-ACT HOLLYWOOD CINEMATIC MONTAGE
-// -------------------------------------------------------------------------
+// Anamorphic Lens Flare
+function renderAnamorphicFlare(cx, cy, intensity, color = '#00f0ff') {
+  if (intensity <= 0.05) return;
+  ctx.save();
+  ctx.globalCompositeOperation = 'screen';
+  ctx.globalAlpha = Math.min(1.0, intensity);
 
-// ACT 1: THE VOID & IN-GAME ARENA REVEAL (0:00 - 0:18)
+  const grad1 = ctx.createLinearGradient(0, cy, W, cy);
+  grad1.addColorStop(0, 'rgba(0, 240, 255, 0)');
+  grad1.addColorStop(Math.max(0, cx/W - 0.25), 'rgba(0, 240, 255, 0.15)');
+  grad1.addColorStop(cx/W, color);
+  grad1.addColorStop(Math.min(1, cx/W + 0.25), 'rgba(0, 240, 255, 0.15)');
+  grad1.addColorStop(1, 'rgba(0, 240, 255, 0)');
+  ctx.fillStyle = grad1;
+  ctx.fillRect(0, cy - 4, W, 8);
+
+  const gradCore = ctx.createRadialGradient(cx, cy, 0, cx, cy, 160);
+  gradCore.addColorStop(0, '#ffffff');
+  gradCore.addColorStop(0.35, color);
+  gradCore.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = gradCore;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 160, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+// Live Audio Frequency Spectrum HUD (Bottom-Right Corner)
+function renderSpectrumAnalyzerHUD(t) {
+  ctx.save();
+  const startX = W - 380;
+  const startY = H - 180;
+  const barCount = 20;
+  const barW = 8;
+  const gap = 6;
+
+  ctx.font = '800 13px "JetBrains Mono"';
+  ctx.fillStyle = '#00f0ff';
+  ctx.letterSpacing = '0.15em';
+  ctx.fillText('AUDIO TELEMETRY // 7.1 LOOPBACK', startX, startY - 14);
+
+  for (let i = 0; i < barCount; i++) {
+    const freqVal = Math.sin(t * 12 + i * 0.8) * 0.5 + 0.5;
+    const barH = 10 + freqVal * 55 + (chromaticGlitch * 30);
+    const x = startX + i * (barW + gap);
+    const y = startY + 60 - barH;
+
+    ctx.fillStyle = i > 14 ? '#ff4655' : '#00f0ff';
+    ctx.shadowColor = ctx.fillStyle;
+    ctx.shadowBlur = 10;
+    ctx.fillRect(x, y, barW, barH);
+  }
+  ctx.restore();
+}
+
+// Tactical Compass Tape (Top Center)
+function renderCompassTape(panX = 0) {
+  ctx.save();
+  const cx = W / 2 + panX;
+  const cy = 160;
+
+  ctx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx - 300, cy);
+  ctx.lineTo(cx + 300, cy);
+  ctx.stroke();
+
+  ctx.font = '800 14px "JetBrains Mono"';
+  ctx.fillStyle = '#00f0ff';
+  ctx.textAlign = 'center';
+  ctx.fillText('▲ 042° NE // BEARING LOCKED', cx, cy - 12);
+  ctx.restore();
+}
+
+// Esports Killfeed Notification (Top Right)
+function renderEsportsKillfeed(t) {
+  ctx.save();
+  const kx = W - 480;
+  let ky = 160;
+
+  if (t > 24.0 && t < 34.0) {
+    ctx.fillStyle = 'rgba(5, 12, 30, 0.85)';
+    ctx.fillRect(kx, ky, 360, 40);
+    ctx.strokeStyle = 'rgba(0, 240, 255, 0.6)';
+    ctx.strokeRect(kx, ky, 360, 40);
+
+    ctx.font = '800 13px "JetBrains Mono"';
+    ctx.fillStyle = '#00f0ff';
+    ctx.fillText('GP_CO-PILOT', kx + 14, ky + 25);
+    ctx.fillStyle = '#ff4655';
+    ctx.fillText('☠ [HEADSHOT] VIPER', kx + 160, ky + 25);
+  }
+
+  if (t > 54.0 && t < 68.0) {
+    ky = 210;
+    ctx.fillStyle = 'rgba(5, 12, 30, 0.85)';
+    ctx.fillRect(kx, ky, 360, 40);
+    ctx.strokeStyle = '#ffd700';
+    ctx.strokeRect(kx, ky, 360, 40);
+
+    ctx.font = '800 13px "JetBrains Mono"';
+    ctx.fillStyle = '#ffd700';
+    ctx.fillText('★ CLUTCH 1v3', kx + 14, ky + 25);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('DEFUSE: 0.04s REMAINING', kx + 150, ky + 25);
+  }
+  ctx.restore();
+}
+
+// =========================================================================
+//  THE 5-ACT STORYBOARD (WITH 4K STILL FLASH CUTS)
+// =========================================================================
+
+// ACT 1: ATMOSPHERIC VOID & SILENT AUDIENCE (0:00 - 0:18)
 function renderAct1(t) {
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, W, H);
 
-  // 0s - 7s: Atmospheric void and tension
   if (t < 7.0) {
     const bg = ctx.createRadialGradient(W/2, H/2, 50, W/2, H/2, H * 0.7);
     bg.addColorStop(0, '#0a101d');
@@ -880,63 +924,59 @@ function renderAct1(t) {
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
 
-    ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
+    ctx.strokeStyle = 'rgba(0, 240, 255, 0.08)';
     ctx.lineWidth = 1;
     for (let x = 0; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
     for (let y = 0; y < H; y += 80) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 
     if (t >= 1.5) {
-      const fadeIn = Math.min(1.0, (t - 1.5) / 1.5);
-      const fadeOut = Math.max(0.0, 1.0 - (t - 5.5) / 1.5);
-      const alpha = Math.min(fadeIn, fadeOut);
+      const alpha = Math.min(1.0, (t - 1.5) / 1.5) * Math.max(0.0, 1.0 - (t - 5.5) / 1.5);
       ctx.save();
       ctx.globalAlpha = alpha;
-      ctx.font = '900 52px "Cinzel"';
+      ctx.font = '900 56px "Cinzel"';
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.letterSpacing = '0.35em';
-      ctx.shadowColor = 'rgba(0, 229, 255, 0.6)';
-      ctx.shadowBlur = 30;
+      ctx.shadowColor = 'rgba(0, 240, 255, 0.7)';
+      ctx.shadowBlur = 35;
       ctx.fillText('IN HIGH-STAKES COMPETITION', W/2, H/2 - 20);
 
-      ctx.font = '300 22px "Montserrat"';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.font = '400 24px "Montserrat"';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
       ctx.letterSpacing = '0.5em';
-      ctx.fillText('MILLISECONDS DECIDE DESTINY', W/2, H/2 + 40);
+      ctx.fillText('MILLISECONDS DECIDE DESTINY', W/2, H/2 + 45);
       ctx.restore();
     }
   } else {
-    // 7s - 18s: REAL IN-GAME 1080p GAMEPLAY VIDEO POV
+    // 7s - 18s: In-game POV with 4K Cover intro cut
     const gameAlpha = Math.min(1.0, (t - 7.0) / 1.5);
     const zoom = 1.0 + (t - 7.0) * 0.008;
     const panX = Math.sin((t - 7.0) * 0.5) * 15;
-    drawGameFrame(zoom, panX, 0, gameAlpha);
+    drawFrameCompositor(zoom, panX, 0, gameAlpha);
 
-    // Dark cinematic vignette overlay
+    // Dark cinematic vignette
     const vig = ctx.createRadialGradient(W/2, H/2, H * 0.35, W/2, H/2, H * 0.85);
     vig.addColorStop(0, 'rgba(0,0,0,0.1)');
-    vig.addColorStop(1, 'rgba(0,0,0,0.75)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.78)');
     ctx.fillStyle = vig;
     ctx.fillRect(0, 0, W, H);
 
     if (t >= 8.5 && t < 16.5) {
-      const fadeIn = Math.min(1.0, (t - 8.5) / 1.2);
-      const fadeOut = Math.max(0.0, 1.0 - (t - 15.0) / 1.5);
-      const alpha = Math.min(fadeIn, fadeOut);
+      const alpha = Math.min(1.0, (t - 8.5) / 1.2) * Math.max(0.0, 1.0 - (t - 15.0) / 1.5);
       ctx.save();
       ctx.globalAlpha = alpha;
-      ctx.font = '900 56px "Cinzel"';
-      ctx.fillStyle = '#ff2a4b';
+      ctx.font = '900 58px "Cinzel"';
+      ctx.fillStyle = '#ff4655';
       ctx.textAlign = 'center';
       ctx.letterSpacing = '0.3em';
-      ctx.shadowColor = 'rgba(255, 42, 75, 0.9)';
-      ctx.shadowBlur = 40;
+      ctx.shadowColor = '#ff4655';
+      ctx.shadowBlur = 45;
       ctx.fillText('YET 30 MILLION PLAYERS', W/2, H * 0.22);
 
-      ctx.font = '300 24px "Montserrat"';
+      ctx.font = '400 26px "Montserrat"';
       ctx.fillStyle = '#ffffff';
       ctx.letterSpacing = '0.45em';
-      ctx.fillText('FIGHT IN TOTAL AUDIO SILENCE', W/2, H * 0.22 + 55);
+      ctx.fillText('FIGHT IN TOTAL AUDIO SILENCE', W/2, H * 0.22 + 58);
       ctx.restore();
     }
   }
@@ -944,121 +984,114 @@ function renderAct1(t) {
   renderParticles(0.4);
 }
 
-// ACT 2: REAL GAMEPLAY SCOUTING & HOLOGRAPHIC RECOIL HUD (0:18 - 0:42)
+// ACT 2: TACTICAL HUD SCOUTING & 4K FLASH CUTS (0:18 - 0:42)
 function renderAct2(t) {
   const relT = t - 18.0;
 
-  // Real continuous video playing with slight dynamic camera zoom
+  // Flash cut 4K Ascent Courtyard for 0.4s on beat
+  let flashStill = null;
+  if (t > 24.4 && t < 24.8) flashStill = imgAscent;
+  if (t > 35.4 && t < 35.8) flashStill = imgScope;
+
   const zoom = 1.03 + Math.sin(relT * 0.6) * 0.015;
   const panX = Math.cos(relT * 0.8) * 12;
   const panY = Math.sin(relT * 0.5) * 6;
-  drawGameFrame(zoom, panX, panY, 1.0);
+  drawFrameCompositor(zoom, panX, panY, 1.0, flashStill);
 
-  // Holographic GamePilot Pro Tactical HUD Layer
+  renderCompassTape(panX);
+  renderEsportsKillfeed(t);
+  renderSpectrumAnalyzerHUD(t);
+
+  // Holographic Lock-On Reticle
   ctx.save();
   ctx.translate(W/2 + panX, H/2 + panY);
-
-  // Target lock-on box over enemy engagement
   const pulseAlpha = 0.5 + Math.sin(t * 8) * 0.3;
-  ctx.strokeStyle = `rgba(255, 42, 75, ${pulseAlpha})`;
+  ctx.strokeStyle = `rgba(255, 70, 85, ${pulseAlpha})`;
   ctx.lineWidth = 2.5;
-  ctx.strokeRect(40, -50, 95, 110);
+  ctx.strokeRect(40, -50, 100, 115);
 
-  ctx.font = '800 13px "JetBrains Mono"';
-  ctx.fillStyle = '#00e5ff';
+  ctx.font = '800 14px "JetBrains Mono"';
+  ctx.fillStyle = '#00f0ff';
   ctx.textAlign = 'left';
-  ctx.fillText('TARGET LOCK // HAVEN C SITE', 145, -35);
-  ctx.fillStyle = '#ff2a4b';
-  ctx.fillText('HOSTILE FLANK // SILENT AUDIO CUE', 145, -15);
+  ctx.fillText('HOSTILE LOCK // 042° NE', 150, -35);
+  ctx.fillStyle = '#ff4655';
+  ctx.fillText('AUDIO PHASE VECTOR // 12.4m', 150, -15);
 
-  // Recoil Cadence Metronome (expanding spray ring)
-  const recoilRadius = Math.max(0, (relT * 3.5 % 1.0) * 55);
+  // Recoil Cadence Ring
+  const recoilRadius = Math.max(0, (relT * 3.5 % 1.0) * 58);
   ctx.strokeStyle = '#ffd700';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.arc(0, 0, recoilRadius, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Head-level Horizon Crosshair Guide
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.6)';
-  ctx.lineWidth = 1.5;
-  ctx.setLineDash([8, 8]);
-  ctx.beginPath();
-  ctx.moveTo(-450, 0); ctx.lineTo(450, 0);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
   ctx.restore();
 
-  // Bold Trailer Headline Cuts
+  // Typography Hits
   ctx.save();
+  ctx.textAlign = 'center';
   if (t >= 21.0 && t < 26.5) {
-    ctx.font = '900 70px "Montserrat"';
+    ctx.font = '900 74px "Montserrat"';
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
     ctx.letterSpacing = '0.3em';
-    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 45;
+    ctx.shadowColor = '#00f0ff'; ctx.shadowBlur = 45;
     ctx.fillText('SEE WHAT YOU CANNOT HEAR', W/2, H * 0.16);
   } else if (t >= 29.0 && t < 34.5) {
-    ctx.font = '900 72px "Montserrat"';
+    ctx.font = '900 74px "Montserrat"';
     ctx.fillStyle = '#ffd700';
-    ctx.textAlign = 'center';
     ctx.letterSpacing = '0.25em';
     ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 50;
     ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.16);
   } else if (t >= 36.0 && t < 41.5) {
-    ctx.font = '900 70px "Montserrat"';
-    ctx.fillStyle = '#ff2a4b';
-    ctx.textAlign = 'center';
+    ctx.font = '900 74px "Montserrat"';
+    ctx.fillStyle = '#ff4655';
     ctx.letterSpacing = '0.25em';
-    ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
+    ctx.shadowColor = '#ff4655'; ctx.shadowBlur = 50;
     ctx.fillText('RECOIL CADENCE METRONOME', W/2, H * 0.16);
   }
   ctx.restore();
 
   renderParticles(0.6);
-  renderAnamorphicFlare(W * 0.72, H * 0.4, Math.sin(t * 3) * 0.5 + 0.5, '#00e5ff');
+  renderAnamorphicFlare(W * 0.72, H * 0.4, Math.sin(t * 3) * 0.5 + 0.5, '#00f0ff');
 }
 
-// ACT 3: BULLET-TIME SLOW-MO & 45s SPIKE COUNTDOWN (0:42 - 0:54)
+// ACT 3: SLOW-MO TENSION & 45s SPIKE DEFUSE (0:42 - 0:54)
 function renderAct3(t) {
   const relT = t - 42.0;
 
   if (t < 52.5) {
-    // Cinematic Slow-Motion Video Pace
     const zoom = 1.04 + (relT / 10.0) * 0.04;
-    drawGameFrame(zoom, 0, 0, 1.0);
+    drawFrameCompositor(zoom, 0, 0, 1.0);
 
-    // Dark tension vignette
     const vig = ctx.createRadialGradient(W/2, H/2, H * 0.3, W/2, H/2, H * 0.9);
     vig.addColorStop(0, 'rgba(0,0,0,0.15)');
     vig.addColorStop(1, 'rgba(0,0,0,0.85)');
     ctx.fillStyle = vig;
     ctx.fillRect(0, 0, W, H);
 
-    // Heartbeat Pulse Ring over combat arena
-    const pulseSize = Math.max(0, ((Math.abs(relT) * 3.5) % 1.0) * 340);
-    const pulseAlpha = Math.max(0, 1.0 - pulseSize / 340);
-    ctx.strokeStyle = `rgba(0, 229, 255, ${pulseAlpha})`;
+    // Pulse Ring
+    const pulseSize = Math.max(0, ((Math.abs(relT) * 3.5) % 1.0) * 360);
+    const pulseAlpha = Math.max(0, 1.0 - pulseSize / 360);
+    ctx.strokeStyle = `rgba(0, 240, 255, ${pulseAlpha})`;
     ctx.lineWidth = 3.5;
     ctx.beginPath();
     ctx.arc(W/2, H * 0.65, pulseSize, 0, Math.PI * 2);
     ctx.stroke();
 
-    // 45.0s Spike Radar Dial Overlay
-    ctx.font = '900 36px "JetBrains Mono"';
-    ctx.fillStyle = '#00e5ff';
+    // 45.0s Spike Dial
+    ctx.font = '900 38px "JetBrains Mono"';
+    ctx.fillStyle = '#00f0ff';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '0.35em';
     ctx.fillText('MICRO-SPIKE DEFUSE RADAR // 45.0s COUNTDOWN', W/2, H * 0.22);
 
     const spikeSeconds = Math.max(0.01, 7.0 - (relT / 10.0) * 6.99).toFixed(2);
-    ctx.font = '900 100px "JetBrains Mono"';
-    ctx.fillStyle = '#ff2a4b';
-    ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 60;
+    ctx.font = '900 105px "JetBrains Mono"';
+    ctx.fillStyle = '#ff4655';
+    ctx.shadowColor = '#ff4655'; ctx.shadowBlur = 60;
     ctx.fillText(`00:0${spikeSeconds}`, W/2, H * 0.35);
 
-    ctx.font = '800 18px "JetBrains Mono"';
+    ctx.font = '800 19px "JetBrains Mono"';
     ctx.fillStyle = '#ffd700';
     ctx.fillText('◄ 7.0s FULL DEFUSE THRESHOLD LOCKED ►', W/2, H * 0.44);
   } else {
@@ -1067,7 +1100,7 @@ function renderAct3(t) {
     ctx.fillRect(0, 0, W, H);
 
     if (t > 53.0) {
-      ctx.font = '900 34px "Montserrat"';
+      ctx.font = '900 36px "Montserrat"';
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.letterSpacing = '0.6em';
@@ -1076,15 +1109,21 @@ function renderAct3(t) {
   }
 }
 
-// ACT 4: THE MONUMENTAL DROP & HIGH-OCTANE ACE CLUTCH (0:54 - 0:70)
+// ACT 4: THE MONUMENTAL DROP & HIGH-VELOCITY CLUTCH (0:54 - 0:70)
 function renderAct4(t) {
   const relT = t - 54.0;
 
-  // Fast-paced continuous high-velocity gameplay video
-  const zoom = 1.04 + Math.sin(relT * 3.0) * 0.02;
-  drawGameFrame(zoom, 0, 0, 1.0);
+  // Flash cut 4K Clutch still on the massive drop
+  let flashStill = null;
+  if (t > 54.0 && t < 54.4) flashStill = imgClutch;
 
-  // 360° Holographic Sonar Laser Radar sweeping real game geometry
+  const zoom = 1.04 + Math.sin(relT * 3.0) * 0.02;
+  drawFrameCompositor(zoom, 0, 0, 1.0, flashStill);
+
+  renderSpectrumAnalyzerHUD(t);
+  renderEsportsKillfeed(t);
+
+  // 360° Laser Radar
   ctx.save();
   ctx.translate(W/2, H * 0.6);
   const sweepAngle = relT * 4.2;
@@ -1092,7 +1131,7 @@ function renderAct4(t) {
   for (let r = 80; r < 650; r += 120) {
     const waveR = Math.max(0, (r + Math.abs(relT) * 260) % 650);
     const waveAlpha = Math.max(0, 1.0 - waveR / 650);
-    ctx.strokeStyle = `rgba(0, 229, 255, ${waveAlpha * 0.7})`;
+    ctx.strokeStyle = `rgba(0, 240, 255, ${waveAlpha * 0.7})`;
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     ctx.arc(0, 0, waveR, 0, Math.PI * 2);
@@ -1102,52 +1141,50 @@ function renderAct4(t) {
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(Math.cos(sweepAngle) * 700, Math.sin(sweepAngle) * 700);
-  ctx.strokeStyle = '#00e5ff';
+  ctx.strokeStyle = '#00f0ff';
   ctx.lineWidth = 3;
-  ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 25;
+  ctx.shadowColor = '#00f0ff'; ctx.shadowBlur = 25;
   ctx.stroke();
   ctx.restore();
 
-  // Adrenaline Cutlines Synced to 130 BPM War Drums
+  // Adrenaline Cutlines
   ctx.save();
   ctx.textAlign = 'center';
   if (relT < 4.0) {
-    ctx.font = '900 80px "Montserrat"';
-    ctx.fillStyle = '#00e5ff';
+    ctx.font = '900 84px "Montserrat"';
+    ctx.fillStyle = '#00f0ff';
     ctx.letterSpacing = '0.3em';
-    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 50;
+    ctx.shadowColor = '#00f0ff'; ctx.shadowBlur = 50;
     ctx.fillText('DIRECTIONAL AUDIO SONAR', W/2, H * 0.16);
   } else if (relT < 8.0) {
-    ctx.font = '900 80px "Montserrat"';
+    ctx.font = '900 84px "Montserrat"';
     ctx.fillStyle = '#ffd700';
     ctx.letterSpacing = '0.3em';
     ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 50;
     ctx.fillText('CLIPFORGE 9:16 VERTICAL REELS', W/2, H * 0.16);
   } else if (relT < 12.0) {
-    ctx.font = '900 76px "Montserrat"';
-    ctx.fillStyle = '#ff2a4b';
+    ctx.font = '900 80px "Montserrat"';
+    ctx.fillStyle = '#ff4655';
     ctx.letterSpacing = '0.3em';
-    ctx.shadowColor = '#ff2a4b'; ctx.shadowBlur = 50;
+    ctx.shadowColor = '#ff4655'; ctx.shadowBlur = 50;
     ctx.fillText('100% RIOT VANGUARD & VAC SAFE', W/2, H * 0.16);
   } else {
-    ctx.font = '900 88px "Montserrat"';
+    ctx.font = '900 90px "Montserrat"';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '0.35em';
-    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 60;
+    ctx.shadowColor = '#00f0ff'; ctx.shadowBlur = 60;
     ctx.fillText('ACE // ROUND WON // 13 : 11', W/2, H * 0.16);
   }
   ctx.restore();
 
   renderParticles(1.0);
-  renderAnamorphicFlare(W/2 + Math.sin(t * 4) * 300, H/2, 1.2, '#00e5ff');
+  renderAnamorphicFlare(W/2 + Math.sin(t * 4) * 300, H/2, 1.2, '#00f0ff');
 }
 
 // ACT 5: GRAND MONOLITHIC TITLE SLAM (0:70 - 0:85)
 function renderAct5(t) {
   const relT = t - 70.0;
-
-  // Real Gameplay video in background with dark cinematic grade
-  drawGameFrame(1.06, 0, 0, 0.45);
+  drawFrameCompositor(1.06, 0, 0, 0.45);
 
   const darkGrade = ctx.createRadialGradient(W/2, H/2, 100, W/2, H/2, W);
   darkGrade.addColorStop(0, 'rgba(2, 4, 10, 0.7)');
@@ -1155,7 +1192,7 @@ function renderAct5(t) {
   ctx.fillStyle = darkGrade;
   ctx.fillRect(0, 0, W, H);
 
-  // Metallic 3D Title Slam
+  // 3D Metallic Title Slam
   const titleAlpha = Math.min(1.0, relT / 0.8);
   const titleScale = Math.max(1.0, 1.3 - relT * 0.1);
 
@@ -1164,7 +1201,7 @@ function renderAct5(t) {
   ctx.scale(titleScale, titleScale);
   ctx.globalAlpha = titleAlpha;
 
-  ctx.font = '900 115px "Cinzel"';
+  ctx.font = '900 120px "Cinzel"';
   ctx.textAlign = 'center';
   ctx.letterSpacing = '0.22em';
 
@@ -1176,16 +1213,16 @@ function renderAct5(t) {
   titleGrad.addColorStop(0.5, '#d0e5ff');
   titleGrad.addColorStop(1, '#6888b5');
   ctx.fillStyle = titleGrad;
-  ctx.shadowColor = '#00e5ff';
-  ctx.shadowBlur = 45;
+  ctx.shadowColor = '#00f0ff';
+  ctx.shadowBlur = 50;
   ctx.fillText('GAMEPILOT PRO', 0, 0);
 
-  ctx.font = '700 24px "Montserrat"';
-  ctx.fillStyle = '#00e5ff';
+  ctx.font = '700 26px "Montserrat"';
+  ctx.fillStyle = '#00f0ff';
   ctx.letterSpacing = '0.55em';
-  ctx.shadowColor = '#00e5ff';
+  ctx.shadowColor = '#00f0ff';
   ctx.shadowBlur = 20;
-  ctx.fillText('THE WEAPON THEY NEVER SAW COMING', 0, 65);
+  ctx.fillText('THE WEAPON THEY NEVER SAW COMING', 0, 70);
   ctx.restore();
 
   // Official Credits
@@ -1196,35 +1233,35 @@ function renderAct5(t) {
     ctx.textAlign = 'center';
 
     const credY = H * 0.76;
-    ctx.font = '700 16px "JetBrains Mono"';
+    ctx.font = '700 17px "JetBrains Mono"';
     ctx.fillStyle = '#ffd700';
     ctx.letterSpacing = '0.3em';
     ctx.fillText('BUILT BY A 9TH GRADE INDIAN HACKATHON MAKER', W/2, credY);
 
-    ctx.font = '400 15px "Montserrat"';
+    ctx.font = '400 16px "Montserrat"';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
     ctx.letterSpacing = '0.25em';
-    ctx.fillText('C# NATIVE WIN32 OVERLAY • DIRECTIONAL AUDIO SONAR • CLIPFORGE AI', W/2, credY + 32);
+    ctx.fillText('C# NATIVE WIN32 OVERLAY • DIRECTIONAL AUDIO SONAR • ZERO MEMORY INJECTION', W/2, credY + 34);
 
-    ctx.font = '700 14px "JetBrains Mono"';
-    ctx.fillStyle = '#00e5ff';
+    ctx.font = '700 15px "JetBrains Mono"';
+    ctx.fillStyle = '#00f0ff';
     ctx.letterSpacing = '0.35em';
-    ctx.fillText('FREE & OPEN SOURCE FOR ALL DEAF & COMPETITIVE GAMERS', W/2, credY + 62);
+    ctx.fillText('FREE & OPEN SOURCE FOR ALL DEAF & COMPETITIVE GAMERS', W/2, credY + 66);
 
-    ctx.font = '800 14px "JetBrains Mono"';
+    ctx.font = '800 15px "JetBrains Mono"';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '0.45em';
-    ctx.fillText('OFFICIAL HACKATHON WORLD PREMIERE // 2026', W/2, credY + 95);
+    ctx.fillText('OFFICIAL HACKATHON WORLD PREMIERE // 2026', W/2, credY + 100);
     ctx.restore();
   }
 
   renderParticles(0.5);
-  renderAnamorphicFlare(W/2, H/2 - 40, Math.max(0, 1.5 - relT * 0.5), '#00e5ff');
+  renderAnamorphicFlare(W/2, H/2 - 40, Math.max(0, 1.5 - relT * 0.5), '#00f0ff');
 }
 
-// -------------------------------------------------------------------------
-//  MAIN CINEMATIC RENDER LOOP WITH CAMERA DYNAMICS
-// -------------------------------------------------------------------------
+// =========================================================================
+//  MAIN CINEMATIC RENDER LOOP
+// =========================================================================
 function renderLoop(timestamp) {
   if (!isPlaying) return;
 
@@ -1233,17 +1270,14 @@ function renderLoop(timestamp) {
     if (currentTime > DURATION) {
       currentTime = DURATION;
       isPlaying = false;
-      stopSubDrone();
       const modal = document.getElementById('end-modal');
       if (modal) modal.classList.add('active');
-      if (isRecording) {
-        stopAndSaveRecording();
-      }
+      if (isRecording) stopAndSaveRecording();
     }
 
     processAudioTimeline(currentTime);
 
-    // Update Timeline Scrubber
+    // Update Scrubber HUD
     document.getElementById('timeline-fill').style.width = `${(currentTime / DURATION) * 100}%`;
     const mins = Math.floor(currentTime / 60);
     const secs = Math.floor(currentTime % 60);
@@ -1275,7 +1309,7 @@ function renderLoop(timestamp) {
       renderAct5(currentTime);
     }
 
-    // Render expanding shockwaves safely
+    // Shockwaves
     for (let i = shockwaves.length - 1; i >= 0; i--) {
       const sw = shockwaves[i];
       sw.radius += sw.speed;
@@ -1293,34 +1327,86 @@ function renderLoop(timestamp) {
       ctx.restore();
     }
 
-    // Film Grain Post-Processing
-    ctx.save();
-    ctx.globalAlpha = 0.04;
-    for (let i = 0; i < 900; i++) {
-      const gx = Math.random() * W;
-      const gy = Math.random() * H;
-      const val = Math.random() * 255;
-      ctx.fillStyle = `rgb(${val},${val},${val})`;
-      ctx.fillRect(gx, gy, 2, 2);
-    }
     ctx.restore();
-
-    ctx.restore(); // Camera shake restore
-  } catch (err) {
-    console.error("Render loop caught:", err);
-  }
+  } catch (err) {}
 
   if (isPlaying) {
     animId = requestAnimationFrame(renderLoop);
   }
 }
 
-// -------------------------------------------------------------------------
-//  RECORDING & 4K VIDEO DOWNLOAD ENGINE (MediaRecorder API)
-// -------------------------------------------------------------------------
+function replayTrailer() {
+  document.getElementById('end-modal').classList.remove('active');
+  planAudioScore();
+  startTime = performance.now();
+  currentTime = 0;
+  isPlaying = true;
+  document.getElementById('btnPlayPause').textContent = '⏸';
+  if (gameplayVideo) {
+    gameplayVideo.currentTime = 0;
+    gameplayVideo.play().catch(() => {});
+  }
+  if (animId) cancelAnimationFrame(animId);
+  animId = requestAnimationFrame(renderLoop);
+}
+
+function togglePlayPause() {
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('btnPlayPause');
+  if (isPlaying) {
+    btn.textContent = '⏸';
+    startTime = performance.now() - (currentTime * 1000);
+    gameplayVideo.play().catch(() => {});
+    animId = requestAnimationFrame(renderLoop);
+  } else {
+    btn.textContent = '▶';
+    gameplayVideo.pause();
+    if (animId) cancelAnimationFrame(animId);
+  }
+}
+
+function seekTrailer(e) {
+  const bar = e.currentTarget;
+  const rect = bar.getBoundingClientRect();
+  const ratio = (e.clientX - rect.left) / rect.width;
+  currentTime = ratio * DURATION;
+  startTime = performance.now() - (currentTime * 1000);
+  planAudioScore();
+  scheduledEvents = scheduledEvents.filter(ev => ev.time >= currentTime);
+  if (gameplayVideo) {
+    gameplayVideo.currentTime = (currentTime % gameplayVideo.duration) || 0;
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+// =========================================================================
+//  MEDIA RECORDER 4K MASTER EXPORTER
+// =========================================================================
 let mediaRecorder = null;
 let recordedChunks = [];
 let isRecording = false;
+
+function downloadTrailerVideo(e) {
+  if (e) e.stopPropagation();
+  unlockAudioOnInteraction();
+
+  if (isRecording && recordedChunks.length > 0) {
+    stopAndSaveRecording();
+  } else {
+    document.getElementById('end-modal').classList.remove('active');
+    replayTrailer();
+    setTimeout(() => {
+      startRecordingEngine();
+    }, 200);
+  }
+}
 
 function startRecordingEngine() {
   try {
@@ -1334,7 +1420,7 @@ function startRecordingEngine() {
 
     mediaRecorder = new MediaRecorder(combinedStream, {
       mimeType: mime,
-      videoBitsPerSecond: 35000000 // 35 Mbps True 4K Ultra-HD Master
+      videoBitsPerSecond: 35000000 // 35 Mbps True 4K Master
     });
 
     recordedChunks = [];
@@ -1344,120 +1430,34 @@ function startRecordingEngine() {
 
     mediaRecorder.onstop = () => {
       isRecording = false;
-      const recInd = document.getElementById('rec-indicator');
-      if (recInd) recInd.style.display = 'none';
-
+      document.getElementById('rec-indicator').style.display = 'none';
       if (recordedChunks.length === 0) return;
       const blob = new Blob(recordedChunks, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'GamePilot_Pro_Official_Cinematic_Trailer_4K.webm';
+      a.download = 'GamePilot_Pro_Official_4K_Trailer.webm';
       document.body.appendChild(a);
       a.click();
-      setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 1000);
-      showDownloadToast();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
     };
 
     mediaRecorder.start(250);
     isRecording = true;
-    const recInd = document.getElementById('rec-indicator');
-    if (recInd) recInd.style.display = 'flex';
-  } catch (err) {
-    console.warn("MediaRecorder start error:", err);
-  }
+    document.getElementById('rec-indicator').style.display = 'flex';
+  } catch (err) {}
 }
 
 function stopAndSaveRecording() {
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     mediaRecorder.stop();
-  } else if (recordedChunks.length > 0) {
-    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'GamePilot_Pro_Official_Cinematic_Trailer_4K.webm';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
-    showDownloadToast();
   }
 }
 
-function downloadTrailerVideo(e) {
-  if (e) e.stopPropagation();
-  unlockAudioOnInteraction();
-
-  if (isRecording && recordedChunks.length > 0) {
-    stopAndSaveRecording();
-  } else {
-    const modal = document.getElementById('end-modal');
-    if (modal) modal.classList.remove('active');
-    replayTrailer();
-    setTimeout(() => {
-      startRecordingEngine();
-    }, 150);
-  }
-}
-
-function showDownloadToast() {
-  const toast = document.getElementById('download-toast');
-  if (toast) {
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
-  }
-}
-
-// -------------------------------------------------------------------------
-//  CONTROLS
-// -------------------------------------------------------------------------
-function replayTrailer() {
-  const modal = document.getElementById('end-modal');
-  if (modal) modal.classList.remove('active');
-  unlockAudioOnInteraction();
-  stopSubDrone();
-  isPlaying = true;
-  startTime = performance.now();
-  shockwaves = [];
-  scheduledEvents = [];
-  planAudioScore();
-  startSubDrone();
-  gameplayVideo.currentTime = 0;
-  gameplayVideo.play().catch(() => {});
-  cancelAnimationFrame(animId);
-  animId = requestAnimationFrame(renderLoop);
-}
-
-function seekTrailer(event) {
-  const bar = event.currentTarget;
-  const rect = bar.getBoundingClientRect();
-  const pct = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
-  const targetTime = pct * DURATION;
-  startTime = performance.now() - targetTime * 1000.0;
-  scheduledEvents = [];
-  planAudioScore();
-  scheduledEvents = scheduledEvents.filter(ev => ev.time >= targetTime);
-  if (gameplayVideo.duration) {
-    gameplayVideo.currentTime = (targetTime % gameplayVideo.duration);
-  }
-}
-
-// =========================================================================
-//  INSTANT AUTOPLAY & AUTO-RECORDING INITIATION
-// =========================================================================
-window.addEventListener('DOMContentLoaded', () => {
-  startTime = performance.now();
-  isPlaying = true;
-  planAudioScore();
-  cancelAnimationFrame(animId);
-  animId = requestAnimationFrame(renderLoop);
-  setTimeout(() => {
-    startRecordingEngine();
-  }, 400);
-});
+// Start trailer on page load
+startTime = performance.now();
+planAudioScore();
+animId = requestAnimationFrame(renderLoop);
 </script>
 </body>
 </html>
