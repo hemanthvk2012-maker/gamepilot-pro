@@ -3,964 +3,1204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamePilot Pro — The World's First Tactical AI Co-Pilot for Competitive & Deaf Gamers</title>
+  <title>GamePilot Pro — The River of Sound: Tactical AI Co-Pilot for Competitive & Deaf Gamers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@700;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-page: #fafafa;
-      --bg-surface: #ffffff;
-      --bg-subtle: #f4f5f7;
-      --border-light: #e5e7eb;
-      --border-hover: #d1d5db;
-      --text-main: #141b34;
-      --text-muted: #525866;
-      --text-subtle: #868c98;
-      --brand-primary: #3d2fba;
-      --brand-blue: #0066ff;
-      --brand-cyan: #00c4cc;
-      --brand-crimson: #ff4655;
-      --brand-amber: #e8920a;
-      --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.05);
-      --shadow-md: 0 4px 16px -2px rgba(16, 24, 40, 0.08);
-      --shadow-lg: 0 12px 32px -4px rgba(16, 24, 40, 0.12);
-      --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+      --bg-light: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.72);
+      --bg-card-solid: #ffffff;
+      --border-subtle: rgba(226, 232, 240, 0.85);
+      --border-focus: #3b82f6;
+      --text-heading: #0f172a;
+      --text-body: #475569;
+      --text-muted: #94a3b8;
+      --accent-blue: #2563eb;
+      --accent-cyan: #06b6d4;
+      --accent-purple: #7c3aed;
+      --accent-crimson: #ff4655;
+      --accent-amber: #f59e0b;
+      --glow-river: rgba(37, 99, 235, 0.15);
+      --radius-pill: 9999px;
+      --radius-card: 28px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
     html {
       scroll-behavior: smooth;
-      background-color: var(--bg-page);
+      background-color: var(--bg-light);
     }
 
     body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.6;
+      background-color: var(--bg-light);
+      color: var(--text-heading);
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      position: relative;
     }
 
-    /* Container */
+    /* Ambient Fluid River Canvas (60fps Liquid Mercury Mesh) */
+    #riverCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.65;
+    }
+
+    /* Interactive Custom Cursor Follower */
+    #cursor-follower {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(37, 99, 235, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+      mix-blend-mode: multiply;
+      display: none;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      #cursor-follower { display: block; }
+    }
+
     .container {
       width: 100%;
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 28px;
+      position: relative;
+      z-index: 10;
     }
 
-    /* Top Utility Bar (YuviPep style) */
-    .top-sub-bar {
+    /* Top Floating Ribbon (YuviPep Innovation Style) */
+    .top-ribbon-bar {
       display: flex;
       justify-content: center;
-      gap: 8px;
-      padding: 10px 0 6px;
-      font-size: 11px;
-      font-weight: 600;
+      gap: 12px;
+      padding: 14px 0 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      z-index: 50;
+      position: relative;
     }
-    .top-sub-pill {
-      background: #f0f0f2;
-      color: var(--text-main);
-      padding: 4px 12px;
-      border-radius: 6px;
+    .ribbon-pill {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-body);
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
       text-decoration: none;
-      transition: background 0.2s;
-      display: flex;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
-    .top-sub-pill:hover {
-      background: #e2e4e9;
+    .ribbon-pill:hover {
+      background: #ffffff;
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+    }
+    .ribbon-pill.highlight {
+      background: #fffbeb;
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #d97706;
     }
 
-    /* Floating Header (YuviPep + Apple style) */
+    /* Sticky Floating Header (Apple + Luxury Fluid Glass) */
     header {
       position: sticky;
       top: 14px;
       z-index: 100;
       padding: 0 20px;
-      margin-bottom: 24px;
+      margin-bottom: 30px;
     }
-    .nav-wrap {
-      max-width: 1160px;
+    .nav-box {
+      max-width: 1180px;
       margin: 0 auto;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(229, 231, 235, 0.9);
-      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 24px;
+      padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+      transition: all 0.3s;
     }
-    .logo {
+    .nav-box:hover {
+      box-shadow: 0 16px 40px -12px rgba(37, 99, 235, 0.12);
+      border-color: rgba(191, 219, 254, 0.9);
+    }
+    .brand-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       text-decoration: none;
-      color: var(--text-main);
+      color: var(--text-heading);
       font-weight: 800;
-      font-size: 1.15rem;
-      letter-spacing: -0.02em;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
     }
-    .logo-badge {
-      background: linear-gradient(135deg, var(--brand-primary), var(--brand-blue));
-      color: #fff;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-    }
-    .nav-links {
+    .brand-icon-gem {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed, #ff4655);
       display: flex;
       align-items: center;
-      gap: 24px;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+    .badge-pro {
+      background: #eff6ff;
+      color: var(--accent-blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
       list-style: none;
     }
-    .nav-links a {
+    .nav-menu a {
       text-decoration: none;
-      color: var(--text-muted);
+      color: var(--text-body);
       font-size: 0.9rem;
       font-weight: 600;
-      transition: color 0.2s;
+      transition: all 0.2s;
     }
-    .nav-links a:hover {
-      color: var(--brand-primary);
+    .nav-menu a:hover {
+      color: var(--accent-blue);
     }
-    .nav-actions {
+    .nav-cta-cluster {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
-    .btn-nav-outline {
-      border: 1px solid var(--border-light);
-      background: #fff;
-      color: var(--text-main);
-      padding: 8px 16px;
-      border-radius: 10px;
+    .btn-nav-glass {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-heading);
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: var(--radius-pill);
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
-    .btn-nav-outline:hover {
-      border-color: var(--text-main);
-    }
-    .btn-nav-black {
-      background: #000;
-      color: #fff;
-      padding: 8px 18px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
-    .btn-nav-black:hover {
-      background: #222;
+    .btn-nav-glass:hover {
+      border-color: var(--text-heading);
       transform: translateY(-1px);
     }
-
-    /* Hero Section (Apple Typography + YuviPep Badges) */
-    .hero {
-      padding: 40px 0 60px;
-      text-align: center;
+    .btn-nav-solid {
+      background: #000000;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 9px 22px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      transition: all 0.25s;
     }
-    .hero-badge {
+    .btn-nav-solid:hover {
+      background: #1e293b;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Hero Section (River Scrollytelling Typography) */
+    .hero-wrapper {
+      padding: 50px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge-flow {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: #fff4e3;
-      color: var(--brand-amber);
-      font-size: 0.82rem;
+      gap: 8px;
+      padding: 8px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
       font-weight: 700;
-      padding: 6px 16px;
-      border-radius: 9999px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(232, 146, 10, 0.2);
+      color: var(--text-body);
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      animation: floatBadge 4s ease-in-out infinite;
     }
-    .hero-title {
-      font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .badge-dot-live {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-headline {
+      font-size: clamp(2.6rem, 5.8vw, 5rem);
       font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
-      color: var(--text-main);
-      max-width: 980px;
-      margin: 0 auto 20px;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      color: var(--text-heading);
+      max-width: 1040px;
+      margin: 0 auto 24px;
     }
-    .hero-title span.accent {
-      color: var(--brand-primary);
-      position: relative;
+    .hero-headline .fluid-gradient {
+      background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 45%, #e11d48 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       display: inline-block;
+      position: relative;
     }
-    .hero-title span.accent::after {
+    .hero-headline .fluid-gradient::after {
       content: '';
       position: absolute;
       left: 0;
       bottom: -6px;
       width: 100%;
-      height: 6px;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,8 Q50,0 100,8" stroke="%233d2fba" stroke-width="3" fill="none" stroke-linecap="round"/></svg>') no-repeat center bottom;
+      height: 7px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M0,8 Q50,0 100,8" stroke="%232563eb" stroke-width="4" fill="none" stroke-linecap="round"/></svg>') no-repeat center bottom;
       background-size: 100% 100%;
     }
-    .hero-desc {
-      font-size: clamp(1rem, 1.8vw, 1.22rem);
-      color: var(--text-muted);
-      max-width: 680px;
-      margin: 0 auto 34px;
-      line-height: 1.6;
-      font-weight: 400;
-    }
-    .hero-ctas {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-    }
-    .btn-apple-black {
-      background: #000;
-      color: #fff;
-      padding: 15px 34px;
-      border-radius: 9999px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-      transition: all 0.25s;
-    }
-    .btn-apple-black:hover {
-      background: #1c1c1e;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    }
-    .btn-apple-link {
-      background: #fff;
-      color: var(--brand-blue);
-      border: 1px solid var(--border-light);
-      padding: 15px 30px;
-      border-radius: 9999px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.25s;
-      box-shadow: var(--shadow-sm);
-    }
-    .btn-apple-link:hover {
-      border-color: var(--brand-blue);
-      background: #f0f7ff;
-      transform: translateY(-2px);
-    }
 
-    /* Apple-style 4K Video Showcase Hero Frame */
-    .showcase-frame-wrap {
-      max-width: 1080px;
-      margin: 0 auto 70px;
-      padding: 12px;
-      background: #ffffff;
-      border-radius: 28px;
-      border: 1px solid var(--border-light);
-      box-shadow: var(--shadow-card), 0 20px 40px -15px rgba(0, 0, 0, 0.08);
-      position: relative;
-    }
-    .showcase-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 16px 14px;
-    }
-    .window-dots {
-      display: flex;
-      gap: 6px;
-    }
-    .dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-    }
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #27c93f; }
-    .showcase-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-subtle);
-      letter-spacing: 0.1em;
-    }
-    .video-viewport {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #000;
-      position: relative;
-    }
-    .video-viewport iframe,
-    .video-viewport video {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-      object-fit: cover;
-    }
-    .video-overlay-banner {
-      position: absolute;
-      bottom: 20px;
-      left: 24px;
-      right: 24px;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(12px);
-      padding: 14px 22px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #fff;
-    }
-    .v-banner-info h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-    }
-    .v-banner-info p {
-      font-size: 0.78rem;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    .btn-trailer-direct {
-      background: var(--brand-blue);
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      padding: 8px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .btn-trailer-direct:hover {
-      background: #0052cc;
-    }
-
-    /* Metric Grid (YuviPep style) */
-    .metrics-section {
-      padding: 20px 0 60px;
-      border-top: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-      background: var(--bg-surface);
-      margin-bottom: 80px;
-    }
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-      text-align: center;
-    }
-    .metric-card {
-      padding: 10px;
-    }
-    .metric-value {
-      font-size: 2.8rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      margin-bottom: 6px;
-    }
-    .metric-value.amber { color: var(--brand-amber); }
-    .metric-value.blue { color: var(--brand-blue); }
-    .metric-value.purple { color: var(--brand-primary); }
-    .metric-value.crimson { color: var(--brand-crimson); }
-    .metric-label {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    /* Trusted By / Verification Ribbon */
-    .trusted-section {
-      text-align: center;
-      margin-bottom: 80px;
-    }
-    .trusted-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-subtle);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 24px;
-    }
-    .trusted-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      flex-wrap: wrap;
-    }
-    .trusted-pill {
-      background: #fff;
-      border: 1px solid var(--border-light);
-      padding: 10px 22px;
-      border-radius: 9999px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* Bento Grid Feature Section (Apple Clean Design) */
-    .section-head {
-      text-align: center;
+    .hero-subheading {
+      font-size: clamp(1.05rem, 2vw, 1.32rem);
+      color: var(--text-body);
       max-width: 720px;
-      margin: 0 auto 50px;
-    }
-    .section-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--brand-blue);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      display: inline-block;
-    }
-    .section-title {
-      font-size: clamp(2rem, 3.8vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      color: var(--text-main);
-      margin-bottom: 16px;
-    }
-    .section-desc {
-      font-size: 1.05rem;
-      color: var(--text-muted);
+      margin: 0 auto 40px;
+      font-weight: 400;
+      line-height: 1.65;
     }
 
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 24px;
-      margin-bottom: 80px;
-    }
-    .bento-card {
-      background: #fff;
-      border: 1px solid var(--border-light);
-      border-radius: 24px;
-      padding: 36px;
-      box-shadow: var(--shadow-card);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    .bento-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--border-hover);
-    }
-    .col-8 { grid-column: span 8; }
-    .col-4 { grid-column: span 4; }
-    .col-6 { grid-column: span 6; }
-    .col-12 { grid-column: span 12; }
-
-    .bento-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-    }
-    .icon-blue { background: #e0f2fe; color: #0284c7; }
-    .icon-crimson { background: #ffe4e6; color: #e11d48; }
-    .icon-amber { background: #fef3c7; color: #d97706; }
-    .icon-purple { background: #ede9fe; color: #7c3aed; }
-
-    .bento-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-main);
-      margin-bottom: 12px;
-    }
-    .bento-desc {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-    .bento-preview-box {
-      background: #0b1120;
-      border-radius: 16px;
-      padding: 24px;
-      color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Founder & Hackathon Mission Story Card (YuviPep Spirit) */
-    .founder-card {
-      background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
-      border: 1px solid #e2e8f0;
-      border-radius: 28px;
-      padding: 48px;
-      margin-bottom: 80px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-    }
-    .founder-tag {
-      display: inline-block;
-      background: #e0e7ff;
-      color: #3730a3;
-      font-size: 0.78rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      margin-bottom: 16px;
-    }
-    .founder-heading {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-main);
-      line-height: 1.25;
-      margin-bottom: 16px;
-    }
-    .founder-text {
-      font-size: 1rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 18px;
-    }
-    .founder-quote {
-      border-left: 3px solid var(--brand-primary);
-      padding-left: 18px;
-      font-style: italic;
-      color: var(--text-main);
-      font-weight: 600;
-      margin-top: 20px;
-    }
-    .specs-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .spec-item {
-      background: #fff;
-      padding: 16px 20px;
-      border-radius: 14px;
-      border: 1px solid var(--border-light);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .spec-label {
-      font-weight: 700;
-      color: var(--text-main);
-      font-size: 0.95rem;
-    }
-    .spec-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--brand-blue);
-      font-weight: 700;
-    }
-
-    /* Comparison / Anti-Cheat Certification Table */
-    .table-card {
-      background: #fff;
-      border: 1px solid var(--border-light);
-      border-radius: 24px;
-      padding: 36px;
-      box-shadow: var(--shadow-card);
-      margin-bottom: 80px;
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-    th {
-      padding: 16px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-subtle);
-      border-bottom: 2px solid var(--border-light);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    td {
-      padding: 16px;
-      border-bottom: 1px solid var(--border-light);
-      font-size: 0.95rem;
-    }
-    .badge-pass {
-      background: #dcfce7;
-      color: #15803d;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-    }
-    .badge-fail {
-      background: #fee2e2;
-      color: #b91c1c;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-    }
-
-    /* Final CTA Banner (Apple minimalist) */
-    .final-cta {
-      background: #000;
-      color: #fff;
-      border-radius: 32px;
-      padding: 70px 32px;
-      text-align: center;
-      margin-bottom: 80px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-    }
-    .final-cta h2 {
-      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-    .final-cta p {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 600px;
-      margin: 0 auto 36px;
-    }
-    .final-cta-btns {
+    .hero-button-row {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 18px;
       flex-wrap: wrap;
+      margin-bottom: 70px;
     }
-    .btn-white {
-      background: #fff;
-      color: #000;
-      padding: 16px 36px;
-      border-radius: 9999px;
+    .btn-million-primary {
+      background: #000000;
+      color: #ffffff;
+      padding: 18px 40px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-million-primary:hover {
+      background: #1e293b;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+    .btn-million-trailer {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border-subtle);
+      color: var(--accent-blue);
+      padding: 18px 36px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-million-trailer:hover {
+      border-color: var(--accent-blue);
+      background: #eff6ff;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Master 4K Theatre Frame (Apple Cinema Stage) */
+    .theatre-stage-card {
+      max-width: 1160px;
+      margin: 0 auto 90px;
+      padding: 14px;
+      background: #ffffff;
+      border-radius: 34px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+      position: relative;
+    }
+    .theatre-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px 16px;
+    }
+    .mac-window-controls {
+      display: flex;
+      gap: 7px;
+    }
+    .mac-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .mac-red { background: #ff5f56; }
+    .mac-yellow { background: #ffbd2e; }
+    .mac-green { background: #27c93f; }
+    .theatre-title-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+    }
+    .theatre-viewport {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #000000;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25) inset;
+    }
+    .theatre-viewport iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .theatre-quick-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+    .t-badge-left h4 {
       font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .t-badge-left p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .btn-popout-trailer {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #ffffff;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-popout-trailer:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+    }
+
+    /* Infinite River Stream Marquee (Opposing flow) */
+    .river-stream-section {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      overflow: hidden;
+      padding: 30px 0;
+      position: relative;
+      background: rgba(255, 255, 255, 0.5);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 100px;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 30px;
+      width: max-content;
+      animation: streamFlow 32s linear infinite;
+    }
+    @keyframes streamFlow {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .stream-pill {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      padding: 12px 28px;
+      border-radius: var(--radius-pill);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    /* YuviPep 4-Metric Grid with River Glow */
+    .metric-flow-wrapper {
+      margin-bottom: 100px;
+    }
+    .metric-flow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .metric-flow-box {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .metric-flow-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 40px -8px rgba(37, 99, 235, 0.12);
+      border-color: rgba(191, 219, 254, 0.9);
+    }
+    .num-value {
+      font-size: 3.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+    .num-blue { color: #2563eb; }
+    .num-amber { color: #d97706; }
+    .num-purple { color: #7c3aed; }
+    .num-crimson { color: #e11d48; }
+    .num-label {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-body);
+      line-height: 1.4;
+    }
+
+    /* Section Headers */
+    .section-meta-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 60px;
+    }
+    .tag-bubble {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: #eff6ff;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 6px 18px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .meta-title {
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text-heading);
+      margin-bottom: 16px;
+    }
+    .meta-desc {
+      font-size: 1.1rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* Interactive Spotlight Bento Grid (Million-Dollar Pro Feature) */
+    .bento-spotlight-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 28px;
+      margin-bottom: 110px;
+    }
+    .spotlight-card {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 42px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .spotlight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(37, 99, 235, 0.12);
+      border-color: #cbd5e1;
+    }
+    .span-8 { grid-column: span 8; }
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-12 { grid-column: span 12; }
+
+    .card-badge-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+    }
+    .bg-ico-blue { background: #dbeafe; color: #1d4ed8; }
+    .bg-ico-amber { background: #fef3c7; color: #b45309; }
+    .bg-ico-crimson { background: #ffe4e6; color: #be123c; }
+    .bg-ico-purple { background: #f3e8ff; color: #6b21a8; }
+
+    .card-headline {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-heading);
+      margin-bottom: 12px;
+    }
+    .card-copy {
+      font-size: 1rem;
+      color: var(--text-body);
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+
+    /* Live Interactive Sonar Radar Sandbox Widget */
+    .sonar-sandbox-box {
+      background: #090e1a;
+      border-radius: 20px;
+      padding: 24px;
+      color: #fff;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+    #interactiveRadarCanvas {
+      width: 100%;
+      height: 240px;
+      display: block;
+      cursor: crosshair;
+    }
+    .sonar-readout-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .click-ping-tip {
+      font-size: 0.75rem;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    /* Interactive Recoil Metronome Sandbox */
+    .recoil-sandbox-box {
+      background: #090e1a;
+      border-radius: 20px;
+      padding: 24px;
+      color: #fff;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      user-select: none;
+    }
+    .recoil-crosshair-sim {
+      width: 100px;
+      height: 100px;
+      margin: 10px auto;
+      border-radius: 50%;
+      border: 2px dashed rgba(245, 158, 11, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: transform 0.1s;
+    }
+    .cross-dot {
+      width: 6px;
+      height: 6px;
+      background: #00e5ff;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #00e5ff;
+    }
+    .recoil-tap-btn {
+      background: var(--accent-amber);
+      color: #000;
+      border: none;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    /* Story Card: Class 9 Youth Innovation (YuviPep Spirit) */
+    .story-river-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 32px;
+      padding: 56px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+      margin-bottom: 110px;
+    }
+    .story-tag {
+      background: #ede9fe;
+      color: #6d28d9;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .story-h2 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text-heading);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .story-p {
+      font-size: 1.05rem;
+      color: var(--text-body);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    .story-quote-block {
+      border-left: 3px solid var(--accent-blue);
+      padding-left: 20px;
+      font-style: italic;
+      color: var(--text-heading);
+      font-weight: 600;
+      margin-top: 24px;
+    }
+
+    .specs-flow-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .spec-flow-row {
+      background: #ffffff;
+      padding: 18px 24px;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+    .spec-flow-row strong {
+      color: var(--text-heading);
+      font-size: 0.95rem;
+    }
+    .spec-flow-row span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    /* Apple-Grade Anti-Cheat Comparison Matrix */
+    .matrix-section {
+      margin-bottom: 110px;
+    }
+    .matrix-card {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-card);
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+    }
+    table.matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .matrix-table th {
+      padding: 18px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .matrix-table td {
+      padding: 18px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.98rem;
+    }
+    .badge-safe {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      display: inline-block;
+    }
+    .badge-danger {
+      background: #fee2e2;
+      color: #b91c1c;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      display: inline-block;
+    }
+
+    /* Final Million-Dollar Dark Contrast CTA Stage */
+    .grand-finale-stage {
+      background: #090e1a;
+      border-radius: 36px;
+      padding: 80px 40px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 100px;
+      box-shadow: 0 30px 70px rgba(15, 23, 42, 0.35);
+    }
+    .grand-finale-stage::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 300px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .grand-finale-stage h2 {
+      font-size: clamp(2.4rem, 4.6vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .grand-finale-stage p {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 640px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+    .grand-btns-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .btn-pure-white {
+      background: #ffffff;
+      color: #000000;
+      padding: 18px 42px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+    }
+    .btn-pure-white:hover {
+      background: #f1f5f9;
+      transform: translateY(-2px);
+    }
+    .btn-ghost-dark {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 18px 36px;
+      border-radius: var(--radius-pill);
+      font-size: 1.05rem;
       font-weight: 700;
       text-decoration: none;
       transition: all 0.25s;
     }
-    .btn-white:hover {
-      background: #e2e4e9;
+    .btn-ghost-dark:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: #ffffff;
       transform: translateY(-2px);
     }
 
-    /* Footer (Apple clean layout) */
+    /* Minimal Apple-Style Multi-Column Footer */
     footer {
-      background: #f4f5f7;
-      border-top: 1px solid var(--border-light);
-      padding: 60px 0 30px;
-      color: var(--text-muted);
-      font-size: 0.88rem;
+      background: #f1f5f9;
+      border-top: 1px solid #e2e8f0;
+      padding: 70px 0 35px;
+      font-size: 0.9rem;
+      color: var(--text-body);
+      position: relative;
+      z-index: 10;
     }
-    .footer-grid {
+    .footer-columns {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 40px;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
     .footer-col h5 {
-      color: var(--text-main);
-      font-weight: 700;
-      margin-bottom: 16px;
-      font-size: 0.92rem;
+      color: var(--text-heading);
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-bottom: 18px;
     }
     .footer-col ul {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .footer-col a {
-      color: var(--text-muted);
+      color: var(--text-body);
       text-decoration: none;
       transition: color 0.2s;
     }
     .footer-col a:hover {
-      color: var(--text-main);
+      color: var(--accent-blue);
     }
-    .footer-bottom {
-      border-top: 1px solid var(--border-light);
-      padding-top: 24px;
+    .footer-bottom-bar {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 28px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
       gap: 16px;
     }
 
-    @media (max-width: 868px) {
-      .col-8, .col-4, .col-6 { grid-column: span 12; }
-      .founder-card { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 900px) {
+      .span-8, .span-4, .span-6 { grid-column: span 12; }
+      .story-river-card { grid-template-columns: 1fr; }
+      .nav-menu { display: none; }
+      .footer-columns { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Utility Bar (YuviPep style) -->
-  <div class="top-sub-bar">
-    <a class="top-sub-pill" href="GamePilot_Official_Trailer.html" target="_blank">🎬 4K Master Cinematic Trailer</a>
-    <a class="top-sub-pill" href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank">⭐ GitHub Open Source</a>
-    <a class="top-sub-pill" href="#hackathon">🏆 Class 9 Innovation Project</a>
+  <!-- Background Fluid River Mesh Canvas (60fps Liquid Wave Dynamics) -->
+  <canvas id="riverCanvas"></canvas>
+
+  <!-- Interactive Smooth Cursor Follower -->
+  <div id="cursor-follower"></div>
+
+  <!-- Top Ribbon Utility (YuviPep Innovation Style) -->
+  <div class="top-ribbon-bar">
+    <a class="ribbon-pill highlight" href="#story">🏆 Class 9 Youth Innovation Project</a>
+    <a class="ribbon-pill" href="GamePilot_Official_Trailer.html" target="_blank">🎬 4K World Premiere Trailer</a>
+    <a class="ribbon-pill" href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank">⭐ GitHub Open Source</a>
   </div>
 
-  <!-- Floating Sticky Navigation (Apple + YuviPep style) -->
+  <!-- Sticky Luxury Floating Header -->
   <header>
-    <div class="nav-wrap">
-      <a href="#" class="logo">
+    <div class="nav-box">
+      <a href="#" class="brand-logo">
+        <div class="brand-icon-gem">GP</div>
         <span>GamePilot</span>
-        <span class="logo-badge">PRO</span>
+        <span class="badge-pro">PRO</span>
       </a>
-      <ul class="nav-links">
+
+      <ul class="nav-menu">
         <li><a href="#features">Features</a></li>
-        <li><a href="#sonar">Audio Sonar</a></li>
-        <li><a href="#vanguard">Anti-Cheat Safe</a></li>
-        <li><a href="#specs">Tech Specs</a></li>
-        <li><a href="#hackathon">Our Story</a></li>
+        <li><a href="#sonar-sim">Live Sonar</a></li>
+        <li><a href="#vanguard">Anti-Cheat Safety</a></li>
+        <li><a href="#specs">Architecture</a></li>
+        <li><a href="#story">Our Story</a></li>
       </ul>
-      <div class="nav-actions">
-        <a href="GamePilot_Official_Trailer.html" class="btn-nav-outline" target="_blank">▶ 4K Trailer</a>
-        <a href="#download" class="btn-nav-black">Download Free</a>
+
+      <div class="nav-cta-cluster">
+        <a href="GamePilot_Official_Trailer.html" class="btn-nav-glass" target="_blank">▶ 4K Trailer</a>
+        <a href="#download" class="btn-nav-solid">Download Free</a>
       </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero-wrapper">
     <div class="container">
-      <div class="hero-badge">
-        <span>✨</span> Turning Audio Deficits Into Tactical Clutch Mastery
+      <div class="hero-badge-flow">
+        <span class="badge-dot-live"></span>
+        <span>The River of Sound: Spatial Acoustics Transformed Into Tactical Vision</span>
       </div>
 
-      <h1 class="hero-title">
-        Empowering <span class="accent">Deaf & Competitive</span> Athletes Where Sound Becomes Vision.
+      <h1 class="hero-headline">
+        Empowering <span class="fluid-gradient">Deaf & Competitive</span> Athletes to Dominate Every Round.
       </h1>
 
-      <p class="hero-desc">
-        The world's first non-injected Win32 tactical AI co-pilot for Valorant and CS2. Built with sub-millisecond directional audio sonar radar, recoil cadence metronome, and zero Vanguard flags.
+      <p class="hero-subheading">
+        The world's first non-injected Win32 tactical AI co-pilot for Valorant and CS2. Sub-millisecond directional audio sonar radar, recoil cadence metronome, and zero Vanguard flags.
       </p>
 
-      <div class="hero-ctas">
-        <a href="#download" class="btn-apple-black">
+      <div class="hero-button-row">
+        <a href="#download" class="btn-million-primary">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.949-1.801"/></svg>
           Download for Windows 10 / 11
         </a>
-        <a href="GamePilot_Official_Trailer.html" class="btn-apple-link" target="_blank">
-          <span>▶</span> Watch 4K Official Trailer
+        <a href="GamePilot_Official_Trailer.html" class="btn-million-trailer" target="_blank">
+          <span>▶</span> Watch 4K Master Cinematic
         </a>
       </div>
 
-      <!-- Apple-Style Product Showcase Frame -->
-      <div class="showcase-frame-wrap">
-        <div class="showcase-header">
-          <div class="window-dots">
-            <span class="dot dot-red"></span>
-            <span class="dot dot-yellow"></span>
-            <span class="dot dot-green"></span>
+      <!-- Master Apple-Style 4K Theatre Frame -->
+      <div class="theatre-stage-card">
+        <div class="theatre-top-bar">
+          <div class="mac-window-controls">
+            <span class="mac-btn mac-red"></span>
+            <span class="mac-btn mac-yellow"></span>
+            <span class="mac-btn mac-green"></span>
           </div>
-          <span class="showcase-tag">GAMEPILOT PRO // 4K CINEMATIC ENGINE</span>
-          <span style="font-size: 0.8rem; font-weight:700; color: #10b981;">● SYSTEM READY</span>
+          <span class="theatre-title-tag">GAMEPILOT PRO // 4K CINEMATIC ENGINE</span>
+          <span style="font-size: 0.8rem; font-weight:800; color:#10b981;">● 60 FPS ULTRA-HD</span>
         </div>
-        <div class="video-viewport">
+        <div class="theatre-viewport">
           <iframe src="GamePilot_Official_Trailer.html" title="GamePilot Pro Official 4K Trailer" allow="autoplay; fullscreen" loading="lazy"></iframe>
-          <div class="video-overlay-banner">
-            <div class="v-banner-info">
+          <div class="theatre-quick-bar">
+            <div class="t-badge-left">
               <h4>GAMEPILOT PRO : OFFICIAL WORLD PREMIERE</h4>
               <p>Experience the 85-second adrenaline reveal featuring live 1080p/4K gameplay & tactile HUD.</p>
             </div>
-            <a href="GamePilot_Official_Trailer.html" target="_blank" class="btn-trailer-direct">OPEN FULLSCREEN 4K ↗</a>
+            <a href="GamePilot_Official_Trailer.html" target="_blank" class="btn-popout-trailer">OPEN FULLSCREEN 4K ↗</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Impact Metrics Grid (YuviPep style) -->
-  <section class="metrics-section">
-    <div class="container">
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-value amber">30M+</div>
-          <div class="metric-label">Deaf & Hard-of-Hearing Gamers Worldwide</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value blue">100%</div>
-          <div class="metric-label">Riot Vanguard & VAC Safe (0 DLL Injection)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value purple">&lt; 1ms</div>
-          <div class="metric-label">Win32 GDI+ Hardware Overlay Latency</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value crimson">4K 60</div>
-          <div class="metric-label">ClipForge AI Automated 9:16 Clutch Reels</div>
-        </div>
+  <!-- Opposing River Stream Marquee Ribbon -->
+  <section class="river-stream-section">
+    <div class="marquee-track">
+      <div class="stream-pill">🎯 VALORANT TOURNAMENT TESTED</div>
+      <div class="stream-pill">🛡️ 100% RIOT VANGUARD COMPLIANT</div>
+      <div class="stream-pill">⚡ &lt; 0.4ms OVERLAY LATENCY</div>
+      <div class="stream-pill">🎧 WASAPI STEREO ACOUSTIC RADAR</div>
+      <div class="stream-pill">💣 45.0s SPIKE DEFUSE THRESHOLD LOCK</div>
+      <div class="stream-pill">📱 CLIPFORGE AI 9:16 VERTICAL REELS</div>
+      <div class="stream-pill">🇮🇳 BUILT BY 9TH GRADE INDIAN MAKER</div>
+      <div class="stream-pill">🎯 VALORANT TOURNAMENT TESTED</div>
+      <div class="stream-pill">🛡️ 100% RIOT VANGUARD COMPLIANT</div>
+      <div class="stream-pill">⚡ &lt; 0.4ms OVERLAY LATENCY</div>
+      <div class="stream-pill">🎧 WASAPI STEREO ACOUSTIC RADAR</div>
+      <div class="stream-pill">💣 45.0s SPIKE DEFUSE THRESHOLD LOCK</div>
+      <div class="stream-pill">📱 CLIPFORGE AI 9:16 VERTICAL REELS</div>
+      <div class="stream-pill">🇮🇳 BUILT BY 9TH GRADE INDIAN MAKER</div>
+    </div>
+  </section>
+
+  <!-- YuviPep 4-Metric Grid with River Glow -->
+  <section class="container metric-flow-wrapper">
+    <div class="metric-flow-grid">
+      <div class="metric-flow-box">
+        <div class="num-value num-amber">30M+</div>
+        <div class="num-label">Deaf & Hard-of-Hearing Gamers Worldwide</div>
+      </div>
+      <div class="metric-flow-box">
+        <div class="num-value num-blue">100%</div>
+        <div class="num-label">Riot Vanguard & VAC Safe (Zero DLL Injection)</div>
+      </div>
+      <div class="metric-flow-box">
+        <div class="num-value num-purple">&lt; 1ms</div>
+        <div class="num-label">Win32 GDI+ Hardware Layer Latency</div>
+      </div>
+      <div class="metric-flow-box">
+        <div class="num-value num-crimson">4K 60</div>
+        <div class="num-label">ClipForge AI Automated 9:16 Clutch Reels</div>
       </div>
     </div>
   </section>
 
-  <!-- Supported Games & Safety Ribbon -->
-  <section class="trusted-section">
-    <div class="container">
-      <p class="trusted-title">Engineered Specifically For Competitive Esports Arenas</p>
-      <div class="trusted-logos">
-        <div class="trusted-pill">🎯 VALORANT (Unreal Engine 4)</div>
-        <div class="trusted-pill">💣 COUNTER-STRIKE 2 (Source 2)</div>
-        <div class="trusted-pill">🛡️ APEX LEGENDS</div>
-        <div class="trusted-pill">⚡ RAINBOW SIX SIEGE</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Bento Grid (Apple style) -->
+  <!-- Interactive Spotlight Bento Grid Section -->
   <section id="features" class="container">
-    <div class="section-head">
-      <span class="section-tag">GROUNDBREAKING ARCHITECTURE</span>
-      <h2 class="section-title">Designed for Equality. Perfected for Victory.</h2>
-      <p class="section-desc">Every millisecond counts in tactical shooters. GamePilot Pro translates raw spatial acoustics into instantaneous visual telemetry.</p>
+    <div class="section-meta-head">
+      <span class="tag-bubble">REVOLUTIONARY TACTICAL SUITE</span>
+      <h2 class="meta-title">The Tools That Turn Noise Into High-Elo Clarity.</h2>
+      <p class="meta-desc">Click below to test live acoustic telemetry and recoil rhythm simulation directly in your browser.</p>
     </div>
 
-    <div class="bento-grid">
-      <!-- Feature 1: Large Sonar Radar Card -->
-      <div class="bento-card col-8" id="sonar">
-        <div class="bento-icon icon-blue">📡</div>
-        <h3 class="bento-title">360° Directional Audio Sonar Radar</h3>
-        <p class="bento-desc">Captures Windows loopback WASAPI audio packets and maps high-frequency footstep transients, Spike plants, and weapon reloads into clean 360-degree holographic radar vectors around your crosshair.</p>
-        <div class="bento-preview-box">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #38bdf8;">
-            <span>[WASAPI_AUDIO_STREAM] 48,000 Hz / 2-Channel</span>
-            <span>STATUS: ACTIVE</span>
+    <div class="bento-spotlight-grid">
+      <!-- Card 1: Live Interactive 360° Sonar Radar (Span 8) -->
+      <div class="spotlight-card span-8" id="sonar-sim">
+        <div class="card-badge-icon bg-ico-blue">📡</div>
+        <h3 class="card-headline">360° Directional Audio Sonar Radar</h3>
+        <p class="card-copy">Captures Windows loopback WASAPI audio packets and maps high-frequency footstep transients, Spike plants, and weapon reloads into clean 360-degree holographic radar vectors around your crosshair.</p>
+        
+        <!-- Live Playable Sonar Radar Simulation -->
+        <div class="sonar-sandbox-box">
+          <canvas id="interactiveRadarCanvas" width="700" height="240"></canvas>
+          <div class="sonar-readout-row">
+            <span class="click-ping-tip">CLICK RADAR TO SIMULATE FOOTSTEP PING</span>
+            <span id="sonar-coords-display" style="color: #38bdf8;">BEARING: 042° NE // DIST: 12.4m</span>
           </div>
-          <p style="color: #94a3b8; font-size: 0.8rem;">► Vector Lock: 247° SE // Enemy Footsteps detected at 18.4m</p>
-          <p style="color: #f43f5e; font-size: 0.8rem;">► Spike Plant Sound Signature detected on Haven C-Site</p>
         </div>
       </div>
 
-      <!-- Feature 2: Recoil Metronome -->
-      <div class="bento-card col-4">
-        <div class="bento-icon icon-amber">⏱️</div>
-        <h3 class="bento-title">Recoil Cadence Metronome</h3>
-        <p class="bento-desc">Eliminate bloom panic. Dynamic visual pulses guide your burst-fire rhythm for laser-accurate Vandal and Phantom tap resets.</p>
-        <div class="bento-preview-box" style="text-align:center;">
-          <p style="color:#f59e0b; font-weight:700;">TAP • RESET • BURST</p>
-          <p style="color:#94a3b8; font-size:0.75rem;">120ms Optimal Firing Cooldown</p>
+      <!-- Card 2: Interactive Recoil Metronome Sandbox (Span 4) -->
+      <div class="spotlight-card span-4">
+        <div class="card-badge-icon bg-ico-amber">⏱️</div>
+        <h3 class="card-headline">Recoil Cadence Metronome</h3>
+        <p class="card-copy">Eliminate bloom panic. Dynamic visual pulses guide your burst-fire rhythm for laser-accurate Vandal and Phantom tap resets.</p>
+        
+        <!-- Interactive Recoil Sandbox -->
+        <div class="recoil-sandbox-box" onclick="triggerSimRecoil()">
+          <div class="recoil-crosshair-sim" id="simCrosshair">
+            <div class="cross-dot"></div>
+          </div>
+          <button class="recoil-tap-btn">CLICK TO SIMULATE BURST TAP</button>
+          <p id="recoilStatus" style="font-size:0.75rem; color:#94a3b8; margin-top:8px;">READY • TAP COOLDOWN 120ms</p>
         </div>
       </div>
 
-      <!-- Feature 3: Micro-Spike Countdown -->
-      <div class="bento-card col-4">
-        <div class="bento-icon icon-crimson">💣</div>
-        <h3 class="bento-title">45.0s Micro-Spike Defuse Radar</h3>
-        <p class="bento-desc">Real-time precision timer locks down exact 7.0-second full defuse and 3.5-second half-defuse thresholds with color-shifting rings.</p>
+      <!-- Card 3: 45.0s Spike Defuse Radar (Span 4) -->
+      <div class="spotlight-card span-4">
+        <div class="card-badge-icon bg-ico-crimson">💣</div>
+        <h3 class="card-headline">45.0s Micro-Spike Defuse Radar</h3>
+        <p class="card-copy">Real-time precision timer locks down exact 7.0-second full defuse and 3.5-second half-defuse thresholds with color-shifting rings.</p>
+        <div style="background:#090e1a; padding:18px; border-radius:14px; text-align:center; color:#ff4655; font-family:'JetBrains Mono',monospace; font-size:1.8rem; font-weight:800;">
+          00:07.00
+          <div style="font-size:0.75rem; color:#ffd700; letter-spacing:0.1em; margin-top:4px;">DEFUSE THRESHOLD LOCKED</div>
+        </div>
       </div>
 
-      <!-- Feature 4: ClipForge AI -->
-      <div class="bento-card col-8">
-        <div class="bento-icon icon-purple">📱</div>
-        <h3 class="bento-title">ClipForge AI 9:16 Vertical Reels</h3>
-        <p class="bento-desc">Automated match recorder tracks multi-kills and clutch rounds, auto-crops to 9:16 vertical video with camera face-tracking, and exports ready-to-post TikToks and YouTube Shorts.</p>
-        <div class="bento-preview-box">
-          <div style="display: flex; justify-content: space-between; color: #a855f7;">
-            <span>[CLIPFORGE_AUTO_TRIM] 1080x1920 (9:16)</span>
-            <span>60 FPS NVENC</span>
-          </div>
-          <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px;">Ace Clutch detected: 4K master exported to /Clips in 1.4s</p>
+      <!-- Card 4: ClipForge AI (Span 8) -->
+      <div class="spotlight-card span-8">
+        <div class="card-badge-icon bg-ico-purple">📱</div>
+        <h3 class="card-headline">ClipForge AI 9:16 Vertical Reels</h3>
+        <p class="card-copy">Automated match recorder tracks multi-kills and clutch rounds, auto-crops to 9:16 vertical video with camera face-tracking, and exports ready-to-post TikToks and YouTube Shorts.</p>
+        <div style="background:#090e1a; padding:20px; border-radius:14px; color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.85rem; display:flex; justify-content:space-between;">
+          <span style="color:#a855f7;">[CLIPFORGE_AUTO_TRIM] 1080x1920 (9:16)</span>
+          <span style="color:#10b981;">AUTO-SAVED TO /CLIPS (1.4s)</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Founder Story & Hackathon Mission (YuviPep Spirit) -->
-  <section id="hackathon" class="container">
-    <div class="founder-card">
+  <!-- Founder Story & Hackathon Innovation (YuviPep Spirit) -->
+  <section id="story" class="container">
+    <div class="story-river-card">
       <div>
-        <span class="founder-tag">A STUDENT INNOVATOR STORY</span>
-        <h2 class="founder-heading">Built by a Class 9 Maker for a Deaf Teammate.</h2>
-        <p class="founder-text">
-          During competitive ranked games in Valorant, my friend struggled to rank up not because of bad aim or mechanical skill, but because of severe hearing loss. While opponents could hear footsteps across walls, they fought in total audio silence.
+        <span class="story-tag">A 9TH GRADE INNOVATOR'S MISSION</span>
+        <h2 class="story-h2">Built by a Class 9 Indian Student for a Deaf Teammate.</h2>
+        <p class="story-p">
+          During competitive ranked games in Valorant, my teammate struggled to rank up not because of bad aim or mechanical skill, but because of severe hearing loss. While opponents could hear footsteps across walls, they fought in total audio silence.
         </p>
-        <p class="founder-text">
+        <p class="story-p">
           I built <strong>GamePilot Pro</strong> from scratch using native C# and Win32 hardware windowing to prove that accessibility technology can match esports-tier speed without giving an unfair aim assist or risking game bans.
         </p>
-        <div class="founder-quote">
+        <div class="story-quote-block">
           "When you remove physical barriers with clean code, skill is the only thing that remains."
         </div>
       </div>
 
-      <div class="specs-list" id="specs">
-        <div class="spec-item">
-          <span class="spec-label">Language & Runtime</span>
-          <span class="spec-val">C# (.NET 8.0 Native AOT)</span>
+      <div class="specs-flow-col" id="specs">
+        <div class="spec-flow-row">
+          <strong>Language & Architecture</strong>
+          <span>C# (.NET 8.0 Native AOT)</span>
         </div>
-        <div class="spec-item">
-          <span class="spec-label">Display Subsystem</span>
-          <span class="spec-val">Win32 Layered Window (GDI+ HWND)</span>
+        <div class="spec-flow-row">
+          <strong>Display Subsystem</strong>
+          <span>Win32 Layered HWND (GDI+)</span>
         </div>
-        <div class="spec-item">
-          <span class="spec-label">Memory Footprint</span>
-          <span class="spec-val">&lt; 42.8 MB RAM</span>
+        <div class="spec-flow-row">
+          <strong>Memory Footprint</strong>
+          <span>&lt; 42.8 MB RAM</span>
         </div>
-        <div class="spec-item">
-          <span class="spec-label">CPU Overhead</span>
-          <span class="spec-val">&lt; 0.4% on Core i5/i7</span>
+        <div class="spec-flow-row">
+          <strong>CPU Overhead</strong>
+          <span>&lt; 0.4% on Core i5/i7</span>
         </div>
-        <div class="spec-item">
-          <span class="spec-label">Frame Latency</span>
-          <span class="spec-val">0.4ms Render Time</span>
+        <div class="spec-flow-row">
+          <strong>Frame Latency</strong>
+          <span>0.4ms Render Time</span>
         </div>
-        <div class="spec-item">
-          <span class="spec-label">Open Source License</span>
-          <span class="spec-val">MIT Open Source</span>
+        <div class="spec-flow-row">
+          <strong>Open Source License</strong>
+          <span>MIT Open Source</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Anti-Cheat Safety Verification Table (Apple Clean Aesthetic) -->
-  <section id="vanguard" class="container">
-    <div class="section-head">
-      <span class="section-tag">FAIR PLAY & INTEGRITY</span>
-      <h2 class="section-title">100% Riot Vanguard & VAC Certified Safe</h2>
-      <p class="section-desc">GamePilot Pro does NOT read game memory, inject DLLs, or modify system files. Here is how it compares to high-risk software:</p>
+  <!-- Anti-Cheat Safety Verification Matrix -->
+  <section id="vanguard" class="container matrix-section">
+    <div class="section-meta-head">
+      <span class="tag-bubble">FAIR PLAY & INTEGRITY</span>
+      <h2 class="meta-title">100% Riot Vanguard & VAC Certified Safe</h2>
+      <p class="meta-desc">GamePilot Pro does NOT read game memory, inject DLLs, or modify system files. Here is how it compares to high-risk software:</p>
     </div>
 
-    <div class="table-card">
-      <table>
+    <div class="matrix-card">
+      <table class="matrix-table">
         <thead>
           <tr>
             <th>Security Vector</th>
@@ -971,60 +1211,60 @@
         <tbody>
           <tr>
             <td><strong>Game Memory Injection</strong></td>
-            <td><span class="badge-fail">Hooks Game Memory (Bannable)</span></td>
-            <td><span class="badge-pass">ZERO Memory Access (Transparent Win32)</span></td>
+            <td><span class="badge-danger">Hooks Game Memory (Bannable)</span></td>
+            <td><span class="badge-safe">ZERO Memory Access (Transparent Win32)</span></td>
           </tr>
           <tr>
             <td><strong>Process Reading</strong></td>
-            <td><span class="badge-fail">OpenProcess / ReadProcessMemory</span></td>
-            <td><span class="badge-pass">Standard Windows WASAPI Audio Only</span></td>
+            <td><span class="badge-danger">OpenProcess / ReadProcessMemory</span></td>
+            <td><span class="badge-safe">Standard Windows WASAPI Audio Only</span></td>
           </tr>
           <tr>
             <td><strong>Vanguard Kernel Detection</strong></td>
-            <td><span class="badge-fail">Hardware / Account Banned</span></td>
-            <td><span class="badge-pass">100% Whitelisted (Same as Discord Overlay)</span></td>
+            <td><span class="badge-danger">Hardware / Account Banned</span></td>
+            <td><span class="badge-safe">100% Whitelisted (Same as Discord Overlay)</span></td>
           </tr>
           <tr>
             <td><strong>Open Source Code</strong></td>
-            <td><span class="badge-fail">Closed Obfuscated Malware</span></td>
-            <td><span class="badge-pass">100% Publicly Auditable on GitHub</span></td>
+            <td><span class="badge-danger">Closed Obfuscated Malware</span></td>
+            <td><span class="badge-safe">100% Publicly Auditable on GitHub</span></td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- Final Call to Action Banner -->
+  <!-- Final Call to Action Stage -->
   <section id="download" class="container">
-    <div class="final-cta">
-      <h2>Join the Future of Accessible Gaming.</h2>
+    <div class="grand-finale-stage">
+      <h2>Join the Future of Accessible Esports.</h2>
       <p>Download GamePilot Pro today. Free forever, open source, and built for players who refuse to be held back.</p>
-      <div class="final-cta-btns">
-        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases" target="_blank" class="btn-white">
+      <div class="grand-btns-row">
+        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases" target="_blank" class="btn-pure-white">
           Download Installer (.exe)
         </a>
-        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank" class="btn-apple-link" style="background: transparent; color: #fff; border-color: rgba(255,255,255,0.3);">
+        <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank" class="btn-ghost-dark">
           View on GitHub ↗
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Minimal Apple-Style Footer -->
+  <!-- Multi-Column Apple-Grade Footer -->
   <footer>
     <div class="container">
-      <div class="footer-grid">
+      <div class="footer-columns">
         <div class="footer-col">
           <h5>GamePilot Pro</h5>
-          <p style="max-width: 280px; font-size: 0.85rem; line-height: 1.6;">
-            The non-injected Win32 tactical AI co-pilot designed for deaf and competitive tactical shooter gamers.
+          <p style="max-width: 280px; font-size: 0.88rem; line-height: 1.65;">
+            The non-injected Win32 tactical AI co-pilot designed for deaf and competitive tactical shooter gamers worldwide.
           </p>
         </div>
         <div class="footer-col">
           <h5>Product</h5>
           <ul>
-            <li><a href="GamePilot_Official_Trailer.html" target="_blank">4K Official Trailer</a></li>
-            <li><a href="#sonar">Directional Audio Sonar</a></li>
+            <li><a href="GamePilot_Official_Trailer.html" target="_blank">4K Master Trailer</a></li>
+            <li><a href="#sonar-sim">Directional Audio Sonar</a></li>
             <li><a href="#features">Recoil Metronome</a></li>
             <li><a href="#vanguard">Anti-Cheat Safety</a></li>
           </ul>
@@ -1033,7 +1273,7 @@
           <h5>Community</h5>
           <ul>
             <li><a href="https://github.com/hemanthvk2012-maker/gamepilot-pro" target="_blank">GitHub Repository</a></li>
-            <li><a href="#hackathon">Maker Story</a></li>
+            <li><a href="#story">Maker Story</a></li>
             <li><a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/issues" target="_blank">Report Issue</a></li>
             <li><a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/blob/main/LICENSE" target="_blank">MIT License</a></li>
           </ul>
@@ -1041,19 +1281,212 @@
         <div class="footer-col">
           <h5>Hackathon</h5>
           <ul>
-            <li><a href="#hackathon">Grade 9 Youth Innovation</a></li>
+            <li><a href="#story">Grade 9 Youth Innovation</a></li>
             <li><a href="#specs">System Architecture</a></li>
             <li><a href="https://hemanthvk2012-maker.github.io/gamepilot-pro/">Live Storefront</a></li>
           </ul>
         </div>
       </div>
 
-      <div class="footer-bottom">
+      <div class="footer-bottom-bar">
         <p>© 2026 GamePilot Pro. Developed by Hemanth (Grade 9 Indian Student Maker). Released under MIT License.</p>
-        <p style="color: var(--text-subtle);">Inspired by Apple & YuviPep clean design.</p>
+        <p style="color: var(--text-muted);">Crafted with River-Flow Web Dynamics inspired by Apple & YuviPep.</p>
       </div>
     </div>
   </footer>
 
+  <script>
+    // =========================================================================
+    //  FLUID RIVER MESH BACKGROUND ENGINE (60 FPS Liquid Organic Motion)
+    // =========================================================================
+    const riverCanvas = document.getElementById('riverCanvas');
+    const rCtx = riverCanvas.getContext('2d');
+    let rW, rH;
+
+    function resizeRiver() {
+      rW = riverCanvas.width = window.innerWidth;
+      rH = riverCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeRiver);
+    resizeRiver();
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      const follower = document.getElementById('cursor-follower');
+      if (follower) {
+        follower.style.left = `${e.clientX}px`;
+        follower.style.top = `${e.clientY}px`;
+      }
+    });
+
+    let wavePhase = 0;
+    function renderRiver() {
+      wavePhase += 0.008;
+      rCtx.clearRect(0, 0, rW, rH);
+
+      // Liquid pearlescent wave strands
+      const numWaves = 4;
+      for (let i = 0; i < numWaves; i++) {
+        rCtx.beginPath();
+        const yBase = (rH / (numWaves + 1)) * (i + 1) + Math.sin(wavePhase + i) * 60;
+        rCtx.moveTo(0, yBase);
+
+        for (let x = 0; x <= rW; x += 40) {
+          const distMouse = Math.hypot(x - mouseX, yBase - mouseY);
+          const mouseDisplace = Math.max(0, 1 - distMouse / 350) * 35;
+          const y = yBase + Math.sin((x * 0.003) + wavePhase * 1.5 + i) * 70 - mouseDisplace;
+          rCtx.lineTo(x, y);
+        }
+
+        rCtx.lineTo(rW, rH);
+        rCtx.lineTo(0, rH);
+        rCtx.closePath();
+
+        const grad = rCtx.createLinearGradient(0, yBase - 80, rW, yBase + 120);
+        if (i === 0) {
+          grad.addColorStop(0, 'rgba(59, 130, 246, 0.07)');
+          grad.addColorStop(1, 'rgba(147, 197, 253, 0.02)');
+        } else if (i === 1) {
+          grad.addColorStop(0, 'rgba(124, 58, 237, 0.06)');
+          grad.addColorStop(1, 'rgba(238, 242, 255, 0.01)');
+        } else if (i === 2) {
+          grad.addColorStop(0, 'rgba(6, 182, 212, 0.06)');
+          grad.addColorStop(1, 'rgba(240, 253, 250, 0.01)');
+        } else {
+          grad.addColorStop(0, 'rgba(245, 158, 11, 0.04)');
+          grad.addColorStop(1, 'rgba(255, 251, 235, 0.01)');
+        }
+        rCtx.fillStyle = grad;
+        rCtx.fill();
+      }
+
+      requestAnimationFrame(renderRiver);
+    }
+    renderRiver();
+
+    // =========================================================================
+    //  LIVE INTERACTIVE DIRECTIONAL SONAR RADAR CANVAS SIMULATOR
+    // =========================================================================
+    const radarCanvas = document.getElementById('interactiveRadarCanvas');
+    const radCtx = radarCanvas.getContext('2d');
+    let pings = [];
+
+    function drawRadar() {
+      const rw = radarCanvas.width;
+      const rh = radarCanvas.height;
+      const cx = rw / 2;
+      const cy = rh / 2;
+
+      radCtx.fillStyle = '#090e1a';
+      radCtx.fillRect(0, 0, rw, rh);
+
+      // Concentric Distance Rings
+      for (let r = 30; r <= 110; r += 26) {
+        radCtx.beginPath();
+        radCtx.arc(cx, cy, r, 0, Math.PI * 2);
+        radCtx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+        radCtx.lineWidth = 1;
+        radCtx.stroke();
+      }
+
+      // Crosshair Axes
+      radCtx.beginPath();
+      radCtx.moveTo(cx - 120, cy); radCtx.lineTo(cx + 120, cy);
+      radCtx.moveTo(cx, cy - 110); radCtx.lineTo(cx, cy + 110);
+      radCtx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+      radCtx.stroke();
+
+      // Rotating Sonar Laser Sweep
+      const now = performance.now() / 800;
+      radCtx.beginPath();
+      radCtx.moveTo(cx, cy);
+      radCtx.lineTo(cx + Math.cos(now) * 115, cy + Math.sin(now) * 115);
+      radCtx.strokeStyle = '#00e5ff';
+      radCtx.lineWidth = 2;
+      radCtx.shadowColor = '#00e5ff';
+      radCtx.shadowBlur = 12;
+      radCtx.stroke();
+      radCtx.shadowBlur = 0;
+
+      // Center Player Dot
+      radCtx.beginPath();
+      radCtx.arc(cx, cy, 4, 0, Math.PI * 2);
+      radCtx.fillStyle = '#ffffff';
+      radCtx.fill();
+
+      // Render Active Audio Pings
+      for (let i = pings.length - 1; i >= 0; i--) {
+        const p = pings[i];
+        p.r += 1.8;
+        p.alpha -= 0.015;
+
+        if (p.alpha <= 0) {
+          pings.splice(i, 1);
+          continue;
+        }
+
+        radCtx.beginPath();
+        radCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        radCtx.strokeStyle = `rgba(255, 70, 85, ${p.alpha})`;
+        radCtx.lineWidth = 2.5;
+        radCtx.stroke();
+
+        radCtx.beginPath();
+        radCtx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        radCtx.fillStyle = `rgba(255, 70, 85, ${p.alpha})`;
+        radCtx.fill();
+      }
+
+      requestAnimationFrame(drawRadar);
+    }
+    drawRadar();
+
+    radarCanvas.addEventListener('click', e => {
+      const rect = radarCanvas.getBoundingClientRect();
+      const scaleX = radarCanvas.width / rect.width;
+      const scaleY = radarCanvas.height / rect.height;
+      const x = (e.clientX - rect.left) * scaleX;
+      const y = (e.clientY - rect.top) * scaleY;
+
+      pings.push({ x, y, r: 4, alpha: 1.0 });
+
+      // Calculate bearing and distance
+      const cx = radarCanvas.width / 2;
+      const cy = radarCanvas.height / 2;
+      const dx = x - cx;
+      const dy = y - cy;
+      let angle = Math.round((Math.atan2(dy, dx) * 180 / Math.PI + 90 + 360) % 360);
+      const dist = (Math.hypot(dx, dy) / 6.5).toFixed(1);
+
+      const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+      const dirStr = dirs[Math.round(angle / 45) % 8];
+      document.getElementById('sonar-coords-display').textContent = `BEARING: ${String(angle).padStart(3, '0')}° ${dirStr} // DIST: ${dist}m`;
+    });
+
+    // =========================================================================
+    //  INTERACTIVE RECOIL METRONOME SIMULATOR
+    // =========================================================================
+    let recoilTimeout = null;
+    function triggerSimRecoil() {
+      const cross = document.getElementById('simCrosshair');
+      const status = document.getElementById('recoilStatus');
+
+      cross.style.transform = 'scale(1.4)';
+      cross.style.borderColor = '#ff4655';
+      status.textContent = 'BURST FIRED • METRONOME RESETTING...';
+      status.style.color = '#ff4655';
+
+      clearTimeout(recoilTimeout);
+      recoilTimeout = setTimeout(() => {
+        cross.style.transform = 'scale(1)';
+        cross.style.borderColor = 'rgba(245, 158, 11, 0.6)';
+        status.textContent = 'READY • TAP RESET 100% ACCURATE';
+        status.style.color = '#10b981';
+      }, 140);
+    }
+  </script>
 </body>
 </html>
