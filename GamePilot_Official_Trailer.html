@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GamePilot Pro — Official 4K Cinema Theater</title>
+  <title>GamePilot Pro — Official 4K Cinema Trailer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --void-bg: #030712;
       --cyan-neon: #00f0ff;
       --blue-electric: #0066ff;
       --gold-accent: #f59e0b;
-      --emerald-safe: #10b981;
+      --val-red: #ff4655;
       --pill-glass: rgba(15, 23, 42, 0.75);
       --border-subtle: rgba(255, 255, 255, 0.18);
     }
@@ -30,11 +30,11 @@
       height: 100%;
       background: var(--void-bg);
       color: #ffffff;
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       overflow: hidden;
     }
 
-    /* Full-Screen Theater Stage */
+    /* Full-Screen Cinema Stage */
     #theater-stage {
       position: relative;
       width: 100vw;
@@ -43,22 +43,22 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 50% 50%, #081128 0%, #02050e 70%, #000206 100%);
+      background: radial-gradient(circle at 50% 50%, #08122c 0%, #02050e 70%, #000206 100%);
     }
 
     /* Ambient Reactive Back-Glow (Philips Ambilight / Apple TV Style) */
     #ambient-glow {
       position: absolute;
-      width: 85vw;
-      height: 48vw;
+      width: 86vw;
+      height: 48.5vw;
       max-width: 1600px;
       max-height: 900px;
       border-radius: 40px;
-      background: radial-gradient(circle, rgba(0, 102, 255, 0.25) 0%, rgba(0, 240, 255, 0.15) 40%, rgba(0,0,0,0) 70%);
+      background: radial-gradient(circle, rgba(0, 102, 255, 0.28) 0%, rgba(0, 240, 255, 0.14) 40%, rgba(0,0,0,0) 70%);
       filter: blur(80px);
       z-index: 1;
       pointer-events: none;
-      transition: all 0.5s ease-out;
+      transition: background 0.8s ease-out;
     }
 
     /* Cinema Video Frame Container */
@@ -85,6 +85,117 @@
       object-fit: cover;
       display: block;
       background: #000000;
+    }
+
+    /* Anamorphic 2.39:1 Letterbox Bars inside Video Frame */
+    .cinema-letterbox {
+      position: absolute;
+      left: 0; right: 0;
+      height: 5.5%;
+      background: #000;
+      z-index: 18;
+      pointer-events: none;
+      box-shadow: 0 0 25px rgba(0,0,0,0.9);
+    }
+    .letterbox-top { top: 0; }
+    .letterbox-bot { bottom: 0; }
+
+    /* =========================================================================
+       CINEMATIC TYPOGRAPHY OVERLAY (HOLLYWOOD TITLE CARDS)
+       ========================================================================= */
+    #cinema-text-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .cinematic-card {
+      position: absolute;
+      width: 100%;
+      max-width: 1300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.96) translateY(12px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cinematic-card.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .title-epic-cinzel {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+      font-weight: 900;
+      letter-spacing: 0.22em;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #FFFFFF 0%, #D8ECFF 55%, #6288B8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 35px rgba(0, 240, 255, 0.6));
+    }
+
+    .title-epic-montserrat {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2.2rem, 4.4vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 0 45px rgba(0, 240, 255, 0.7), 0 4px 20px rgba(0, 0, 0, 0.9);
+    }
+
+    .subtitle-epic {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      font-weight: 500;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
+    }
+
+    .hud-tag-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.3em;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid var(--cyan-neon);
+      color: var(--cyan-neon);
+      padding: 6px 18px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    }
+
+    /* Dramatic Blackout Curtain for the 50s - 54s Drop */
+    #blackout-curtain {
+      position: absolute;
+      inset: 0;
+      background: #000000;
+      z-index: 15;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease-out;
+    }
+    #blackout-curtain.active {
+      opacity: 0.96;
     }
 
     /* Top Floating Utility Bar */
@@ -164,68 +275,42 @@
       transform: translateY(-2px);
     }
 
-    .btn-header-dl {
-      background: #000000;
-      border: 1px solid var(--border-subtle);
-      color: #cbd5e1;
-      font-weight: 700;
-      font-size: 0.88rem;
-      padding: 10px 22px;
-      border-radius: 9999px;
-      text-decoration: none;
-      transition: all 0.25s;
-    }
-
-    .btn-header-dl:hover {
-      color: #ffffff;
-      border-color: #ffffff;
-    }
-
-    /* Subtle Feature Spotlight Capsule (Bottom-Left) */
-    #spotlight-pill {
+    /* Sound Unlock Banner */
+    #sound-banner {
       position: absolute;
-      bottom: 100px;
-      left: 5vw;
-      z-index: 30;
-      background: rgba(3, 10, 28, 0.85);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(0, 240, 255, 0.4);
-      border-radius: 9999px;
-      padding: 12px 26px;
+      top: 2.4vh;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 45;
+      background: rgba(8, 18, 42, 0.94);
+      border: 1.5px solid var(--cyan-neon);
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      color: #00f0ff;
       display: flex;
       align-items: center;
-      gap: 14px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      gap: 12px;
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.5);
+      cursor: pointer;
+      animation: bannerPulse 2s infinite alternate;
+      transition: all 0.5s ease-out;
+    }
+
+    #sound-banner.dismissed {
       opacity: 0;
-      transform: translateY(15px);
+      transform: translate(-50%, -35px);
       pointer-events: none;
     }
 
-    #spotlight-pill.visible {
-      opacity: 1;
-      transform: translateY(0);
+    @keyframes bannerPulse {
+      from { box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+      to { box-shadow: 0 0 45px rgba(0, 240, 255, 0.8); }
     }
 
-    .spotlight-icon {
-      font-size: 1.25rem;
-    }
-
-    .spotlight-text h5 {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.01em;
-    }
-
-    .spotlight-text p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
-      color: var(--cyan-neon);
-      font-weight: 700;
-    }
-
-    /* Ultra-Refined Cinema Scrubber Bar (Bottom Edge) */
+    /* Cinema Scrubber Bar (Bottom Edge) */
     #controls-bar {
       position: absolute;
       bottom: 24px;
@@ -233,7 +318,7 @@
       transform: translateX(-50%);
       width: 90vw;
       max-width: 1560px;
-      background: rgba(8, 16, 36, 0.88);
+      background: rgba(8, 16, 36, 0.9);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.16);
@@ -244,14 +329,13 @@
       gap: 18px;
       z-index: 35;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-      transition: opacity 0.3s ease;
     }
 
     .btn-ctrl {
       background: transparent;
       border: none;
       color: #ffffff;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       cursor: pointer;
       padding: 6px;
       border-radius: 8px;
@@ -297,7 +381,7 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 88px; height: 88px;
+      width: 90px; height: 90px;
       border-radius: 50%;
       background: rgba(0, 102, 255, 0.85);
       backdrop-filter: blur(12px);
@@ -306,9 +390,9 @@
       align-items: center;
       justify-content: center;
       color: #ffffff;
-      font-size: 2rem;
+      font-size: 2.2rem;
       cursor: pointer;
-      z-index: 20;
+      z-index: 25;
       box-shadow: 0 0 50px rgba(0, 240, 255, 0.6);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 0;
@@ -320,12 +404,7 @@
       pointer-events: auto;
     }
 
-    #big-play-btn:hover {
-      transform: translate(-50%, -50%) scale(1.12);
-      box-shadow: 0 0 70px rgba(0, 240, 255, 0.9);
-    }
-
-    /* End Modal */
+    /* End Screen Modal */
     #end-modal {
       position: absolute;
       inset: 0;
@@ -358,9 +437,10 @@
     }
 
     .modal-h1 {
+      font-family: 'Cinzel', serif;
       font-size: clamp(2.8rem, 6vw, 4.8rem);
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: 0.15em;
       margin-bottom: 16px;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%);
       -webkit-background-clip: text;
@@ -426,6 +506,12 @@
   <!-- Ambient Reactive Back-Glow -->
   <div id="ambient-glow"></div>
 
+  <!-- Sound Unlock Banner -->
+  <div id="sound-banner" onclick="unlockAudioOnInteraction()">
+    <span>🔊</span>
+    <span>CLICK TO UNLOCK HANS ZIMMER 4K SOUNDSCAPE</span>
+  </div>
+
   <!-- Top Floating Header -->
   <header>
     <a href="index.html" class="brand-pill">
@@ -439,7 +525,7 @@
         <span>🌊 2026 River Website</span>
         <span>→</span>
       </a>
-      <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-header-dl">
+      <a href="https://github.com/hemanthvk2012-maker/gamepilot-pro/releases/download/v2.1.0/GamePilotPro_v2.1.0_Installer.exe" class="btn-header-site" style="background:#000000; border-color:var(--border-subtle); box-shadow:none;">
         <span>Download Free</span>
         <span>↓</span>
       </a>
@@ -448,18 +534,98 @@
 
   <!-- Cinema Video Frame Container -->
   <div id="video-wrapper">
+    <!-- Native Hardware Accelerated Video Element (0% GPU Texture Fault, Zero Pink Screen) -->
     <video id="mainVideo" src="trailer_assets/gameplay_reel.mp4" autoplay loop playsinline></video>
+
+    <!-- 2.39:1 Anamorphic Cinema Bars -->
+    <div class="cinema-letterbox letterbox-top"></div>
+    <div class="cinema-letterbox letterbox-bot"></div>
+
+    <!-- Tension Blackout Curtain for the 50s-54s Drop -->
+    <div id="blackout-curtain"></div>
 
     <!-- Center Play/Pause Indicator -->
     <div id="big-play-btn" onclick="togglePlayPause()">▶</div>
-  </div>
 
-  <!-- Feature Spotlight Capsule -->
-  <div id="spotlight-pill">
-    <div id="spotlightIcon" class="spotlight-icon">🎯</div>
-    <div class="spotlight-text">
-      <h5 id="spotlightTitle">Directional Sonar Active</h5>
-      <p id="spotlightDesc">360° ACOUSTIC BEARING // 042° NE</p>
+    <!-- =========================================================================
+       CINEMATIC TYPOGRAPHY OVERLAY (HOLLYWOOD TITLE CARDS RESTORED!)
+       ========================================================================= -->
+    <div id="cinema-text-overlay">
+
+      <!-- Scene 1: The Void & Milliseconds (0s - 7s) -->
+      <div id="card-scene-1" class="cinematic-card">
+        <h1 class="title-epic-cinzel">IN HIGH-STAKES COMPETITION</h1>
+        <p class="subtitle-epic">MILLISECONDS DECIDE DESTINY</p>
+      </div>
+
+      <!-- Scene 2: 30 Million Players in Silence (8s - 16s) -->
+      <div id="card-scene-2" class="cinematic-card">
+        <div class="hud-tag-pill">TACTICAL ACCESSIBILITY CRISIS</div>
+        <h1 class="title-epic-cinzel" style="background: linear-gradient(180deg, #FFFFFF 0%, #FF8A96 50%, #FF4655 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          YET 30 MILLION PLAYERS
+        </h1>
+        <p class="subtitle-epic">FIGHT IN TOTAL AUDIO SILENCE</p>
+      </div>
+
+      <!-- Scene 3: See What You Cannot Hear (18s - 26s) -->
+      <div id="card-scene-3" class="cinematic-card">
+        <div class="hud-tag-pill">360° SPATIAL AUDIO VECTORING</div>
+        <h2 class="title-epic-montserrat">SEE WHAT YOU CANNOT HEAR</h2>
+        <p class="subtitle-epic" style="color:var(--cyan-neon);">DIRECTIONAL ACOUSTIC SONAR // 042° NE</p>
+      </div>
+
+      <!-- Scene 4: Recoil Cadence Metronome (28s - 36s) -->
+      <div id="card-scene-4" class="cinematic-card">
+        <div class="hud-tag-pill">PERIPHERAL HAPTIC RETICLE</div>
+        <h2 class="title-epic-montserrat" style="color:#ffd700; text-shadow:0 0 45px rgba(255, 215, 0, 0.7);">
+          RECOIL CADENCE METRONOME
+        </h2>
+        <p class="subtitle-epic">0.18s TAP RESET // ZERO BULLET BLOOM</p>
+      </div>
+
+      <!-- Scene 5: Micro-Spike 7.0s Radar (38s - 48s) -->
+      <div id="card-scene-5" class="cinematic-card">
+        <div class="hud-tag-pill" style="border-color:#10b981; color:#10b981; background:rgba(16, 185, 129, 0.15);">
+          MATHEMATICAL CLUTCH SENSE
+        </div>
+        <h2 class="title-epic-montserrat">MICRO-SPIKE DEFUSE RADAR</h2>
+        <p class="subtitle-epic">◄ 7.0s FULL DEFUSE THRESHOLD LOCKED ►</p>
+      </div>
+
+      <!-- Scene 6: Dramatic Blackout Quote (50s - 54s) -->
+      <div id="card-scene-6" class="cinematic-card">
+        <h2 class="title-epic-montserrat" style="letter-spacing: 0.35em;">
+          SEE THE SOUND.<br>OWN THE ROUND.
+        </h2>
+      </div>
+
+      <!-- Scene 7: Climax Ace secured (56s - 68s) -->
+      <div id="card-scene-7" class="cinematic-card">
+        <div class="hud-tag-pill" style="border-color:#ffd700; color:#ffd700; background:rgba(255, 215, 0, 0.18);">
+          MATCH POINT SECURED // 13 : 11
+        </div>
+        <h2 class="title-epic-montserrat" style="background: linear-gradient(180deg, #FFFFFF 0%, #FFD700 60%, #B8860B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          ACE // ROUND SECURED
+        </h2>
+        <p class="subtitle-epic" style="color:var(--cyan-neon);">100% RIOT VANGUARD & VAC SAFE</p>
+      </div>
+
+      <!-- Scene 8: Grand Title Slam (70s - 85s) -->
+      <div id="card-scene-8" class="cinematic-card">
+        <h1 class="title-epic-cinzel" style="font-size:clamp(3.2rem, 6.5vw, 5.8rem); margin-bottom:12px;">
+          GAMEPILOT PRO
+        </h1>
+        <p class="subtitle-epic" style="color:var(--cyan-neon); letter-spacing:0.45em; margin-bottom:24px;">
+          THE WEAPON THEY NEVER SAW COMING
+        </p>
+        <p style="font-family:'JetBrains Mono',monospace; font-size:0.88rem; font-weight:800; color:#ffd700; letter-spacing:0.25em;">
+          BUILT BY A 9TH GRADE INDIAN HACKATHON MAKER
+        </p>
+        <p style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:#cbd5e1; letter-spacing:0.2em; margin-top:8px;">
+          FREE & OPEN SOURCE FOR ALL DEAF & COMPETITIVE GAMERS
+        </p>
+      </div>
+
     </div>
   </div>
 
@@ -473,7 +639,7 @@
     </div>
 
     <div class="time-stamp">
-      <span id="timeCurrent">00:00</span> / <span id="timeDuration">00:00</span>
+      <span id="timeCurrent">00:00</span> / <span id="timeDuration">01:25</span>
     </div>
 
     <button class="btn-ctrl" onclick="toggleFullscreen()" title="Fullscreen 4K Expand">⛶</button>
@@ -481,7 +647,7 @@
 
   <!-- End Modal -->
   <div id="end-modal">
-    <div class="modal-tag">2026 OFFICIAL SHOWCASE</div>
+    <div class="modal-tag">2026 OFFICIAL WORLD PREMIERE</div>
     <h1 class="modal-h1">The Future Of Tactical Esports.</h1>
     <p class="modal-p">
       Engineered by a Class 9 Indian student creator for deaf and competitive gamers. 100% Riot Vanguard safe with zero memory injection.
@@ -495,7 +661,7 @@
         <span>Download Free Installer (.exe)</span>
       </a>
       <button class="btn-super-sec" onclick="restartVideo()">
-        <span>Replay Video ↺</span>
+        <span>Replay Trailer ↺</span>
       </button>
     </div>
   </div>
@@ -503,6 +669,135 @@
 </div>
 
 <script>
+  // =========================================================================
+  //  PRO SYNTHESIZER AUDIO ENGINE (HANS ZIMMER BRAAMS & TAIKO IMPACTS)
+  // =========================================================================
+  let ac = null;
+  let compressor = null;
+  let masterGain = null;
+  let audioUnlocked = false;
+
+  function initAudio() {
+    if (ac) return;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      ac = new AudioCtx();
+      compressor = ac.createDynamicsCompressor();
+      compressor.threshold.setValueAtTime(-14, ac.currentTime);
+      compressor.knee.setValueAtTime(28, ac.currentTime);
+      compressor.ratio.setValueAtTime(14, ac.currentTime);
+      compressor.attack.setValueAtTime(0.002, ac.currentTime);
+      compressor.release.setValueAtTime(0.2, ac.currentTime);
+
+      masterGain = ac.createGain();
+      masterGain.gain.setValueAtTime(0.95, ac.currentTime);
+
+      compressor.connect(masterGain);
+      masterGain.connect(ac.destination);
+    } catch (e) {}
+  }
+
+  function unlockAudioOnInteraction() {
+    initAudio();
+    if (ac && ac.state === 'suspended') {
+      ac.resume().then(() => {
+        audioUnlocked = true;
+        document.getElementById('sound-banner').classList.add('dismissed');
+      });
+    } else {
+      audioUnlocked = true;
+      document.getElementById('sound-banner').classList.add('dismissed');
+    }
+  }
+  ['click', 'keydown', 'touchstart'].forEach(e => window.addEventListener(e, unlockAudioOnInteraction, { once: false }));
+
+  function triggerBraam(intensity = 1.0, pitch = 45) {
+    if (!ac || ac.state !== 'running' || !audioUnlocked) return;
+    try {
+      const t = ac.currentTime + 0.005;
+      [pitch, pitch * 1.008, pitch * 0.992].forEach(f => {
+        const osc = ac.createOscillator();
+        const g = ac.createGain();
+        const filter = ac.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(f * 1.08, t);
+        osc.frequency.linearRampToValueAtTime(f, t + 0.35);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(3200 * intensity, t);
+        filter.frequency.linearRampToValueAtTime(380, t + 2.2);
+
+        g.gain.setValueAtTime(0.35 * intensity, t);
+        g.gain.linearRampToValueAtTime(0.0001, t + 2.8);
+
+        osc.connect(filter);
+        filter.connect(g);
+        g.connect(compressor);
+
+        osc.start(t);
+        osc.stop(t + 2.9);
+      });
+
+      const sub = ac.createOscillator();
+      const subG = ac.createGain();
+      sub.type = 'sine';
+      sub.frequency.setValueAtTime(pitch, t);
+      sub.frequency.linearRampToValueAtTime(pitch * 0.72, t + 1.8);
+      subG.gain.setValueAtTime(0.75 * intensity, t);
+      subG.gain.linearRampToValueAtTime(0.0001, t + 2.6);
+
+      sub.connect(subG);
+      subG.connect(compressor);
+      sub.start(t);
+      sub.stop(t + 2.7);
+    } catch (e) {}
+  }
+
+  function triggerWarDrum(intensity = 1.0) {
+    if (!ac || ac.state !== 'running' || !audioUnlocked) return;
+    try {
+      const t = ac.currentTime + 0.005;
+      const osc = ac.createOscillator();
+      const g = ac.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(140, t);
+      osc.frequency.linearRampToValueAtTime(26, t + 0.55);
+
+      g.gain.setValueAtTime(0.9 * intensity, t);
+      g.gain.linearRampToValueAtTime(0.0001, t + 0.85);
+
+      osc.connect(g);
+      g.connect(compressor);
+      osc.start(t);
+      osc.stop(t + 0.9);
+    } catch (e) {}
+  }
+
+  function triggerAceFanfare() {
+    if (!ac || ac.state !== 'running' || !audioUnlocked) return;
+    try {
+      const t = ac.currentTime + 0.005;
+      [1046.5, 1318.5, 1568.0, 2093.0].forEach(f => {
+        const osc = ac.createOscillator();
+        const g = ac.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0.3, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+        osc.connect(g);
+        g.connect(compressor);
+        osc.start(t);
+        osc.stop(t + 1.65);
+      });
+      triggerBraam(2.0, 38);
+      triggerWarDrum(2.0);
+    } catch (e) {}
+  }
+
+  // =========================================================================
+  //  CINEMATIC VIDEO & TYPOGRAPHY TIMELINE CONTROLLER
+  // =========================================================================
   const video = document.getElementById('mainVideo');
   const btnPlayPause = document.getElementById('btnPlayPause');
   const btnMute = document.getElementById('btnMute');
@@ -510,22 +805,21 @@
   const timelineProgress = document.getElementById('timelineProgress');
   const timeCurrent = document.getElementById('timeCurrent');
   const timeDuration = document.getElementById('timeDuration');
-  const ambientGlow = document.getElementById('ambient-glow');
+  const blackoutCurtain = document.getElementById('blackout-curtain');
   const endModal = document.getElementById('end-modal');
 
-  const spotlightPill = document.getElementById('spotlight-pill');
-  const spotlightIcon = document.getElementById('spotlightIcon');
-  const spotlightTitle = document.getElementById('spotlightTitle');
-  const spotlightDesc = document.getElementById('spotlightDesc');
+  const textCards = {
+    c1: document.getElementById('card-scene-1'),
+    c2: document.getElementById('card-scene-2'),
+    c3: document.getElementById('card-scene-3'),
+    c4: document.getElementById('card-scene-4'),
+    c5: document.getElementById('card-scene-5'),
+    c6: document.getElementById('card-scene-6'),
+    c7: document.getElementById('card-scene-7'),
+    c8: document.getElementById('card-scene-8')
+  };
 
-  // Spotlight Feature Milestones (seconds)
-  const milestones = [
-    { time: 2, icon: '🎯', title: '360° Directional Sonar', desc: 'INSTANT STEREO PHASE AUDIO RADAR // 042° NE' },
-    { time: 14, icon: '⚡', title: 'Recoil Cadence Metronome', desc: '0.18s VANDAL TAP RESET CADENCE COACH' },
-    { time: 26, icon: '⏱️', title: 'Micro-Spike Defuse Radar', desc: '7.0s FULL DEFUSE THRESHOLD LOCKED' },
-    { time: 38, icon: '🛡️', title: '100% Riot Vanguard Safe', desc: 'PURE WIN32 OVERLAY // ZERO MEMORY INJECTION' },
-    { time: 50, icon: '🏆', title: 'Empowering 30M+ Deaf Gamers', desc: 'BUILT BY A 9TH GRADE INDIAN MAKER' }
-  ];
+  let triggeredAudioBeats = new Set();
 
   function formatTime(s) {
     const mins = Math.floor(s / 60);
@@ -534,31 +828,57 @@
   }
 
   video.addEventListener('loadedmetadata', () => {
-    timeDuration.textContent = formatTime(video.duration);
+    timeDuration.textContent = formatTime(video.duration || 85);
   });
 
   video.addEventListener('timeupdate', () => {
-    if (!video.duration) return;
-    const pct = (video.currentTime / video.duration) * 100;
+    const cur = video.currentTime;
+    const dur = video.duration || 85;
+    const pct = (cur / dur) * 100;
     timelineProgress.style.width = `${pct}%`;
-    timeCurrent.textContent = formatTime(video.currentTime);
+    timeCurrent.textContent = formatTime(cur);
 
-    // Update Spotlight Pill
-    const curTime = video.currentTime;
-    let activeMilestone = null;
-    milestones.forEach(m => {
-      if (curTime >= m.time && curTime < m.time + 7) {
-        activeMilestone = m;
+    // Hide all cards by default
+    Object.values(textCards).forEach(card => card.classList.remove('active'));
+    blackoutCurtain.classList.remove('active');
+
+    // Synchronize Hollywood Text Cards with Video Playback
+    if (cur >= 1.5 && cur < 7.5) {
+      textCards.c1.classList.add('active');
+    } else if (cur >= 8.5 && cur < 16.5) {
+      textCards.c2.classList.add('active');
+      if (!triggeredAudioBeats.has('beat-8')) {
+        triggeredAudioBeats.add('beat-8');
+        triggerBraam(1.2, 46);
       }
-    });
-
-    if (activeMilestone) {
-      spotlightIcon.textContent = activeMilestone.icon;
-      spotlightTitle.textContent = activeMilestone.title;
-      spotlightDesc.textContent = activeMilestone.desc;
-      spotlightPill.classList.add('visible');
-    } else {
-      spotlightPill.classList.remove('visible');
+    } else if (cur >= 18.0 && cur < 26.5) {
+      textCards.c3.classList.add('active');
+    } else if (cur >= 28.0 && cur < 36.5) {
+      textCards.c4.classList.add('active');
+      if (!triggeredAudioBeats.has('beat-28')) {
+        triggeredAudioBeats.add('beat-28');
+        triggerBraam(1.4, 50);
+        triggerWarDrum(1.2);
+      }
+    } else if (cur >= 38.0 && cur < 48.5) {
+      textCards.c5.classList.add('active');
+    } else if (cur >= 50.0 && cur < 54.0) {
+      // Dramatic Blackout Drop
+      blackoutCurtain.classList.add('active');
+      textCards.c6.classList.add('active');
+    } else if (cur >= 54.5 && cur < 68.5) {
+      textCards.c7.classList.add('active');
+      if (!triggeredAudioBeats.has('beat-54')) {
+        triggeredAudioBeats.add('beat-54');
+        triggerAceFanfare();
+      }
+    } else if (cur >= 70.0 && cur < 85.0) {
+      textCards.c8.classList.add('active');
+      if (!triggeredAudioBeats.has('beat-70')) {
+        triggeredAudioBeats.add('beat-70');
+        triggerBraam(2.2, 38);
+        triggerWarDrum(2.0);
+      }
     }
   });
 
@@ -593,11 +913,13 @@
   function seekVideo(e) {
     const rect = e.currentTarget.getBoundingClientRect();
     const pos = (e.clientX - rect.left) / rect.width;
-    video.currentTime = pos * video.duration;
+    video.currentTime = pos * (video.duration || 85);
+    triggeredAudioBeats.clear();
   }
 
   function restartVideo() {
     endModal.classList.remove('active');
+    triggeredAudioBeats.clear();
     video.currentTime = 0;
     video.play().catch(() => {});
   }
@@ -611,7 +933,7 @@
     }
   }
 
-  // Auto-play attempt
+  // Smooth auto-play
   video.play().catch(() => {
     video.muted = true;
     video.play().catch(() => {});
